@@ -61,7 +61,7 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   min-height: 44px;
-  background: rgba(249,249,249,0.94);
+  background: var(--tab-bar-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 0.5px solid var(--separator);
@@ -241,7 +241,7 @@ button.action {
     </div>
     <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
-      <button class="action" onclick="fetchLatestDB()">最新DBを取得</button>
+      <button class="action" onclick="document.getElementById('status').innerText='ローカル./data を優先します。キャッシュも使用可能です。'">データ読み込みについて</button>
       <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
       <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
       <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
@@ -356,33 +356,65 @@ function switchTab(tab) {
 async function loadLevel(level) {
   currentLevel = level;
   renderLevelNav();
-  const fname = level.toLowerCase() + '.db';
+  const fname = `./data/${level.toLowerCase()}.db`;
   let loaded = false;
+
+  // 1. Try local ./data first
   try {
-    const resp = await fetch(ONLINE_BASE + fname, { cache: 'no-store' });
+    const resp = await fetch(fname);
     if (resp.ok) {
       const buf = await resp.arrayBuffer();
       contentDB = new SQL.Database(new Uint8Array(buf));
-      document.getElementById('status').innerText = `${level} をオンラインから取得`;
+      document.getElementById('status').innerText = `${level} をローカルから読み込みました`;
       loaded = true;
+      // Cache it
+      try { await cacheDB(level, buf); } catch(e) {}
     }
   } catch(e) {}
+
+  // 2. Fallback to cache if local unreachable
   if (!loaded) {
     try {
-      const resp = await fetch(fname);
-      if (resp.ok) {
-        const buf = await resp.arrayBuffer();
-        contentDB = new SQL.Database(new Uint8Array(buf));
-        document.getElementById('status').innerText = `${level} をローカルから読み込み`;
+      const cached = await getCachedDB(level);
+      if (cached) {
+        contentDB = new SQL.Database(cached);
+        document.getElementById('status').innerText = `${level} をキャッシュから読み込みました`;
         loaded = true;
       }
     } catch(e) {}
   }
+
   if (!loaded) {
-    document.getElementById('status').innerText = `${fname} が見つかりません`;
+    document.getElementById('status').innerText = `${level}.db が見つかりません（./data またはキャッシュ）`;
     contentDB = null;
   }
   renderContent();
+}
+
+// Simple IndexedDB cache for DBs
+const DB_CACHE_NAME = 'jlpt-db-cache';
+function openCacheDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_CACHE_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore('dbs');
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function cacheDB(level, arrayBuffer) {
+  const db = await openCacheDB();
+  const tx = db.transaction('dbs', 'readwrite');
+  tx.objectStore('dbs').put(arrayBuffer, level);
+  return new Promise(r => tx.oncomplete = r);
+}
+async function getCachedDB(level) {
+  const db = await openCacheDB();
+  const tx = db.transaction('dbs', 'readonly');
+  const req = tx.objectStore('dbs').get(level);
+  return new Promise((resolve, reject) => {
+    req.onsuccess = () => resolve(req.result ? new Uint8Array(req.result) : null);
+    req.onerror = () => reject(req.error);
+  });
 }
 
 function renderContent() {
@@ -396,13 +428,23 @@ function renderContent() {
   else if (currentTab === 'exercises') showExercises(c);
 }
 
+function toRuby(word, reading) {
+  if (!reading || !word) return word;
+  // Simple: if word has kanji, wrap with ruby
+  if (/[\u4e00-\u9faf]/.test(word)) {
+    return `<ruby>${word}<rt>${reading}</rt></ruby>`;
+  }
+  return word;
+}
+
 function showWords(container) {
   try {
     const rows = contentDB.exec("SELECT * FROM vocab LIMIT 200");
     if (!rows.length) { container.innerHTML = '<p style="text-align:center;padding:40px;">語彙データなし</p>'; return; }
     let html = '';
     rows[0].values.forEach(r => {
-      html += `<div class="card"><div class="word">${r[1]} <span class="reading">${r[2]||''}</span></div>
+      const wordRuby = toRuby(r[1], r[2]);
+      html += `<div class="card"><div class="word">${wordRuby}</div>
         <div style="margin-top:6px;color:#666;">${r[3]} / ${r[4]}</div>
         <div style="margin-top:6px;font-size:15px;color:#333;">例：${r[5]||''}</div></div>`;
     });
