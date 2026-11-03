@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div style="width:40px;flex-shrink:0;"></div>
+  <button class="search-btn" onclick="openSearch()" aria-label="検索">🔍</button>
   <h1 id="topTitle">単語</h1>
   <button class="gear-btn" onclick="openSettings()" aria-label="設定">⚙️</button>
 </div>
@@ -30,7 +30,13 @@
   </button>
 </div>
 
-<!-- Settings Overlay -->
+<!-- Search Overlay -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch()">
+  <div class="search-panel" onclick="event.stopPropagation()">
+    <input type="text" id="searchInput" placeholder="検索 / 搜尋" oninput="doSearch(this.value)">
+    <div id="searchResults"></div>
+  </div>
+</div>
 <div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()">
   <div class="settings-panel" onclick="event.stopPropagation()">
     <div class="settings-header">

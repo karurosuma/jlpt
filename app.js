@@ -39,8 +39,88 @@ async function init() {
   updateDarkButton();
   renderLevelNav();
   switchTab('words');
+  // Auto-load N5 on startup
+  loadLevel('N5');
 }
 
+function goToWord(word) {
+  closeSearch();
+  // Filter to show the word and scroll to it
+  currentFilter = '';
+  renderContent();
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.card');
+    for (const card of cards) {
+      if (card.textContent.includes(word)) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.outline = '2px solid var(--primary)';
+        setTimeout(() => card.style.outline = '', 2000);
+        break;
+      }
+    }
+  }, 100);
+}
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('show');
+  document.getElementById('searchInput').focus();
+}
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('show');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+}
+function doSearch(query) {
+  if (!contentDB || !query.trim()) {
+    document.getElementById('searchResults').innerHTML = '';
+    return;
+  }
+  try {
+    let sql, params;
+    if (currentTab === 'grammar') {
+      sql = "SELECT title, explanation_tc FROM grammar WHERE title LIKE ? OR explanation_tc LIKE ? LIMIT 20";
+      params = [`%${query}%`, `%${query}%`];
+    } else if (currentTab === 'exercises') {
+      sql = "SELECT correct FROM rearrange WHERE correct LIKE ? LIMIT 20";
+      params = [`%${query}%`];
+    } else {
+      sql = "SELECT word, reading, meaning_tc, pos FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 20";
+      params = [`%${query}%`, `%${query}%`, `%${query}%`];
+    }
+    const rows = contentDB.exec(sql, params);
+    let html = '';
+    if (rows.length && rows[0].values.length) {
+      rows[0].values.forEach(r => {
+        if (currentTab === 'grammar') {
+          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToItem('${r[0].replace(/'/g,"\\'")}')"><div class="word">${r[0]}</div><div class="meaning">${r[1]}</div></div>`;
+        } else if (currentTab === 'exercises') {
+          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToItem('${r[0].replace(/'/g,"\\'")}')"><div class="word">${r[0]}</div></div>`;
+        } else {
+          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToWord('${r[0].replace(/'/g,"\\'")}')"><div class="word">${toRuby(r[0], r[1])} <span class="badge">${r[3]}</span></div><div class="meaning">${r[2]}</div></div>`;
+        }
+      });
+    } else {
+      html = '<p style="text-align:center;padding:20px;color:var(--muted);">見つかりません</p>';
+    }
+    document.getElementById('searchResults').innerHTML = html;
+  } catch(e) {
+    document.getElementById('searchResults').innerHTML = '<p>検索エラー</p>';
+  }
+}
+
+function goToItem(text) {
+  closeSearch();
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.card');
+    for (const card of cards) {
+      if (card.textContent.includes(text)) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.outline = '2px solid var(--primary)';
+        setTimeout(() => card.style.outline = '', 2000);
+        break;
+      }
+    }
+  }, 100);
+}
 function openSettings() {
   document.getElementById('settingsOverlay').classList.add('show');
 }
@@ -101,7 +181,7 @@ function switchTab(tab) {
 async function loadLevel(level) {
   currentLevel = level;
   renderLevelNav();
-  const fname = `data/${level.toLowerCase()}.db`;
+  const fname = `data/data.db`;
   let loaded = false;
   let statusEl = document.getElementById('status');
 
@@ -111,7 +191,7 @@ async function loadLevel(level) {
     if (resp.ok) {
       const buf = await resp.arrayBuffer();
       contentDB = new SQL.Database(new Uint8Array(buf));
-      if (statusEl) statusEl.innerText = `${level} を読み込みました (${fname})`;
+      if (statusEl) statusEl.innerText = `${level} を読み込みました (統合DB)`;
       loaded = true;
       try { await cacheDB(level, buf); } catch(e) {}
     }
@@ -132,9 +212,9 @@ async function loadLevel(level) {
   }
 
   if (!loaded) {
-    if (statusEl) statusEl.innerText = `${level}.db が見つかりません。data/ フォルダを確認してください。`;
+    if (statusEl) statusEl.innerText = `data.db が見つかりません。data/ フォルダを確認してください。`;
     contentDB = null;
-    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">データが読み込めません。<br>data/' + level.toLowerCase() + '.db を確認してください。</p>';
+    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">データが読み込めません。<br>data/data.db を確認してください。</p>';
   } else {
     renderContent();
   }
@@ -178,38 +258,131 @@ function renderContent() {
 }
 
 function toRuby(word, reading) {
-  if (!reading || !word) return word;
-  // Simple: if word has kanji, wrap with ruby
-  if (/[\u4e00-\u9faf]/.test(word)) {
+  if (!word) return '';
+  // If already has ruby tags, return as-is
+  if (word.includes('<ruby>')) return word;
+  // If the whole word is kanji and we have a reading, use it
+  if (reading && /^[\u4e00-\u9faf]+$/.test(word)) {
     return `<ruby>${word}<rt>${reading}</rt></ruby>`;
   }
-  return word;
+  // For mixed content, wrap each kanji sequence
+  return word.replace(/([\u4e00-\u9faf]+)/g, (kanji) => {
+    return `<ruby>${kanji}<rt></rt></ruby>`;
+  });
 }
+
+let currentFilter = '';
 
 function showWords(container) {
   try {
-    const rows = contentDB.exec("SELECT * FROM vocab LIMIT 200");
-    if (!rows.length) { container.innerHTML = '<p style="text-align:center;padding:40px;">語彙データなし</p>'; return; }
-    let html = '';
-    rows[0].values.forEach(r => {
-      const wordRuby = toRuby(r[1], r[2]);
-      html += `<div class="card"><div class="word">${wordRuby}</div>
-        <div style="margin-top:6px;color:#666;">${r[3]} / ${r[4]}</div>
-        <div style="margin-top:6px;font-size:15px;color:#333;">例：${r[5]||''}</div></div>`;
-    });
+    let sql = "SELECT * FROM vocab WHERE level = ?";
+    let params = [currentLevel];
+    if (currentFilter) {
+      if (currentFilter === '形容詞') {
+        sql += " AND pos LIKE '%形容詞%'";
+      } else if (currentFilter === 'い形容詞') {
+        sql += " AND pos = 'い形容詞'";
+      } else if (currentFilter === 'な形容詞') {
+        sql += " AND pos = 'な形容詞'";
+      } else {
+        sql += " AND pos = ?";
+        params.push(currentFilter);
+      }
+    }
+    sql += " LIMIT 200";
+    const rows = contentDB.exec(sql, params);
+    
+    let filterHtml = `<div class="filter-bar">
+      <button class="filter-btn ${currentFilter===''?'active':''}" onclick="setFilter('')">すべて</button>
+      <button class="filter-btn ${currentFilter==='名詞'?'active':''}" onclick="setFilter('名詞')">名詞</button>
+      <button class="filter-btn ${currentFilter==='動詞'?'active':''}" onclick="setFilter('動詞')">動詞</button>
+      <button class="filter-btn ${currentFilter==='い形容詞'?'active':''}" onclick="setFilter('い形容詞')">い形容詞</button>
+      <button class="filter-btn ${currentFilter==='な形容詞'?'active':''}" onclick="setFilter('な形容詞')">な形容詞</button>
+      <button class="filter-btn ${currentFilter==='副詞'?'active':''}" onclick="setFilter('副詞')">副詞</button>
+    </div>`;
+    
+    let html = filterHtml;
+    if (!rows.length || !rows[0].values.length) {
+      html += '<p style="text-align:center;padding:40px;">語彙データなし</p>';
+    } else {
+      rows[0].values.forEach(r => {
+        const pos = r[7] || '';
+        let displayWord = r[2];
+        let displayReading = r[3];
+        let conjHtml = '';
+        let badgeClass = 'badge';
+        
+        // Verb conjugations
+        if ((pos === '動詞' || pos.includes('動詞')) && r[9]) {
+          const conjMap = {};
+          r[9].split('|').forEach(c => {
+            const parts = c.split(':');
+            if (parts.length === 2) conjMap[parts[0]] = parts[1];
+          });
+          if (conjMap['ます']) displayWord = conjMap['ます'];
+          const conjs = Object.entries(conjMap).map(([k, v]) => {
+            const label = {'辞書':'辞書形','ます':'ます形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形'}[k] || k;
+            return `<div class="conj-row"><span class="conj-label">${label}</span><span>${v}</span></div>`;
+          }).join('');
+          conjHtml = `<div class="conj-block">${conjs}</div>`;
+          badgeClass = 'badge badge-verb';
+        }
+        // Adjective conjugations
+        else if ((pos === '形容詞' || pos.includes('形容詞')) && r[10]) {
+          const conjMap = {};
+          r[10].split('|').forEach(c => {
+            const [k, v] = c.split(':');
+            conjMap[k] = v;
+          });
+          const conjs = Object.entries(conjMap).map(([k, v]) => {
+            const label = {'辞書':'辞書形','です':'です形','ない':'ない形','た':'た形','て':'て形'}[k] || k;
+            return `<div class="conj-row"><span class="conj-label">${label}</span><span>${toRuby(v, '')}</span></div>`;
+          }).join('');
+          conjHtml = `<div class="conj-block">${conjs}</div>`;
+          badgeClass = pos.includes('い') ? 'badge badge-iadj' : 'badge badge-nadj';
+        }
+        else if (pos === '名詞') badgeClass = 'badge badge-noun';
+        else if (pos === '副詞') badgeClass = 'badge badge-adv';
+        
+        const wordRuby = toRuby(displayWord, displayReading);
+        html += `<div class="card">
+          <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
+          <div class="meaning">${r[5] || r[4]}</div>
+          <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
+          ${conjHtml}</div>`;
+      });
+    }
     container.innerHTML = html;
-  } catch(e) { container.innerHTML = '<p>語彙テーブルがありません</p>'; }
+  } catch(e) { 
+    console.error(e);
+    container.innerHTML = '<p>語彙テーブルがありません</p>'; 
+  }
+}
+
+function setFilter(pos) {
+  currentFilter = pos;
+  renderContent();
+}
+
+function applyRubyToText(text) {
+  if (!text) return '';
+  // If already has ruby tags, return as-is
+  if (text.includes('<ruby>')) return text;
+  // Wrap kanji sequences
+  return text.replace(/([\u4e00-\u9faf]+)/g, '<ruby>$1<rt></rt></ruby>');
 }
 
 function showGrammar(container) {
   try {
-    const rows = contentDB.exec("SELECT * FROM grammar");
+    const rows = contentDB.exec("SELECT * FROM grammar WHERE level = ?", [currentLevel]);
     if (!rows.length) { container.innerHTML = '<p style="text-align:center;padding:40px;">文法データなし</p>'; return; }
     let html = '';
     rows[0].values.forEach(r => {
-      html += `<div class="card"><div class="word">${r[1]}</div>
-        <div style="margin-top:8px;">${r[2]}<br><span style="color:#666;">${r[3]}</span></div>
-        <div style="margin-top:8px;font-size:15px;">${(r[4]||'').split('|').map(e=>'・'+e).join('<br>')}</div></div>`;
+      const title = r[2];
+      const examples = (r[5]||'').split('|').map(e => '・' + applyRubyToText(e)).join('<br>');
+      html += `<div class="card"><div class="word">${title}</div>
+        <div style="margin-top:8px;">${applyRubyToText(r[3])}<br><span style="color:#666;">${r[4]}</span></div>
+        <div style="margin-top:8px;font-size:15px;">${examples}</div></div>`;
     });
     container.innerHTML = html;
   } catch(e) { container.innerHTML = '<p>文法テーブルがありません</p>'; }
@@ -217,16 +390,26 @@ function showGrammar(container) {
 
 function showExercises(container) {
   try {
-    const rows = contentDB.exec("SELECT * FROM rearrange ORDER BY RANDOM() LIMIT 8");
+    const rows = contentDB.exec("SELECT * FROM rearrange WHERE level = ? ORDER BY RANDOM() LIMIT 8", [currentLevel]);
     if (!rows.length) { container.innerHTML = '<p style="text-align:center;padding:40px;">練習問題がありません</p>'; return; }
     let html = '<div style="padding:8px 16px;font-weight:600;">並べ替え問題 / 句子重組</div>';
     rows[0].values.forEach((r, idx) => {
-      const parts = r[2].split('|');
+      const parts = r[3].split('|');
+      // Shuffle parts
+      for (let i = parts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [parts[i], parts[j]] = [parts[j], parts[i]];
+      }
+      const partsHtml = parts.map(p => {
+        const rubyPart = applyRubyToText(p);
+        return `<span class="part" onclick="addPart(${idx}, this)">${rubyPart}</span>`;
+      }).join('');
+      const correctRuby = applyRubyToText(r[2]);
       html += `<div class="card" id="rearr-${idx}">
         <div style="margin-bottom:8px;font-size:15px;color:#666;">正しい文を作ってください</div>
-        <div id="parts-${idx}">${parts.map(p => `<span class="part" onclick="addPart(${idx}, this)">${p}</span>`).join('')}</div>
+        <div id="parts-${idx}">${partsHtml}</div>
         <div id="answer-${idx}" style="margin:12px 0;min-height:2em;border-bottom:1px solid #ddd;padding:4px;"></div>
-        <button class="action" onclick="checkRearrange(${idx}, '${r[1].replace(/'/g,"\\'")}')">確認</button>
+        <button class="action" onclick="checkRearrange(${idx}, '${r[2].replace(/'/g,"\\'")}')">確認</button>
         <div id="feedback-${idx}" style="margin-top:8px;"></div>
       </div>`;
     });
@@ -240,9 +423,10 @@ function addPart(idx, el) {
   document.getElementById('answer-' + idx).innerHTML += `<span class="part">${el.textContent}</span> `;
 }
 function checkRearrange(idx, correct) {
-  const user = document.getElementById('answer-' + idx).innerText.replace(/\s+/g,'').trim();
+  const user = document.getElementById('answer-' + idx).innerText.replace(/\s+/g,'').replace(/[。．、]/g,'').trim();
+  const correctNorm = correct.replace(/\s+/g,'').replace(/[。．、]/g,'').trim();
   const fb = document.getElementById('feedback-' + idx);
-  if (user === correct.replace(/\s+/g,'')) {
+  if (user === correctNorm) {
     fb.innerHTML = '<span style="color:#34c759;">正解！</span>';
   } else {
     fb.innerHTML = `<span style="color:#ff3b30;">不正解。正解：${correct}</span>`;
