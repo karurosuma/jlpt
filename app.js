@@ -259,35 +259,64 @@ function renderContent() {
 
 function toRuby(word, reading) {
   if (!word) return '';
-  // If already has ruby tags, return as-is
   if (word.includes('<ruby>')) return word;
-  // If no kanji, return as-is
   if (!/[\u4e00-\u9faf]/.test(word)) return word;
-  // If the whole word is kanji and we have a reading, use it
-  if (reading && /^[\u4e00-\u9faf]+$/.test(word)) {
+  if (!reading) {
+    return word.replace(/([\u4e00-\u9faf]+)/g, '<ruby>$1<rt></rt></ruby>');
+  }
+  // If whole word is kanji
+  if (/^[\u4e00-\u9faf]+$/.test(word)) {
     return `<ruby>${word}<rt>${reading}</rt></ruby>`;
   }
-  // For mixed content (kanji + hiragana) with reading
-  if (reading) {
-    // Extract kanji part and hiragana part
-    const kanjiMatch = word.match(/^([\u4e00-\u9faf]+)(.*)$/);
-    if (kanjiMatch) {
-      const kanji = kanjiMatch[1];
-      const rest = kanjiMatch[2];
-      // Reading should match: kanji reading + rest
-      // For ます形, reading ends with ます, rest is ます
-      if (rest && reading.endsWith(rest)) {
-        const kanjiReading = reading.slice(0, -rest.length);
-        return `<ruby>${kanji}<rt>${kanjiReading}</rt></ruby>${rest}`;
+  // Mixed kanji/hiragana - match reading to word structure
+  let result = '';
+  let ri = 0; // reading index
+  let i = 0;
+  while (i < word.length) {
+    if (/[\u4e00-\u9faf]/.test(word[i])) {
+      // Find consecutive kanji
+      let kanjiEnd = i;
+      while (kanjiEnd < word.length && /[\u4e00-\u9faf]/.test(word[kanjiEnd])) {
+        kanjiEnd++;
       }
-      // Fallback: use full reading for kanji
-      return `<ruby>${kanji}<rt>${reading}</rt></ruby>${rest}`;
+      const kanji = word.slice(i, kanjiEnd);
+      // Find how much of reading belongs to this kanji
+      // Look ahead to find next hiragana in word
+      let nextHira = '';
+      if (kanjiEnd < word.length && /[ぁ-ん]/.test(word[kanjiEnd])) {
+        let hiraEnd = kanjiEnd;
+        while (hiraEnd < word.length && /[ぁ-ん]/.test(word[hiraEnd])) {
+          hiraEnd++;
+        }
+        nextHira = word.slice(kanjiEnd, hiraEnd);
+      }
+      // Find nextHira in remaining reading
+      let kanjiReading = '';
+      if (nextHira) {
+        const nextHiraIdx = reading.indexOf(nextHira, ri);
+        if (nextHiraIdx > ri) {
+          kanjiReading = reading.slice(ri, nextHiraIdx);
+          ri = nextHiraIdx;
+        } else {
+          kanjiReading = reading.slice(ri);
+          ri = reading.length;
+        }
+      } else {
+        kanjiReading = reading.slice(ri);
+        ri = reading.length;
+      }
+      result += `<ruby>${kanji}<rt>${kanjiReading}</rt></ruby>`;
+      i = kanjiEnd;
+    } else {
+      // Hiragana/katakana - add as-is and advance reading
+      result += word[i];
+      if (ri < reading.length && word[i] === reading[ri]) {
+        ri++;
+      }
+      i++;
     }
   }
-  // No reading available, wrap kanji with empty rt
-  return word.replace(/([\u4e00-\u9faf]+)/g, (kanji) => {
-    return `<ruby>${kanji}<rt></rt></ruby>`;
-  });
+  return result;
 }
 
 let currentFilter = '';
