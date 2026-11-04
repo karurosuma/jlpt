@@ -181,17 +181,17 @@ function switchTab(tab) {
 async function loadLevel(level) {
   currentLevel = level;
   renderLevelNav();
-  const fname = `data/data.db`;
+  const fname = `data/data.db?v=${Date.now()}`;
   let loaded = false;
   let statusEl = document.getElementById('status');
 
-  // Try relative path first
+  // Try relative path first (with cache bust)
   try {
-    const resp = await fetch(fname);
+    const resp = await fetch(fname, { cache: 'no-store' });
     if (resp.ok) {
       const buf = await resp.arrayBuffer();
       contentDB = new SQL.Database(new Uint8Array(buf));
-      if (statusEl) statusEl.innerText = `${level} を読み込みました (統合DB)`;
+      if (statusEl) statusEl.innerText = `${level} を読み込みました (v2026-11-04)`;
       loaded = true;
       try { await cacheDB(level, buf); } catch(e) {}
     }
@@ -261,11 +261,30 @@ function toRuby(word, reading) {
   if (!word) return '';
   // If already has ruby tags, return as-is
   if (word.includes('<ruby>')) return word;
+  // If no kanji, return as-is
+  if (!/[\u4e00-\u9faf]/.test(word)) return word;
   // If the whole word is kanji and we have a reading, use it
   if (reading && /^[\u4e00-\u9faf]+$/.test(word)) {
     return `<ruby>${word}<rt>${reading}</rt></ruby>`;
   }
-  // For mixed content, wrap each kanji sequence
+  // For mixed content (kanji + hiragana) with reading
+  if (reading) {
+    // Extract kanji part and hiragana part
+    const kanjiMatch = word.match(/^([\u4e00-\u9faf]+)(.*)$/);
+    if (kanjiMatch) {
+      const kanji = kanjiMatch[1];
+      const rest = kanjiMatch[2];
+      // Reading should match: kanji reading + rest
+      // For ます形, reading ends with ます, rest is ます
+      if (rest && reading.endsWith(rest)) {
+        const kanjiReading = reading.slice(0, -rest.length);
+        return `<ruby>${kanji}<rt>${kanjiReading}</rt></ruby>${rest}`;
+      }
+      // Fallback: use full reading for kanji
+      return `<ruby>${kanji}<rt>${reading}</rt></ruby>${rest}`;
+    }
+  }
+  // No reading available, wrap kanji with empty rt
   return word.replace(/([\u4e00-\u9faf]+)/g, (kanji) => {
     return `<ruby>${kanji}<rt></rt></ruby>`;
   });
@@ -284,6 +303,8 @@ function showWords(container) {
         sql += " AND pos = 'い形容詞'";
       } else if (currentFilter === 'な形容詞') {
         sql += " AND pos = 'な形容詞'";
+      } else if (currentFilter === '動詞') {
+        sql += " AND (pos = '動詞' OR pos LIKE '%動詞%')";
       } else {
         sql += " AND pos = ?";
         params.push(currentFilter);
@@ -312,17 +333,51 @@ function showWords(container) {
         let conjHtml = '';
         let badgeClass = 'badge';
         
-        // Verb conjugations
-        if ((pos === '動詞' || pos.includes('動詞')) && r[9]) {
+        // Verb conjugations - show for any verb type
+        if ((pos === '動詞' || pos.includes('動詞') || pos === '自動詞' || pos === '他動詞') && r[9]) {
           const conjMap = {};
           r[9].split('|').forEach(c => {
             const parts = c.split(':');
             if (parts.length === 2) conjMap[parts[0]] = parts[1];
           });
-          if (conjMap['ます']) displayWord = conjMap['ます'];
-          const conjs = Object.entries(conjMap).map(([k, v]) => {
-            const label = {'辞書':'辞書形','ます':'ます形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形'}[k] || k;
-            return `<div class="conj-row"><span class="conj-label">${label}</span><span>${v}</span></div>`;
+          // Always show ます形 as main word for verbs (except 辞書形)
+          if (conjMap['ます']) {
+            displayWord = conjMap['ます'];
+            // Generate reading for ます形
+            if (displayReading) {
+              const dictForm = conjMap['辞書'] || r[2];
+              if (dictForm.endsWith('する')) {
+                displayReading = displayReading.replace(/する$/, 'します');
+              } else if (dictForm === '来る') {
+                displayReading = 'きます';
+              } else if (dictForm === '行く') {
+                displayReading = 'いきます';
+              } else if (dictForm.endsWith('る') && displayReading.endsWith('る')) {
+                // ru-verb
+                displayReading = displayReading.slice(0, -1) + 'ます';
+              } else {
+                // u-verb: convert last mora
+                const lastChar = dictForm.slice(-1);
+                const uVerbMap = {
+                  'う':'い','く':'き','ぐ':'ぎ','す':'し','つ':'ち',
+                  'ぬ':'に','ぶ':'び','む':'み','る':'り'
+                };
+                if (uVerbMap[lastChar] && displayReading.endsWith(lastChar)) {
+                  displayReading = displayReading.slice(0, -1) + uVerbMap[lastChar] + 'ます';
+                } else {
+                  displayReading = displayReading.slice(0, -1) + 'ます';
+                }
+              }
+            }
+          }
+          // Order: 辞書形 first, then others (exclude ます形 from list)
+          const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反'];
+          const conjs = order.filter(k => conjMap[k]).map(k => {
+            const label = {'辞書':'辞書形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形','自然':'自然形','相反':'相反'}[k] || k;
+            let value = conjMap[k];
+            // Apply ruby to conjugation values
+            value = applyRubyToText(value);
+            return `<div class="conj-row"><span class="conj-label">${label}</span><span>${value}</span></div>`;
           }).join('');
           conjHtml = `<div class="conj-block">${conjs}</div>`;
           badgeClass = 'badge badge-verb';
@@ -347,7 +402,7 @@ function showWords(container) {
         const wordRuby = toRuby(displayWord, displayReading);
         html += `<div class="card">
           <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
-          <div class="meaning">${r[5] || r[4]}</div>
+          <div class="meaning">${applyRubyToText(r[5] || r[4] || '')}</div>
           <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
           ${conjHtml}</div>`;
       });
@@ -366,10 +421,45 @@ function setFilter(pos) {
 
 function applyRubyToText(text) {
   if (!text) return '';
-  // If already has ruby tags, return as-is
   if (text.includes('<ruby>')) return text;
-  // Wrap kanji sequences
-  return text.replace(/([\u4e00-\u9faf]+)/g, '<ruby>$1<rt></rt></ruby>');
+  const readings = {
+    '私':'わたし','友達':'ともだち','先生':'せんせい','学生':'がくせい',
+    '今日':'きょう','明日':'あした','昨日':'きのう','毎日':'まいにち',
+    '日本語':'にほんご','学校':'がっこう','病院':'びょういん','会社':'かいしゃ',
+    '銀行':'ぎんこう','駅':'えき','電車':'でんしゃ','勉強':'べんきょう',
+    '少し':'すこし','上手':'じょうず','週末':'しゅうまつ','映画':'えいが',
+    '一緒':'いっしょ','誰':'だれ','新しい':'あたらしい','便利':'べんり',
+    '土曜日':'どようび','日曜日':'にちようび','金曜日':'きんようび',
+    '場所':'ばしょ','時間':'じかん','目的':'もくてき','変化':'へんか',
+    '希望':'きぼう','願望':'がんぼう','食事':'しょくじ','水':'みず',
+    '大きい':'おおきい','小さい':'ちいさい','新しい':'あたらしい',
+    '高い':'たかい','安い':'やすい','古い':'ふるい','長い':'ながい',
+    '短い':'みじかい','広い':'ひろい','狭い':'せまい','厚い':'あつい',
+    '薄い':'うすい','重い':'おもい','軽い':'かるい','明るい':'あかるい',
+    '暗い':'くらい','暑い':'あつい','寒い':'さむい','熱い':'あつい',
+    '冷たい':'つめたい','忙しい':'いそがしい','楽しい':'たのしい',
+    '難しい':'むずかしい','易しい':'やさしい','強い':'つよい','弱い':'よわい',
+    '早い':'はやい','遅い':'おそい','近い':'ちかい','遠い':'とおい',
+    '若い':'わかい','部屋':'へや','店':'みせ','物':'もの','犬':'いぬ'
+  };
+  // Sort by length (longer first) to match multi-kanji first
+  const sorted = Object.keys(readings).sort((a, b) => b.length - a.length);
+  let result = text;
+  const placeholders = [];
+  // Replace with placeholders first to avoid nested matches
+  for (let i = 0; i < sorted.length; i++) {
+    const kanji = sorted[i];
+    if (result.includes(kanji)) {
+      const placeholder = `__RUBY${i}__`;
+      placeholders.push({ placeholder, ruby: `<ruby>${kanji}<rt>${readings[kanji]}</rt></ruby>` });
+      result = result.split(kanji).join(placeholder);
+    }
+  }
+  // Replace placeholders with ruby tags
+  for (const p of placeholders) {
+    result = result.split(p.placeholder).join(p.ruby);
+  }
+  return result;
 }
 
 function showGrammar(container) {
