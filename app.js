@@ -513,7 +513,22 @@ function applyRubyToText(text) {
     '冷たい':'つめたい','忙しい':'いそがしい','楽しい':'たのしい',
     '難しい':'むずかしい','易しい':'やさしい','強い':'つよい','弱い':'よわい',
     '早い':'はやい','遅い':'おそい','近い':'ちかい','遠い':'とおい',
-    '若い':'わかい','部屋':'へや','店':'みせ','物':'もの','犬':'いぬ'
+    '若い':'わかい','部屋':'へや','店':'みせ','物':'もの','犬':'いぬ',
+    '東京駅':'とうきょうえき','スカイツリー':'すかいつりー','山手線':'やまのてせん',
+    '上野駅':'うえのえき','日比谷線':'ひびやせん','押上駅':'おしあげえき',
+    '三十分':'さんじゅっぷん','便利':'べんり','電車':'でんしゃ','乗り換え':'のりかえ',
+    '店員':'てんいん','客':'きゃく','注文':'ちゅうもん','決まり':'きまり',
+    '飲み物':'のみもの','店内':'てんない','召し上がり':'めしあがり','持ち帰り':'もちかえり',
+    '多め':'おおめ','少々':'しょうしょう','待ち':'まち','一つ':'ひとつ',
+    'おにぎり':'おにぎり','朝':'あさ','作った':'つくった','温かい':'あたたかい',
+    '二つ':'ふたつ','ポイントカード':'ぽいんとかーど','持っています':'もっています',
+    'ありがとうございました':'ありがとうございました','お越し':'おこし',
+    '居酒屋':'いざかや','夕食':'ゆうしょく','何名様':'なんめいさま','二名':'にめい',
+    '席':'せき','奥':'おく','案内':'あんない','とりあえず':'とりあえず',
+    '生ビール':'なまびーる','おすすめ':'おすすめ','メニュー':'めにゅー',
+    '新鮮':'しんせん','刺身':'さしみ','焼き鳥':'やきとり','人気':'にんき',
+    '盛り合わせ':'もりあわせ','五本':'ごほん','日本酒':'にほんしゅ','辛い':'からい',
+    '好き':'すき','かしこまりました':'かしこまりました'
   };
   // Sort by length (longer first) to match multi-kanji first
   const sorted = Object.keys(readings).sort((a, b) => b.length - a.length);
@@ -958,12 +973,27 @@ const conversations = [
   }
 ];
 
+let currentConversation = null;
+
 function showConversations() {
   const container = document.getElementById('content');
-  let html = '';
-  conversations.forEach((sc) => {
-    html += `<div class="chat-scenario">
-      <div class="chat-title">${sc.title}</div>
+  if (currentConversation === null) {
+    // Show list
+    let html = '<div style="padding:8px 16px;font-weight:600;">会話シナリオ / 會話情境</div>';
+    conversations.forEach((sc, idx) => {
+      html += `<div class="card" style="cursor:pointer;" onclick="openConversation(${idx})">
+        <div style="font-weight:600;">${sc.title}</div>
+      </div>`;
+    });
+    container.innerHTML = html;
+  } else {
+    // Show chat
+    const sc = conversations[currentConversation];
+    let html = `<div class="chat-scenario">
+      <div class="chat-title" style="display:flex;align-items:center;gap:8px;">
+        <button onclick="currentConversation=null;showConversations();" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--primary);">←</button>
+        ${sc.title}
+      </div>
       <div class="chat-messages">`;
     sc.lines.forEach(line => {
       const isRight = (line.speaker === '日本人' || line.speaker === '店員');
@@ -977,8 +1007,13 @@ function showConversations() {
       </div>`;
     });
     html += '</div></div>';
-  });
-  container.innerHTML = html;
+    container.innerHTML = html;
+  }
+}
+
+function openConversation(idx) {
+  currentConversation = idx;
+  showConversations();
 }
 
 init();
