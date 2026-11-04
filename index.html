@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JLPT 自習アプリ N5〜N1</title>
-<link rel="stylesheet" href="style.css?v=20261104s">
+<link rel="stylesheet" href="style.css?v=20261104t">
 </head>
 <body>
 <div class="top-bar">
   <button class="search-btn" onclick="openSearch()" aria-label="検索">🔍</button>
   <h1 id="topTitle">単語</h1>
-  <button class="gear-btn" onclick="openSettings()" aria-label="設定">⚙️</button>
+  <button class="theme-btn" id="themeBtn" onclick="toggleDark()" aria-label="テーマ切替">🌙</button>
 </div>
 
 <div id="content"><p style="text-align:center;padding:40px 16px;color:#8e8e93;">レベルを選択してください。<br>請選擇級別。</p></div>
@@ -28,6 +28,10 @@
     <div class="icon">✏️</div>
     練習
   </button>
+  <button id="tab-settings" onclick="switchTab('settings')">
+    <div class="icon">⚙️</div>
+    設定
+  </button>
 </div>
 
 <!-- Search Overlay -->
@@ -44,10 +48,6 @@
       <button class="close-btn" onclick="closeSettings()">完了</button>
     </div>
     <div class="card">
-      <div style="font-weight:600;margin-bottom:8px;">外観 / 外觀</div>
-      <button class="action" id="darkToggle" onclick="toggleDark()">ダークモード切替</button>
-    </div>
-    <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">レベル選択 / 級別選擇</div>
       <div class="level-btns" id="levelNav"></div>
     </div>
@@ -57,7 +57,7 @@
       <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
       <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
       <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
-      <div id="status">v2026-11-04c - レベル選択時に ./data から読み込みます。</div>
+      <div id="status">レベル選択時に ./data から読み込みます。</div>
     </div>
   </div>
 </div>

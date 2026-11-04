@@ -36,7 +36,7 @@ async function init() {
   document.body.classList.remove('dark', 'light');
   if (theme === 'dark') document.body.classList.add('dark');
   else if (theme === 'light') document.body.classList.add('light');
-  updateDarkButton();
+  updateThemeButton();
   renderLevelNav();
   switchTab('words');
   // Auto-load N5 on startup
@@ -146,15 +146,25 @@ function toggleDark() {
       userDB.run("INSERT OR REPLACE INTO preferences (key, value) VALUES ('theme', ?)", [newTheme]);
     } catch(e) {}
   }
-  updateDarkButton();
+  updateThemeButton();
 }
-function updateDarkButton() {
-  const btn = document.getElementById('darkToggle');
+function updateThemeButton() {
+  const btn = document.getElementById('themeBtn');
   if (!btn) return;
   const theme = localStorage.getItem('theme') || 'auto';
-  if (theme === 'dark') btn.textContent = 'ライトモードに切替';
-  else if (theme === 'light') btn.textContent = 'ダークモードに切替';
-  else btn.textContent = 'ダークモードに切替';
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+function updateLevelIndicator() {
+  const title = document.getElementById('topTitle');
+  if (!title) return;
+  let indicator = document.getElementById('levelIndicator');
+  if (!indicator) {
+    indicator = document.createElement('span');
+    indicator.id = 'levelIndicator';
+    indicator.className = 'level-indicator';
+    title.parentNode.insertBefore(indicator, title.nextSibling);
+  }
+  indicator.textContent = currentLevel ? currentLevel : '';
 }
 
 function renderLevelNav() {
@@ -164,7 +174,7 @@ function renderLevelNav() {
     const btn = document.createElement('button');
     btn.textContent = lv;
     btn.className = lv === currentLevel ? 'active' : '';
-    btn.onclick = () => { currentLevel = lv; loadLevel(lv); closeSettings(); };
+    btn.onclick = () => { currentLevel = lv; loadLevel(lv); switchTab('words'); };
     nav.appendChild(btn);
   });
 }
@@ -173,13 +183,19 @@ function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  const titles = { words: '単語', grammar: '文法', exercises: '練習' };
+  const titles = { words: '単語', grammar: '文法', exercises: '練習', settings: '設定' };
   document.getElementById('topTitle').textContent = titles[tab] || 'JLPT';
-  renderContent();
+  if (tab === 'settings') {
+    showSettings();
+  } else {
+    renderContent();
+  }
+  updateLevelIndicator();
 }
 
 async function loadLevel(level) {
   currentLevel = level;
+  updateLevelIndicator();
   renderLevelNav();
   const fname = `data/data.db?v=${Date.now()}`;
   let loaded = false;
@@ -246,6 +262,25 @@ async function getCachedDB(level) {
   });
 }
 
+
+function showSettings() {
+  const container = document.getElementById('content');
+  container.innerHTML = `
+    <div class="card">
+      <div style="font-weight:600;margin-bottom:8px;">レベル選択 / 級別選擇</div>
+      <div class="level-btns" id="levelNav"></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
+      <button class="action" onclick="document.getElementById('status').innerText='ローカル./data を優先します。キャッシュも使用可能です。'">データ読み込みについて</button>
+      <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
+      <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
+      <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
+      <div id="status">レベル選択時に ./data から読み込みます。</div>
+    </div>
+  `;
+  renderLevelNav();
+}
 function renderContent() {
   const c = document.getElementById('content');
   if (!contentDB) {
@@ -586,7 +621,7 @@ function importUserDB(input) {
           document.body.classList.remove('dark', 'light');
           if (theme === 'dark') document.body.classList.add('dark');
           else if (theme === 'light') document.body.classList.add('light');
-          updateDarkButton();
+          updateThemeButton();
         }
       } catch(err) {}
       document.getElementById('status').innerText = '進捗と設定をインポートしました';
