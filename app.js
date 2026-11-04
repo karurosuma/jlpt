@@ -260,28 +260,27 @@ function renderContent() {
 function toRuby(word, reading) {
   if (!word) return '';
   if (word.includes('<ruby>')) return word;
-  if (!/[\u4e00-\u9faf]/.test(word)) return word;
+  // Include 々 (U+3005) and other repetition marks as kanji
+  const kanjiRegex = /[\u4e00-\u9faf\u3005]/;
+  if (!kanjiRegex.test(word)) return word;
   if (!reading) {
-    return word.replace(/([\u4e00-\u9faf]+)/g, '<ruby>$1<rt></rt></ruby>');
+    return word.replace(/([\u4e00-\u9faf\u3005]+)/g, '<ruby>$1<rt></rt></ruby>');
   }
-  // If whole word is kanji
-  if (/^[\u4e00-\u9faf]+$/.test(word)) {
+  // If whole word is kanji (including 々)
+  if (/^[\u4e00-\u9faf\u3005]+$/.test(word)) {
     return `<ruby>${word}<rt>${reading}</rt></ruby>`;
   }
   // Mixed kanji/hiragana - match reading to word structure
   let result = '';
-  let ri = 0; // reading index
+  let ri = 0;
   let i = 0;
   while (i < word.length) {
-    if (/[\u4e00-\u9faf]/.test(word[i])) {
-      // Find consecutive kanji
+    if (kanjiRegex.test(word[i])) {
       let kanjiEnd = i;
-      while (kanjiEnd < word.length && /[\u4e00-\u9faf]/.test(word[kanjiEnd])) {
+      while (kanjiEnd < word.length && kanjiRegex.test(word[kanjiEnd])) {
         kanjiEnd++;
       }
       const kanji = word.slice(i, kanjiEnd);
-      // Find how much of reading belongs to this kanji
-      // Look ahead to find next hiragana in word
       let nextHira = '';
       if (kanjiEnd < word.length && /[ぁ-ん]/.test(word[kanjiEnd])) {
         let hiraEnd = kanjiEnd;
@@ -290,7 +289,6 @@ function toRuby(word, reading) {
         }
         nextHira = word.slice(kanjiEnd, hiraEnd);
       }
-      // Find nextHira in remaining reading
       let kanjiReading = '';
       if (nextHira) {
         const nextHiraIdx = reading.indexOf(nextHira, ri);
@@ -308,7 +306,6 @@ function toRuby(word, reading) {
       result += `<ruby>${kanji}<rt>${kanjiReading}</rt></ruby>`;
       i = kanjiEnd;
     } else {
-      // Hiragana/katakana - add as-is and advance reading
       result += word[i];
       if (ri < reading.length && word[i] === reading[ri]) {
         ri++;
