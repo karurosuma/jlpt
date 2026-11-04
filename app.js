@@ -272,7 +272,8 @@ function showSettings() {
     </div>
     <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
-      <button class="action" onclick="document.getElementById('status').innerText='ローカル./data を優先します。キャッシュも使用可能です。'">データ読み込みについて</button>
+      <button class="action" onclick="openCMS()">内容を管理（CMS）</button>
+      <button class="action" onclick="exportContentDB()">内容DBをエクスポート</button>
       <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
       <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
       <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
@@ -629,6 +630,218 @@ function importUserDB(input) {
     } catch(err) { alert('インポート失敗'); }
   };
   reader.readAsArrayBuffer(file);
+}
+
+// ===== CMS Functions =====
+let cmsType = 'vocab';
+
+function openCMS() {
+  currentTab = 'cms';
+  document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+  document.getElementById('topTitle').textContent = 'CMS';
+  showCMS();
+}
+
+function showCMS() {
+  const container = document.getElementById('content');
+  container.innerHTML = `
+    <div class="card">
+      <div style="font-weight:600;margin-bottom:8px;">内容管理 / 內容管理</div>
+      <div class="level-btns">
+        <button class="${cmsType==='vocab'?'active':''}" onclick="cmsType='vocab';showCMS()">単語</button>
+        <button class="${cmsType==='grammar'?'active':''}" onclick="cmsType='grammar';showCMS()">文法</button>
+        <button class="${cmsType==='rearrange'?'active':''}" onclick="cmsType='rearrange';showCMS()">練習</button>
+      </div>
+      <button class="action" onclick="showCMSForm()">新規追加</button>
+    </div>
+    <div id="cmsList"></div>
+  `;
+  loadCMSList();
+}
+
+function loadCMSList() {
+  if (!contentDB) return;
+  const list = document.getElementById('cmsList');
+  let html = '';
+  try {
+    if (cmsType === 'vocab') {
+      const rows = contentDB.exec("SELECT id, level, word, reading, pos FROM vocab ORDER BY level, id LIMIT 100");
+      if (rows.length) {
+        rows[0].values.forEach(r => {
+          html += `<div class="card" style="padding:12px;">
+            <div style="font-weight:600;">${r[2]} <span style="color:#888;font-size:13px;">${r[1]} · ${r[4]||''}</span></div>
+            <div style="font-size:13px;color:#666;">${r[3]||''}</div>
+            <button class="action" style="padding:6px 10px;font-size:13px;" onclick="editCMSItem('vocab', ${r[0]})">編集</button>
+            <button class="action" style="padding:6px 10px;font-size:13px;background:#ff3b30;" onclick="deleteCMSItem('vocab', ${r[0]})">削除</button>
+          </div>`;
+        });
+      }
+    } else if (cmsType === 'grammar') {
+      const rows = contentDB.exec("SELECT id, level, title FROM grammar ORDER BY level, id LIMIT 50");
+      if (rows.length) {
+        rows[0].values.forEach(r => {
+          html += `<div class="card" style="padding:12px;">
+            <div style="font-weight:600;">${r[2]} <span style="color:#888;font-size:13px;">${r[1]}</span></div>
+            <button class="action" style="padding:6px 10px;font-size:13px;" onclick="editCMSItem('grammar', ${r[0]})">編集</button>
+            <button class="action" style="padding:6px 10px;font-size:13px;background:#ff3b30;" onclick="deleteCMSItem('grammar', ${r[0]})">削除</button>
+          </div>`;
+        });
+      }
+    } else if (cmsType === 'rearrange') {
+      const rows = contentDB.exec("SELECT id, level, correct FROM rearrange ORDER BY level, id LIMIT 50");
+      if (rows.length) {
+        rows[0].values.forEach(r => {
+          html += `<div class="card" style="padding:12px;">
+            <div style="font-weight:600;">${r[2].substring(0,40)}... <span style="color:#888;font-size:13px;">${r[1]}</span></div>
+            <button class="action" style="padding:6px 10px;font-size:13px;" onclick="editCMSItem('rearrange', ${r[0]})">編集</button>
+            <button class="action" style="padding:6px 10px;font-size:13px;background:#ff3b30;" onclick="deleteCMSItem('rearrange', ${r[0]})">削除</button>
+          </div>`;
+        });
+      }
+    }
+  } catch(e) { html = '<p>読み込みエラー</p>'; }
+  list.innerHTML = html || '<p style="text-align:center;padding:20px;color:#888;">データなし</p>';
+}
+
+function showCMSForm(id) {
+  const container = document.getElementById('content');
+  let formHtml = '<div class="card"><h3>' + (id ? '編集' : '新規追加') + '</h3>';
+  if (cmsType === 'vocab') {
+    formHtml += `
+      <label>レベル</label><input id="f_level" placeholder="N5" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>単語</label><input id="f_word" placeholder="食べる" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>読み</label><input id="f_reading" placeholder="たべる" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>品詞</label><input id="f_pos" placeholder="動詞" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>意味（中文）</label><input id="f_meaning_tc" placeholder="吃" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>例文</label><textarea id="f_example" placeholder="ご飯を食べます。" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;height:60px;"></textarea><br>
+      <label>例文翻訳</label><input id="f_example_tc" placeholder="吃飯。" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+    `;
+  } else if (cmsType === 'grammar') {
+    formHtml += `
+      <label>レベル</label><input id="f_level" placeholder="N5" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>タイトル</label><input id="f_title" placeholder="は" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>説明（日）</label><textarea id="f_exp_jp" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;height:60px;"></textarea><br>
+      <label>説明（中）</label><textarea id="f_exp_tc" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;height:60px;"></textarea><br>
+      <label>例文（|区切り）</label><textarea id="f_examples" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;height:60px;"></textarea><br>
+    `;
+  } else {
+    formHtml += `
+      <label>レベル</label><input id="f_level" placeholder="N5" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>正しい文</label><input id="f_correct" placeholder="先生は新しいです。" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+      <label>パーツ（|区切り）</label><input id="f_parts" placeholder="先生|は|新しい|です" style="width:100%;padding:8px;margin:4px 0;border:1px solid #ddd;border-radius:8px;"><br>
+    `;
+  }
+  formHtml += `<button class="action" onclick="saveCMSItem(${id||'null'})">保存</button>
+    <button class="action" style="background:#8e8e93;" onclick="showCMS()">戻る</button></div>`;
+  container.innerHTML = formHtml;
+  if (id) loadCMSItem(id);
+}
+
+function loadCMSItem(id) {
+  try {
+    if (cmsType === 'vocab') {
+      const r = contentDB.exec("SELECT level, word, reading, pos, meaning_tc, example, meaning_tc_example FROM vocab WHERE id=?", [id]);
+      if (r.length) {
+        const v = r[0].values[0];
+        document.getElementById('f_level').value = v[0]||'';
+        document.getElementById('f_word').value = v[1]||'';
+        document.getElementById('f_reading').value = v[2]||'';
+        document.getElementById('f_pos').value = v[3]||'';
+        document.getElementById('f_meaning_tc').value = v[4]||'';
+        document.getElementById('f_example').value = v[5]||'';
+        document.getElementById('f_example_tc').value = v[6]||'';
+      }
+    } else if (cmsType === 'grammar') {
+      const r = contentDB.exec("SELECT level, title, explanation_jp, explanation_tc, examples FROM grammar WHERE id=?", [id]);
+      if (r.length) {
+        const v = r[0].values[0];
+        document.getElementById('f_level').value = v[0]||'';
+        document.getElementById('f_title').value = v[1]||'';
+        document.getElementById('f_exp_jp').value = v[2]||'';
+        document.getElementById('f_exp_tc').value = v[3]||'';
+        document.getElementById('f_examples').value = v[4]||'';
+      }
+    } else {
+      const r = contentDB.exec("SELECT level, correct, parts FROM rearrange WHERE id=?", [id]);
+      if (r.length) {
+        const v = r[0].values[0];
+        document.getElementById('f_level').value = v[0]||'';
+        document.getElementById('f_correct').value = v[1]||'';
+        document.getElementById('f_parts').value = v[2]||'';
+      }
+    }
+  } catch(e) { console.error(e); }
+}
+
+function saveCMSItem(id) {
+  try {
+    if (cmsType === 'vocab') {
+      const level = document.getElementById('f_level').value;
+      const word = document.getElementById('f_word').value;
+      const reading = document.getElementById('f_reading').value;
+      const pos = document.getElementById('f_pos').value;
+      const meaning_tc = document.getElementById('f_meaning_tc').value;
+      const example = document.getElementById('f_example').value;
+      const example_tc = document.getElementById('f_example_tc').value;
+      if (id) {
+        contentDB.run("UPDATE vocab SET level=?, word=?, reading=?, pos=?, meaning_tc=?, example=?, meaning_tc_example=? WHERE id=?",
+          [level, word, reading, pos, meaning_tc, example, example_tc, id]);
+      } else {
+        contentDB.run("INSERT INTO vocab (level, word, reading, pos, meaning_tc, example, meaning_tc_example) VALUES (?,?,?,?,?,?,?)",
+          [level, word, reading, pos, meaning_tc, example, example_tc]);
+      }
+    } else if (cmsType === 'grammar') {
+      const level = document.getElementById('f_level').value;
+      const title = document.getElementById('f_title').value;
+      const exp_jp = document.getElementById('f_exp_jp').value;
+      const exp_tc = document.getElementById('f_exp_tc').value;
+      const examples = document.getElementById('f_examples').value;
+      if (id) {
+        contentDB.run("UPDATE grammar SET level=?, title=?, explanation_jp=?, explanation_tc=?, examples=? WHERE id=?",
+          [level, title, exp_jp, exp_tc, examples, id]);
+      } else {
+        contentDB.run("INSERT INTO grammar (level, title, explanation_jp, explanation_tc, examples) VALUES (?,?,?,?,?)",
+          [level, title, exp_jp, exp_tc, examples]);
+      }
+    } else {
+      const level = document.getElementById('f_level').value;
+      const correct = document.getElementById('f_correct').value;
+      const parts = document.getElementById('f_parts').value;
+      if (id) {
+        contentDB.run("UPDATE rearrange SET level=?, correct=?, parts=? WHERE id=?", [level, correct, parts, id]);
+      } else {
+        contentDB.run("INSERT INTO rearrange (level, correct, parts) VALUES (?,?,?)", [level, correct, parts]);
+      }
+    }
+    alert('保存しました');
+    showCMS();
+  } catch(e) { alert('保存エラー: ' + e.message); }
+}
+
+function editCMSItem(type, id) {
+  cmsType = type;
+  showCMSForm(id);
+}
+
+function deleteCMSItem(type, id) {
+  if (!confirm('削除しますか？')) return;
+  try {
+    contentDB.run(`DELETE FROM ${type} WHERE id=?`, [id]);
+    alert('削除しました');
+    showCMS();
+  } catch(e) { alert('削除エラー: ' + e.message); }
+}
+
+function exportContentDB() {
+  if (!contentDB) { alert('DBがありません'); return; }
+  try {
+    const data = contentDB.export();
+    const blob = new Blob([data], { type: 'application/x-sqlite3' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.db';
+    a.click();
+  } catch(e) { alert('エクスポートエラー: ' + e.message); }
 }
 
 init();
