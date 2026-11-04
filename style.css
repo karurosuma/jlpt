@@ -299,3 +299,11 @@ rt {
   font-weight: 500;
   margin-left: 6px;
 }
+
+.icon svg { display: block; }
+.search-btn svg, .theme-btn svg { stroke: currentColor; }
+.learnt-btn { background: #34c759; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+.learnt-btn.done { background: #8e8e93; }
+.progress-summary { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.progress-card { flex: 1; min-width: 120px; background: var(--bg); border-radius: 10px; padding: 12px; text-align: center; }
+.progress-card .count { font-size: 24px; font-weight: 600; color: var(--primary); }

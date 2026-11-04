@@ -152,7 +152,11 @@ function updateThemeButton() {
   const btn = document.getElementById('themeBtn');
   if (!btn) return;
   const theme = localStorage.getItem('theme') || 'auto';
-  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  if (theme === 'dark') {
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  } else {
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
 }
 function updateLevelIndicator() {
   const title = document.getElementById('topTitle');
@@ -272,6 +276,7 @@ function showSettings() {
     </div>
     <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
+      <button class="action" onclick="showSummary()">学習進捗を見る</button>
       <button class="action" onclick="openCMS()">内容を管理（CMS）</button>
       <button class="action" onclick="exportContentDB()">内容DBをエクスポート</button>
       <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
@@ -462,11 +467,15 @@ function showWords(container) {
         else if (pos === '副詞') badgeClass = 'badge badge-adv';
         
         const wordRuby = toRuby(displayWord, displayReading);
+        const learnt = isLearnt('vocab', r[0]);
+        const learntBtn = `<button class="learnt-btn ${learnt?'done':''}" onclick="toggleLearnt('vocab', ${r[0]}, this)">${learnt?'学習済み':'学習済みにする'}</button>`;
         html += `<div class="card">
           <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
           <div class="meaning">${applyRubyToText(r[5] || r[4] || '')}</div>
           <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
-          ${conjHtml}</div>`;
+          ${conjHtml}
+          <div style="margin-top:10px;">${learntBtn}</div>
+        </div>`;
       });
     }
     container.innerHTML = html;
@@ -532,9 +541,12 @@ function showGrammar(container) {
     rows[0].values.forEach(r => {
       const title = r[2];
       const examples = (r[5]||'').split('|').map(e => '・' + applyRubyToText(e)).join('<br>');
+      const learnt = isLearnt('grammar', r[0]);
+      const learntBtn = `<button class="learnt-btn ${learnt?'done':''}" onclick="toggleLearnt('grammar', ${r[0]}, this)">${learnt?'学習済み':'学習済みにする'}</button>`;
       html += `<div class="card"><div class="word">${title}</div>
         <div style="margin-top:8px;">${applyRubyToText(r[3])}<br><span style="color:#666;">${r[4]}</span></div>
-        <div style="margin-top:8px;font-size:15px;">${examples}</div></div>`;
+        <div style="margin-top:8px;font-size:15px;">${examples}</div>
+        <div style="margin-top:10px;">${learntBtn}</div></div>`;
     });
     container.innerHTML = html;
   } catch(e) { container.innerHTML = '<p>文法テーブルがありません</p>'; }
@@ -843,5 +855,54 @@ function exportContentDB() {
     a.click();
   } catch(e) { alert('エクスポートエラー: ' + e.message); }
 }
+
+// ===== Progress / Learnt =====
+function isLearnt(type, id) {
+  if (!userDB) return false;
+  try {
+    const r = userDB.exec("SELECT status FROM progress WHERE level=? AND type=? AND item_id=?", [currentLevel, type, id]);
+    return r.length && r[0].values.length && r[0].values[0][0] === 'learnt';
+  } catch(e) { return false; }
+}
+
+function toggleLearnt(type, id, btn) {
+  if (!userDB) return;
+  const learnt = isLearnt(type, id);
+  if (learnt) {
+    userDB.run("DELETE FROM progress WHERE level=? AND type=? AND item_id=?", [currentLevel, type, id]);
+    btn.textContent = '学習済みにする';
+    btn.classList.remove('done');
+  } else {
+    userDB.run("INSERT OR REPLACE INTO progress (level, type, item_id, status, last_reviewed) VALUES (?, ?, ?, 'learnt', datetime('now'))",
+      [currentLevel, type, id]);
+    btn.textContent = '学習済み';
+    btn.classList.add('done');
+  }
+}
+
+function showSummary() {
+  const container = document.getElementById('content');
+  let html = '<div class="card"><h3>学習進捗 / 學習進度</h3><div class="progress-summary">';
+  LEVELS.forEach(lv => {
+    let count = 0;
+    if (userDB) {
+      try {
+        const r = userDB.exec("SELECT COUNT(*) FROM progress WHERE level=? AND status='learnt'", [lv]);
+        if (r.length) count = r[0].values[0][0];
+      } catch(e) {}
+    }
+    html += `<div class="progress-card"><div class="count">${count}</div><div>${lv}</div></div>`;
+  });
+  let total = 0;
+  if (userDB) {
+    try {
+      const r = userDB.exec("SELECT COUNT(*) FROM progress WHERE status='learnt'");
+      if (r.length) total = r[0].values[0][0];
+    } catch(e) {}
+  }
+  html += `</div><div style="text-align:center;margin-top:12px;font-size:18px;">合計学習済み：<strong>${total}</strong></div></div>`;
+  container.innerHTML = html;
+}
+
 
 init();
