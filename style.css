@@ -200,7 +200,7 @@ body {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   position: sticky;
-  top: calc(44px + var(--safe-top));
+  top: calc(52px + var(--safe-top));
   z-index: 50;
   flex-wrap: nowrap;
 }
