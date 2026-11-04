@@ -187,10 +187,12 @@ function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  const titles = { words: '単語', grammar: '文法', exercises: '練習', settings: '設定' };
+  const titles = { words: '単語', grammar: '文法', exercises: '練習', conversation: '会話', settings: '設定' };
   document.getElementById('topTitle').textContent = titles[tab] || 'JLPT';
   if (tab === 'settings') {
     showSettings();
+  } else if (tab === 'conversation') {
+    showConversations();
   } else {
     renderContent();
   }
@@ -904,5 +906,49 @@ function showSummary() {
   container.innerHTML = html;
 }
 
+
+// ===== Conversations =====
+const conversations = [
+  {
+    title: 'シナリオ1：東京駅からスカイツリーまでの道を聞く会話',
+    lines: [
+      { speaker: '外国人', jp: 'すみません。東京駅からスカイツリーまで、どうやって行けばいいですか。', tc: '不好意思。從東京車站到晴空塔，怎麼去比較好呢？' },
+      { speaker: '日本人', jp: 'はい、スカイツリーですね。電車で行くのが一番便利ですよ。山手線に乗って、上野駅で乗り換えます。それから日比谷線で押上駅まで行きます。', tc: '是晴空塔啊。坐電車最方便喔。搭山手線到上野站轉車。然後搭日比谷線到押上站。' },
+      { speaker: '外国人', jp: 'ありがとうございます。どのくらい時間がかかりますか。', tc: '謝謝。大概要花多久時間？' },
+      { speaker: '日本人', jp: 'だいたい三十分くらいです。駅を出たら、すぐ見えますよ。', tc: '大概三十分鐘左右。出了車站馬上就能看到。' },
+      { speaker: '外国人', jp: 'わかりました。助かります。', tc: '明白了。幫了大忙。' }
+    ]
+  },
+  {
+    title: 'シナリオ2：マクドナルドで食べ物を注文する会話',
+    lines: [
+      { speaker: '店員', jp: 'いらっしゃいませ。ご注文はお決まりですか。', tc: '歡迎光臨。您決定要點什麼了嗎？' },
+      { speaker: '客', jp: 'はい。ビッグマックセットを一つと、ポテトのMサイズをお願いします。', tc: '是的。請給我一份大麥克套餐，還有一份中薯。' },
+      { speaker: '店員', jp: '飲み物は何にしますか。', tc: '飲料要什麼呢？' },
+      { speaker: '客', jp: 'コーラをお願いします。', tc: '請給我可樂。' },
+      { speaker: '店員', jp: '店内でお召し上がりですか、それともお持ち帰りですか。', tc: '是在店內用餐，還是外帶呢？' },
+      { speaker: '客', jp: '店内でお願いします。ソースは多めにお願いできますか。', tc: '在店內用餐。醬汁可以多一點嗎？' },
+      { speaker: '店員', jp: 'かしこまりました。少々お待ちください。', tc: '好的。請稍等一下。' }
+    ]
+  }
+];
+
+function showConversations() {
+  const container = document.getElementById('content');
+  let html = '';
+  conversations.forEach((sc, idx) => {
+    html += `<div class="card">
+      <div style="font-weight:600;font-size:16px;margin-bottom:12px;">${sc.title}</div>`;
+    sc.lines.forEach(line => {
+      html += `<div style="margin-bottom:12px;padding:8px 0;border-bottom:1px solid var(--separator);">
+        <div style="font-weight:600;color:var(--primary);margin-bottom:4px;">${line.speaker}</div>
+        <div style="font-size:16px;line-height:1.8;">${applyRubyToText(line.jp)}</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px;">${line.tc}</div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
 
 init();
