@@ -936,17 +936,22 @@ const conversations = [
 function showConversations() {
   const container = document.getElementById('content');
   let html = '';
-  conversations.forEach((sc, idx) => {
-    html += `<div class="card">
-      <div style="font-weight:600;font-size:16px;margin-bottom:12px;">${sc.title}</div>`;
+  conversations.forEach((sc) => {
+    html += `<div class="chat-scenario">
+      <div class="chat-title">${sc.title}</div>
+      <div class="chat-messages">`;
     sc.lines.forEach(line => {
-      html += `<div style="margin-bottom:12px;padding:8px 0;border-bottom:1px solid var(--separator);">
-        <div style="font-weight:600;color:var(--primary);margin-bottom:4px;">${line.speaker}</div>
-        <div style="font-size:16px;line-height:1.8;">${applyRubyToText(line.jp)}</div>
-        <div style="font-size:14px;color:var(--muted);margin-top:4px;">${line.tc}</div>
+      const isRight = (line.speaker === '日本人' || line.speaker === '店員');
+      const side = isRight ? 'right' : 'left';
+      html += `<div class="chat-row ${side}">
+        <div class="chat-bubble ${side}">
+          <div class="chat-speaker">${line.speaker}</div>
+          <div class="chat-jp">${applyRubyToText(line.jp)}</div>
+          <div class="chat-tc">${line.tc}</div>
+        </div>
       </div>`;
     });
-    html += '</div>';
+    html += '</div></div>';
   });
   container.innerHTML = html;
 }
