@@ -60,7 +60,7 @@ body {
   background: var(--tab-bar-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 0.5px solid var(--separator);
+  border-bottom: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
