@@ -197,7 +197,7 @@ body {
 .filter-bar {
   padding: 12px 16px;
   background: var(--card);
-  border-bottom: 1px solid var(--separator);
+  border-bottom: none;
   display: flex;
   gap: 8px;
   overflow-x: auto;
