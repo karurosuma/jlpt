@@ -174,9 +174,35 @@ function updateLevelIndicator() {
     indicator = document.createElement('div');
     indicator.id = 'levelIndicator';
     indicator.className = 'level-indicator';
+    indicator.style.cursor = 'pointer';
+    indicator.onclick = showLevelMenu;
     wrap.appendChild(indicator);
   }
   indicator.textContent = currentLevel ? currentLevel : '';
+}
+
+function showLevelMenu() {
+  let menu = document.getElementById('levelMenu');
+  if (menu) { menu.remove(); return; }
+  menu = document.createElement('div');
+  menu.id = 'levelMenu';
+  menu.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--card);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);z-index:200;padding:8px;min-width:120px;';
+  LEVELS.forEach(lv => {
+    const btn = document.createElement('button');
+    btn.textContent = lv;
+    btn.style.cssText = 'display:block;width:100%;padding:10px 16px;border:none;background:' + (lv===currentLevel?'var(--primary)':'transparent') + ';color:' + (lv===currentLevel?'#fff':'var(--text)') + ';border-radius:8px;cursor:pointer;font-size:16px;text-align:center;margin:2px 0;';
+    btn.onclick = () => { menu.remove(); currentLevel = lv; loadLevel(lv); switchTab('words'); };
+    menu.appendChild(btn);
+  });
+  document.body.appendChild(menu);
+  setTimeout(() => {
+    document.addEventListener('click', function close(e) {
+      if (!menu.contains(e.target) && e.target.id !== 'levelIndicator') {
+        menu.remove();
+        document.removeEventListener('click', close);
+      }
+    });
+  }, 10);
 }
 
 function renderLevelNav() {
