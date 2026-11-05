@@ -161,12 +161,20 @@ function updateThemeButton() {
 function updateLevelIndicator() {
   const title = document.getElementById('topTitle');
   if (!title) return;
+  let wrap = document.getElementById('topTitleWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'topTitleWrap';
+    wrap.className = 'top-title-wrap';
+    title.parentNode.insertBefore(wrap, title);
+    wrap.appendChild(title);
+  }
   let indicator = document.getElementById('levelIndicator');
   if (!indicator) {
-    indicator = document.createElement('span');
+    indicator = document.createElement('div');
     indicator.id = 'levelIndicator';
     indicator.className = 'level-indicator';
-    title.parentNode.insertBefore(indicator, title.nextSibling);
+    wrap.appendChild(indicator);
   }
   indicator.textContent = currentLevel ? currentLevel : '';
 }
