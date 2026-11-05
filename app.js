@@ -307,10 +307,6 @@ function showSettings() {
   const container = document.getElementById('content');
   container.innerHTML = `
     <div class="card">
-      <div style="font-weight:600;margin-bottom:8px;">レベル選択 / 級別選擇</div>
-      <div class="level-btns" id="levelNav"></div>
-    </div>
-    <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
       <button class="action" onclick="showSummary()">学習進捗を見る</button>
       <button class="action" onclick="openCMS()">内容を管理（CMS）</button>
@@ -321,7 +317,6 @@ function showSettings() {
       <div id="status">レベル選択時に ./data から読み込みます。</div>
     </div>
   `;
-  renderLevelNav();
 }
 function renderContent() {
   const c = document.getElementById('content');

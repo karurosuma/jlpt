@@ -90,7 +90,7 @@ body {
 }
 /* Content area - leave space for top bar */
 #content {
-  padding: calc(60px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
+  padding: calc(72px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
   min-height: 100vh;
 }
 /* Bottom Tab Bar */
@@ -203,7 +203,7 @@ body {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   position: sticky;
-  top: calc(64px + var(--safe-top));
+  top: calc(56px + var(--safe-top));
   z-index: 50;
   flex-wrap: nowrap;
 }
