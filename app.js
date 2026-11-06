@@ -389,6 +389,10 @@ function toRuby(word, reading) {
 }
 
 let currentFilter = '';
+let currentOffset = 0;
+let isLoading = false;
+let hasMore = true;
+const PAGE_SIZE = 20;
 
 function showWords(container) {
   try {
@@ -408,7 +412,7 @@ function showWords(container) {
         params.push(currentFilter);
       }
     }
-    sql += " LIMIT 200";
+    sql += " LIMIT " + PAGE_SIZE + " OFFSET " + currentOffset;
     const rows = contentDB.exec(sql, params);
     
     let filterHtml = `<div class="filter-bar">
@@ -510,6 +514,9 @@ function showWords(container) {
           <div style="margin-top:10px;">${learntBtn}</div>
         </div>`;
       });
+      if (rows[0].values.length === PAGE_SIZE) {
+        html += '<div id="loadMore" style="text-align:center;padding:20px;"><button class="btn" onclick="loadMoreWords()">もっと見る</button></div>';
+      }
     }
     container.innerHTML = html;
   } catch(e) { 
@@ -518,8 +525,18 @@ function showWords(container) {
   }
 }
 
+function loadMoreWords() {
+  if (isLoading) return;
+  isLoading = true;
+  currentOffset += PAGE_SIZE;
+  showWords(document.getElementById('content'));
+  isLoading = false;
+}
+
 function setFilter(pos) {
   currentFilter = pos;
+  currentOffset = 0;
+  hasMore = true;
   renderContent();
 }
 
