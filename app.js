@@ -537,8 +537,10 @@ const PAGE_SIZE = 100;
 
 function showWords(container, append = false) {
   try {
+    console.log('showWords called, level:', currentLevel, 'filter:', currentFilter);
     let sql = levelFilterEnabled ? "SELECT * FROM vocab WHERE level = ?" : "SELECT * FROM vocab WHERE 1=1";
     let params = levelFilterEnabled ? [currentLevel] : [];
+    console.log('SQL:', sql, 'params:', params);
     if (currentFilter) {
       if (currentFilter === '形容詞') {
         sql += " AND pos LIKE '%形容詞%'";
@@ -555,6 +557,7 @@ function showWords(container, append = false) {
     }
     sql += " ORDER BY reading LIMIT " + PAGE_SIZE + " OFFSET " + currentOffset;
     const rows = contentDB.exec(sql, params);
+    console.log('Query result:', rows.length, rows[0] ? rows[0].values.length : 0);
     
     let filterHtml = `<div class="filter-bar">
       <button class="filter-btn ${currentFilter===''?'active':''}" onclick="setFilter('')">すべて</button>
