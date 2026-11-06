@@ -392,7 +392,7 @@ rt {
   font-size: 15px;
 }
 .chat-bubble.left {
-  background: var(--bg);
+  background: var(--card);
   border-bottom-left-radius: 4px;
 }
 .chat-bubble.right {
