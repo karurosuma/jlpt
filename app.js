@@ -574,7 +574,7 @@ function showWords(container, append = false) {
             conjMap[k] = v;
           });
           const conjs = Object.entries(conjMap).map(([k, v]) => {
-            const label = {'辞書':'辞書形','です':'です形','ない':'ない形','た':'た形','て':'て形'}[k] || k;
+            const label = {'辞書':'辞書形','です':'です形','ない':'ない形','た':'た形','て':'て形','相反':'反義語'}[k] || k;
             return `<div class="conj-row"><span class="conj-label">${label}</span><span>${toRuby(v, '')}</span></div>`;
           }).join('');
           conjHtml = `<div class="conj-block">${conjs}</div>`;
@@ -1129,13 +1129,13 @@ const conversations = [
   {
     title: 'シナリオ5：久しぶりに会った友達との会話',
     lines: [
-      { speaker: 'A', jp: '<ruby>久<rt>ひさ</rt></ruby>しぶりですね。<ruby>元気<rt>げんき</rt></ruby>にしていましたか。', tc: '好久不見。你還好嗎？' },
-      { speaker: 'B', jp: 'はい、おかげさまで元気にしています。Aさんはどうですか。', tc: '還好，託你的福我一直很健康。A你呢？' },
-      { speaker: 'A', jp: '<ruby>私<rt>わたし</rt></ruby>も<ruby>忙<rt>いそが</rt></ruby>しいですが、<ruby>元気<rt>げんき</rt></ruby>です。<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>で、なかなか<ruby>連絡<rt>れんらく</rt></ruby>できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
-      { speaker: 'B', jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。<ruby>今日<rt>きょう</rt></ruby>はゆっくり<ruby>話<rt>はな</rt></ruby>しましょう。<ruby>何<rt>なに</rt></ruby>か<ruby>飲<rt>の</rt></ruby>みますか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？' },
-      { speaker: 'A', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？' },
-      { speaker: 'B', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。', tc: '上週我跟朋友去旅行了。非常開心。' },
-      { speaker: 'A', jp: 'いいですね。<ruby>私<rt>わたし</rt></ruby>も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。', tc: '真好啊。我也想最近去旅行。' }
+      { speaker: '田中', jp: '<ruby>久<rt>ひさ</rt></ruby>しぶりですね。<ruby>元気<rt>げんき</rt></ruby>にしていましたか。', tc: '好久不見。你還好嗎？' },
+      { speaker: '佐藤', jp: 'はい、おかげさまで元気にしています。田中さんはどうですか。', tc: '還好，託你的福我一直很健康。A你呢？' },
+      { speaker: '田中', jp: '<ruby>私<rt>わたし</rt></ruby>も<ruby>忙<rt>いそが</rt></ruby>しいですが、<ruby>元気<rt>げんき</rt></ruby>です。<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>で、なかなか<ruby>連絡<rt>れんらく</rt></ruby>できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
+      { speaker: '佐藤', jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。<ruby>今日<rt>きょう</rt></ruby>はゆっくり<ruby>話<rt>はな</rt></ruby>しましょう。<ruby>何<rt>なに</rt></ruby>か<ruby>飲<rt>の</rt></ruby>みますか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？' },
+      { speaker: '田中', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？' },
+      { speaker: '佐藤', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。', tc: '上週我跟朋友去旅行了。非常開心。' },
+      { speaker: '田中', jp: 'いいですね。<ruby>私<rt>わたし</rt></ruby>も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。', tc: '真好啊。我也想最近去旅行。' }
     ]
   },
   {
@@ -1204,16 +1204,16 @@ const conversations = [
   {
     title: 'シナリオ11：映画について話すグループチャット',
     lines: [
-      { speaker: 'A', jp: 'みんな、<ruby>昨日<rt>きのう</rt></ruby><ruby>見<rt>み</rt></ruby>た<ruby>映画<rt>えいが</rt></ruby>、どう<ruby>思<rt>おも</rt></ruby>いましたか。<ruby>主人公<rt>しゅじんこう</rt></ruby>の<ruby>決断<rt>けつだん</rt></ruby>がすごく<ruby>印象的<rt>いんしょうてき</rt></ruby>だったよね。', tc: '大家昨天看的那部電影，覺得怎麼樣？主角的決定真的很令人印象深刻對吧。' },
-      { speaker: 'B', jp: 'うん、<ruby>特<rt>とく</rt></ruby>に<ruby>最後<rt>さいご</rt></ruby>のシーンで<ruby>友達<rt>ともだち</rt></ruby>を<ruby>助<rt>たす</rt></ruby>ける<ruby>選択<rt>せんたく</rt></ruby>をしたところ、<ruby>心<rt>こころ</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かされました。', tc: '對啊，特別是最後一幕選擇幫助朋友的地方，真的打動了我。' },
-      { speaker: 'C', jp: 'でも、<ruby>友達<rt>ともだち</rt></ruby><ruby>役<rt>やく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>がもっと<ruby>話<rt>はな</rt></ruby>してほしかったです。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なかったような<ruby>気<rt>き</rt></ruby>がします。', tc: '可是我希望朋友角色的人可以多講一點話。感覺感情的表現有點少。' },
-      { speaker: 'D', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>悪役<rt>あくやく</rt></ruby>の<ruby>動機<rt>どうき</rt></ruby>が<ruby>複雑<rt>ふくざつ</rt></ruby>で<ruby>好<rt>す</rt></ruby>きでした。ただの<ruby>悪<rt>わる</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>じゃなくて、<ruby>過去<rt>かこ</rt></ruby>の<ruby>経験<rt>けいけん</rt></ruby>から<ruby>行動<rt>こうどう</rt></ruby>しているのが<ruby>面白<rt>おもしろ</rt></ruby>かったです。', tc: '我喜歡反派的動機很複雜。不是單純的壞人，而是從過去的經驗來行動，覺得很有趣。' },
-      { speaker: 'E', jp: '<ruby>全体的<rt>ぜんたいてき</rt></ruby>にストーリーが<ruby>楽<rt>たの</rt></ruby>しかったです。でも<ruby>途中<rt>とちゅう</rt></ruby>でちょっと<ruby>長<rt>なが</rt></ruby>く<ruby>感<rt>かん</rt></ruby>じた<ruby>部分<rt>ぶぶん</rt></ruby>もありました。<ruby>続編<rt>ぞくへん</rt></ruby>があるといいですね。', tc: '整體來說故事很有趣。不過中途有些部分覺得有點長。如果有續集就好了。' },
-      { speaker: 'A', jp: 'そうですね。キャラクターの<ruby>成長<rt>せいちょう</rt></ruby>がよく<ruby>描<rt>えが</rt></ruby>かれていました。<ruby>主人公<rt>しゅじんこう</rt></ruby>が<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>弱<rt>よわ</rt></ruby>かったのに、だんだん<ruby>強<rt>つよ</rt></ruby>くなっていくのがよかったです。', tc: '是啊。角色的成長描寫得很好。主角一開始很弱，但漸漸變強的過程很棒。' },
-      { speaker: 'B', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>も<ruby>良<rt>よ</rt></ruby>かったと<ruby>思<rt>おも</rt></ruby>います。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>場面<rt>ばめん</rt></ruby>で<ruby>使<rt>つか</rt></ruby>われている<ruby>曲<rt>きょく</rt></ruby>が<ruby>特<rt>とく</rt></ruby>に<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '我也覺得音樂很好。在感情場面使用的曲子特別令人印象深刻。' },
-      { speaker: 'C', jp: '<ruby>次<rt>つぎ</rt></ruby>はみんなで<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>見<rt>み</rt></ruby>ましょう。<ruby>別<rt>べつ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby>もおすすめですよ。', tc: '下次大家一起去看吧。我還有其他推薦的電影。' },
-      { speaker: 'D', jp: 'いいですね。<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はどうですか。', tc: '好啊。下週末怎麼樣？' },
-      { speaker: 'E', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。', tc: '我沒問題。那我們來決定地點吧。' }
+      { speaker: '田中', jp: 'みんな、<ruby>昨日<rt>きのう</rt></ruby><ruby>見<rt>み</rt></ruby>た<ruby>映画<rt>えいが</rt></ruby>、どう<ruby>思<rt>おも</rt></ruby>いましたか。<ruby>主人公<rt>しゅじんこう</rt></ruby>の<ruby>決断<rt>けつだん</rt></ruby>がすごく<ruby>印象的<rt>いんしょうてき</rt></ruby>だったよね。', tc: '大家昨天看的那部電影，覺得怎麼樣？主角的決定真的很令人印象深刻對吧。' },
+      { speaker: '佐藤', jp: 'うん、<ruby>特<rt>とく</rt></ruby>に<ruby>最後<rt>さいご</rt></ruby>のシーンで<ruby>友達<rt>ともだち</rt></ruby>を<ruby>助<rt>たす</rt></ruby>ける<ruby>選択<rt>せんたく</rt></ruby>をしたところ、<ruby>心<rt>こころ</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かされました。', tc: '對啊，特別是最後一幕選擇幫助朋友的地方，真的打動了我。' },
+      { speaker: '鈴木', jp: 'でも、<ruby>友達<rt>ともだち</rt></ruby><ruby>役<rt>やく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>がもっと<ruby>話<rt>はな</rt></ruby>してほしかったです。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なかったような<ruby>気<rt>き</rt></ruby>がします。', tc: '可是我希望朋友角色的人可以多講一點話。感覺感情的表現有點少。' },
+      { speaker: '高橋', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>悪役<rt>あくやく</rt></ruby>の<ruby>動機<rt>どうき</rt></ruby>が<ruby>複雑<rt>ふくざつ</rt></ruby>で<ruby>好<rt>す</rt></ruby>きでした。ただの<ruby>悪<rt>わる</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>じゃなくて、<ruby>過去<rt>かこ</rt></ruby>の<ruby>経験<rt>けいけん</rt></ruby>から<ruby>行動<rt>こうどう</rt></ruby>しているのが<ruby>面白<rt>おもしろ</rt></ruby>かったです。', tc: '我喜歡反派的動機很複雜。不是單純的壞人，而是從過去的經驗來行動，覺得很有趣。' },
+      { speaker: '伊藤', jp: '<ruby>全体的<rt>ぜんたいてき</rt></ruby>にストーリーが<ruby>楽<rt>たの</rt></ruby>しかったです。でも<ruby>途中<rt>とちゅう</rt></ruby>でちょっと<ruby>長<rt>なが</rt></ruby>く<ruby>感<rt>かん</rt></ruby>じた<ruby>部分<rt>ぶぶん</rt></ruby>もありました。<ruby>続編<rt>ぞくへん</rt></ruby>があるといいですね。', tc: '整體來說故事很有趣。不過中途有些部分覺得有點長。如果有續集就好了。' },
+      { speaker: '田中', jp: 'そうですね。キャラクターの<ruby>成長<rt>せいちょう</rt></ruby>がよく<ruby>描<rt>えが</rt></ruby>かれていました。<ruby>主人公<rt>しゅじんこう</rt></ruby>が<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>弱<rt>よわ</rt></ruby>かったのに、だんだん<ruby>強<rt>つよ</rt></ruby>くなっていくのがよかったです。', tc: '是啊。角色的成長描寫得很好。主角一開始很弱，但漸漸變強的過程很棒。' },
+      { speaker: '佐藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>も<ruby>良<rt>よ</rt></ruby>かったと<ruby>思<rt>おも</rt></ruby>います。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>場面<rt>ばめん</rt></ruby>で<ruby>使<rt>つか</rt></ruby>われている<ruby>曲<rt>きょく</rt></ruby>が<ruby>特<rt>とく</rt></ruby>に<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '我也覺得音樂很好。在感情場面使用的曲子特別令人印象深刻。' },
+      { speaker: '鈴木', jp: '<ruby>次<rt>つぎ</rt></ruby>はみんなで<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>見<rt>み</rt></ruby>ましょう。<ruby>別<rt>べつ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby>もおすすめですよ。', tc: '下次大家一起去看吧。我還有其他推薦的電影。' },
+      { speaker: '高橋', jp: 'いいですね。<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はどうですか。', tc: '好啊。下週末怎麼樣？' },
+      { speaker: '伊藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。', tc: '我沒問題。那我們來決定地點吧。' }
     ]
   }
 ];
