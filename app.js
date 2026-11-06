@@ -128,6 +128,24 @@ function closeSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '';
 }
+
+function renderWordCard(r) {
+  const word = r[0], reading = r[1], meaning = r[2], pos = r[3];
+  let badgeClass = 'badge';
+  if (pos === '動詞') badgeClass = 'badge badge-verb';
+  else if (pos === 'い形容詞') badgeClass = 'badge badge-iadj';
+  else if (pos === 'な形容詞') badgeClass = 'badge badge-nadj';
+  else if (pos === '名詞') badgeClass = 'badge badge-noun';
+  else if (pos === '副詞') badgeClass = 'badge badge-adv';
+  else if (pos === '感動詞') badgeClass = 'badge badge-expr';
+  
+  return `<div class="card" style="margin:8px 0;">
+    <div class="word">${toRuby(word, reading)} <span class="${badgeClass}">${pos}</span></div>
+    <div class="reading">${reading}</div>
+    <div class="meaning">${meaning}</div>
+  </div>`;
+}
+
 function doSearch(query) {
   if (!contentDB || !query.trim()) {
     document.getElementById('searchResults').innerHTML = '';
@@ -150,11 +168,11 @@ function doSearch(query) {
     if (rows.length && rows[0].values.length) {
       rows[0].values.forEach(r => {
         if (currentTab === 'grammar') {
-          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToItem('${r[0].replace(/'/g,"\\'")}')"><div class="word">${r[0]}</div><div class="meaning">${r[1]}</div></div>`;
+          html += `<div class="card" style="margin:8px 0;"><div class="word">${r[0]}</div><div class="meaning">${r[1]}</div></div>`;
         } else if (currentTab === 'exercises') {
-          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToItem('${r[0].replace(/'/g,"\\'")}')"><div class="word">${r[0]}</div></div>`;
+          html += `<div class="card" style="margin:8px 0;"><div class="word">${r[0]}</div></div>`;
         } else {
-          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToWord('${r[0].replace(/'/g, "\\'")}')"><div class="word">${toRuby(r[0], r[1])} <span class="badge">${r[3]}</span></div><div class="reading">${r[1]}</div><div class="meaning">${r[2]}</div></div>`;
+          html += renderWordCard(r);
         }
       });
     } else {
