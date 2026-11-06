@@ -31,7 +31,6 @@ let currentTab = 'words';
 
 const LEVELS = ['N5','N4','N3','N2','N1'];
 
-async 
 function safeDBRun(sql, params) {
   if (!contentDB) {
     console.error('Database not loaded');
