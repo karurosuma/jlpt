@@ -291,32 +291,39 @@ async function loadLevel(level) {
   currentLevel = level;
   updateLevelIndicator();
   renderLevelNav();
-  const fname = `data/data.db?v=${Date.now()}`;
-  let loaded = false;
-  let statusEl = document.getElementById('status');
-
+  
+  // Show loading message
+  document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">読み込み中...</p>';
+  
   // Check if SQL is ready
   if (!SQL) {
     console.error('SQL.js not initialized');
-    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">SQL.js が読み込まれていません。<br>ページを再読み込みしてください。</p>';
+    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#ff3b30;">SQL.js が読み込まれていません。<br>ページを再読み込みしてください。</p>';
     return;
   }
 
-  // Try relative path first (with cache bust)
+  const fname = 'data/data.db';
+  let loaded = false;
+
+  // Try to load database
   try {
-    console.log('Fetching:', fname);
-    const resp = await fetch(fname, { cache: 'no-store' });
-    console.log('Response:', resp.status, resp.ok);
+    console.log('Fetching database...');
+    const resp = await fetch(fname + '?t=' + Date.now());
     if (resp.ok) {
       const buf = await resp.arrayBuffer();
-      console.log('Buffer size:', buf.byteLength);
-      contentDB = new SQL.Database(new Uint8Array(buf));
-      if (statusEl) statusEl.innerText = `${level} を読み込みました`;
-      loaded = true;
-      try { await cacheDB(level, buf); } catch(e) {}
+      console.log('Database size:', buf.byteLength);
+      if (buf.byteLength > 1000) {
+        contentDB = new SQL.Database(new Uint8Array(buf));
+        console.log('Database loaded successfully');
+        loaded = true;
+      } else {
+        console.error('Database file too small:', buf.byteLength);
+      }
+    } else {
+      console.error('Fetch failed:', resp.status);
     }
   } catch(e) {
-    console.error('Local fetch failed:', e);
+    console.error('Database load error:', e);
   }
 
   // Fallback to cache
