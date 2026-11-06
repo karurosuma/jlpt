@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JLPT 自習アプリ N5〜N1</title>
-<link rel="stylesheet" href="style.css?v=20261106j">
+<link rel="stylesheet" href="style.css?v=20261106k">
 </head>
 <body>
 <div class="top-bar">
@@ -57,7 +57,17 @@
     </div>
     <div class="settings-content">
       <div class="settings-section">
-        <div class="settings-section-header">レベル</div>
+        <div class="settings-section-header">表示設定</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <span class="settings-icon orange">📚</span>
+            <span class="settings-label">レベル別に表示</span>
+            <div class="ios-toggle active" id="levelFilterToggle" onclick="toggleLevelFilter()"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section" id="levelSection">
+        <div class="settings-section-header">レベル選択</div>
         <div class="settings-group" id="levelNav"></div>
       </div>
       <div class="settings-section">

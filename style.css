@@ -90,7 +90,7 @@ body {
 }
 /* Content area - leave space for top bar */
 #content {
-  padding: calc(60px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
+  padding: calc(58px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
   min-height: 100vh;
 }
 /* Bottom Tab Bar */
@@ -217,10 +217,10 @@ body.dark .badge-adv { background: #3a1a4a; color: #ce93d8; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   position: sticky;
-  top: calc(60px + var(--safe-top));
-  z-index: 50;
+  top: calc(58px + var(--safe-top));
+  z-index: 99;
   flex-wrap: nowrap;
-  margin-top: -1px;
+  margin-top: -2px;
 }
 .filter-btn {
   padding: 6px 14px;
@@ -486,4 +486,33 @@ rt {
   color: var(--muted);
   text-align: center;
   padding: 16px;
+}
+
+/* iOS Toggle Switch */
+.ios-toggle {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  background: #e9e9eb;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.ios-toggle.active {
+  background: #34c759;
+}
+.ios-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+.ios-toggle.active::after {
+  transform: translateX(20px);
 }

@@ -2,6 +2,28 @@ let SQL = null;
 let contentDB = null;
 let userDB = null;
 let currentLevel = 'N5';
+
+let levelFilterEnabled = localStorage.getItem('levelFilterEnabled') !== 'false';
+
+function toggleLevelFilter() {
+  levelFilterEnabled = !levelFilterEnabled;
+  localStorage.setItem('levelFilterEnabled', levelFilterEnabled);
+  const toggle = document.getElementById('levelFilterToggle');
+  const levelSection = document.getElementById('levelSection');
+  if (toggle) toggle.classList.toggle('active', levelFilterEnabled);
+  if (levelSection) levelSection.style.display = levelFilterEnabled ? 'block' : 'none';
+  // Reload content
+  if (currentTab === 'words') showWords(document.getElementById('content'));
+}
+
+function initLevelFilter() {
+  const toggle = document.getElementById('levelFilterToggle');
+  const levelSection = document.getElementById('levelSection');
+  if (toggle) toggle.classList.toggle('active', levelFilterEnabled);
+  if (levelSection) levelSection.style.display = levelFilterEnabled ? 'block' : 'none';
+}
+
+
 let currentTab = 'words';
 
 const LEVELS = ['N5','N4','N3','N2','N1'];
@@ -404,8 +426,8 @@ const PAGE_SIZE = 20;
 
 function showWords(container, append = false) {
   try {
-    let sql = "SELECT * FROM vocab WHERE level = ?";
-    let params = [currentLevel];
+    let sql = levelFilterEnabled ? "SELECT * FROM vocab WHERE level = ?" : "SELECT * FROM vocab WHERE 1=1";
+    let params = levelFilterEnabled ? [currentLevel] : [];
     if (currentFilter) {
       if (currentFilter === '形容詞') {
         sql += " AND pos LIKE '%形容詞%'";
