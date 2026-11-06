@@ -1365,7 +1365,7 @@ const conversations = [
       { speaker: '自分', jp: 'いいですね。じゃあ、<ruby>今週末<rt>こんしゅうまつ</rt></ruby>にチケットとホテルを<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>予約<rt>よやく</rt></ruby>しましょう。', tc: '好啊。那這週末一起預約票和飯店吧。' },
       { speaker: '彼氏', jp: 'わかりました。<ruby>楽<rt>たの</rt></ruby>しみです。', tc: '了解。很期待呢。' }
     ]
-  }
+  },
   {
     title: 'シナリオ13：天気予報を確認して計画を立てる会話',
     lines: [
