@@ -654,11 +654,14 @@ function showWords(container, append = false) {
       });
       
     }
+    // Add load more button if there are more items
+    if (hasMore && rows[0].values.length === PAGE_SIZE) {
+      html += `<div id="loadMore" style="text-align:center;padding:20px;"><button class="btn" onclick="loadMoreWords()">もっと見る</button></div>`;
+    }
+    
     if (append) {
-      // Remove old loadMore indicator
       const oldLoadMore = document.getElementById('loadMore');
       if (oldLoadMore) oldLoadMore.remove();
-      // Append new content (without filter bar)
       const cardsHtml = html.replace(filterHtml, '');
       container.insertAdjacentHTML('beforeend', cardsHtml);
     } else {
@@ -678,6 +681,11 @@ function setFilter(pos) {
   currentOffset = 0;
   hasMore = true;
   renderContent();
+}
+
+function loadMoreWords() {
+  currentOffset += PAGE_SIZE;
+  showWords(document.getElementById('content'), true);
 }
 
 function applyRubyToText(text) {
