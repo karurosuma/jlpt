@@ -130,19 +130,48 @@ function closeSearch() {
 }
 
 function renderWordCard(r) {
-  const word = r[0], reading = r[1], meaning = r[2], pos = r[3];
+  const pos = r[7] || '';
+  let displayWord = r[2];
+  let displayReading = r[3];
+  let conjHtml = '';
   let badgeClass = 'badge';
-  if (pos === '動詞') badgeClass = 'badge badge-verb';
-  else if (pos === 'い形容詞') badgeClass = 'badge badge-iadj';
-  else if (pos === 'な形容詞') badgeClass = 'badge badge-nadj';
-  else if (pos === '名詞') badgeClass = 'badge badge-noun';
+  
+  if ((pos === '動詞' || pos.includes('動詞')) && r[9]) {
+    const conjMap = {};
+    r[9].split('|').forEach(c => {
+      const parts = c.split(':');
+      if (parts.length === 2) conjMap[parts[0]] = parts[1];
+    });
+    if (conjMap['ます']) displayWord = conjMap['ます'];
+    const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反','尊敬','謙譲'];
+    const conjs = order.filter(k => conjMap[k]).map(k => {
+      const label = {'辞書':'辞書形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形','自然':'自然形','相反':'相反','尊敬':'尊敬語','謙譲':'謙譲語'}[k] || k;
+      return `<div class="conj-row"><span class="conj-label">${label}</span><span>${applyRubyToText(conjMap[k])}</span></div>`;
+    }).join('');
+    conjHtml = `<div class="conj-block">${conjs}</div>`;
+    badgeClass = 'badge badge-verb';
+  } else if ((pos === '形容詞' || pos.includes('形容詞')) && r[11]) {
+    const conjMap = {};
+    r[11].split('|').forEach(c => {
+      const [k, v] = c.split(':');
+      conjMap[k] = v;
+    });
+    const conjs = Object.entries(conjMap).map(([k, v]) => {
+      const label = {'辞書':'辞書形','です':'です形','ない':'ない形','た':'た形','て':'て形','相反':'反義語'}[k] || k;
+      return `<div class="conj-row"><span class="conj-label">${label}</span><span>${toRuby(v, '')}</span></div>`;
+    }).join('');
+    conjHtml = `<div class="conj-block">${conjs}</div>`;
+    badgeClass = pos.includes('い') ? 'badge badge-iadj' : 'badge badge-nadj';
+  } else if (pos === '名詞') badgeClass = 'badge badge-noun';
   else if (pos === '副詞') badgeClass = 'badge badge-adv';
   else if (pos === '感動詞') badgeClass = 'badge badge-expr';
   
+  const wordRuby = toRuby(displayWord, displayReading);
   return `<div class="card" style="margin:8px 0;">
-    <div class="word">${toRuby(word, reading)} <span class="${badgeClass}">${pos}</span></div>
-    <div class="reading">${reading}</div>
-    <div class="meaning">${meaning}</div>
+    <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
+    <div class="meaning">${applyRubyToText(r[5] || r[4] || '')}</div>
+    <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
+    ${conjHtml}
   </div>`;
 }
 
@@ -160,7 +189,7 @@ function doSearch(query) {
       sql = "SELECT correct FROM rearrange WHERE correct LIKE ? LIMIT 100";
       params = [`%${query}%`];
     } else {
-      sql = "SELECT word, reading, meaning_tc, pos FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 100";
+      sql = "SELECT * FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 50";
       params = [`%${query}%`, `%${query}%`, `%${query}%`];
     }
     const rows = contentDB.exec(sql, params);
