@@ -1232,7 +1232,9 @@ function showConversations() {
       const isRight = line.speaker === '自分';
       const displaySpeaker = line.speaker;
       const side = isRight ? 'right' : 'left';
+      const avatar = getAvatar(line.speaker);
       html += `<div class="chat-row ${side}">
+        <div class="chat-avatar">${avatar}</div>
         <div class="chat-bubble ${side}">
           <div class="chat-speaker">${displaySpeaker}</div>
           <div class="chat-jp">${applyRubyToText(line.jp)}</div>
@@ -1243,6 +1245,34 @@ function showConversations() {
     html += '</div></div>';
     container.innerHTML = html;
   }
+}
+
+
+function getAvatar(speaker) {
+  const avatars = {
+    '自分': '😊',
+    '日本人': '👨',
+    '店員': '🧑‍💼',
+    '客': '🙋',
+    '客A': '🙋',
+    '客B': '🙋‍♂️',
+    '医師': '👨‍⚕️',
+    '患者': '🤒',
+    '上司': '👔',
+    '部下': '💼',
+    '面接官': '📋',
+    '応募者': '📝',
+    '通行人': '🚶',
+    '佐藤': '👩',
+    '鈴木': '👨',
+    '高橋': '👩',
+    '伊藤': '👨',
+    'B': '👩',
+    'C': '👨',
+    'D': '👩',
+    'E': '👨'
+  };
+  return avatars[speaker] || '👤';
 }
 
 function openConversation(idx) {
