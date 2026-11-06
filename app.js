@@ -9,10 +9,8 @@ const userNames = { male: '田中', female: '佐藤' };
 function setUserGender(gender) {
   userGender = gender;
   localStorage.setItem('userGender', gender);
-  // Update UI
-  document.querySelectorAll('.gender-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.gender === gender);
-  });
+  // Refresh settings page to show change
+  showSettings();
 }
 
 function getUserName() {
