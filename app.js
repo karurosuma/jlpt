@@ -422,6 +422,7 @@ function showWords(container) {
       <button class="filter-btn ${currentFilter==='い形容詞'?'active':''}" onclick="setFilter('い形容詞')">い形容詞</button>
       <button class="filter-btn ${currentFilter==='な形容詞'?'active':''}" onclick="setFilter('な形容詞')">な形容詞</button>
       <button class="filter-btn ${currentFilter==='副詞'?'active':''}" onclick="setFilter('副詞')">副詞</button>
+      <button class="filter-btn ${currentFilter==='感動詞'?'active':''}" onclick="setFilter('感動詞')">感動詞</button>
     </div>`;
     
     let html = filterHtml;
