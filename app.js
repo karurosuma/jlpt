@@ -3,6 +3,24 @@ let contentDB = null;
 let userDB = null;
 let currentLevel = 'N5';
 
+let userGender = localStorage.getItem('userGender') || 'male';
+const userNames = { male: '田中', female: '佐藤' };
+
+function setUserGender(gender) {
+  userGender = gender;
+  localStorage.setItem('userGender', gender);
+  // Update UI
+  document.querySelectorAll('.gender-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.gender === gender);
+  });
+}
+
+function getUserName() {
+  return userNames[userGender] || '田中';
+}
+
+
+
 let levelFilterEnabled = localStorage.getItem('levelFilterEnabled') !== 'false';
 
 function toggleLevelFilter() {
@@ -343,6 +361,19 @@ function showSettings() {
   const container = document.getElementById('content');
   container.innerHTML = `
     <div class="settings-content" style="padding-top:20px;">
+      <div class="settings-section">
+        <div class="settings-section-header">プロフィール</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <span class="settings-icon blue">👤</span>
+            <span class="settings-label">性別</span>
+            <div style="display:flex;gap:8px;">
+              <button class="gender-btn ${userGender==='male'?'active':''}" data-gender="male" onclick="setUserGender('male')" style="padding:4px 12px;border-radius:8px;border:1px solid var(--border);background:${userGender==='male'?'var(--primary)':'var(--bg)'};color:${userGender==='male'?'#fff':'var(--text)'};">男性</button>
+              <button class="gender-btn ${userGender==='female'?'active':''}" data-gender="female" onclick="setUserGender('female')" style="padding:4px 12px;border-radius:8px;border:1px solid var(--border);background:${userGender==='female'?'var(--primary)':'var(--bg)'};color:${userGender==='female'?'#fff':'var(--text)'};">女性</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="settings-section">
         <div class="settings-section-header">表示設定</div>
         <div class="settings-group">
@@ -1240,10 +1271,12 @@ function showConversations() {
         ${sc.title}
       </div>
       <div class="chat-messages">`;
-    const rightSpeakers = ['日本人', '店員', '佐藤', '通行人', '客A', '客B', '医師', '上司', '面接官', '高橋', '伊藤'];
+    const userName = getUserName();
+    const rightSpeakers = ['日本人', '店員', '佐藤', '通行人', '客A', '客B', '医師', '上司', '面接官', '高橋', '伊藤', userName];
     const leftSpeakers = ['外国人', '客', '田中', '部下', '患者', '鈴木', '応募者'];
     sc.lines.forEach(line => {
-      const isRight = rightSpeakers.includes(line.speaker);
+      // User's name always on right
+      const isRight = line.speaker === userName || rightSpeakers.includes(line.speaker);
       const side = isRight ? 'right' : 'left';
       html += `<div class="chat-row ${side}">
         <div class="chat-bubble ${side}">
