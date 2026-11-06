@@ -46,7 +46,7 @@ function safeDBRun(sql, params) {
   }
 }
 
-function init() {
+async function init() {
   try {
     console.log('Initializing SQL.js...');
     SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${f}` });
