@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JLPT 自習アプリ N5〜N1</title>
-<link rel="stylesheet" href="style.css?v=20261106e">
+<link rel="stylesheet" href="style.css?v=20261106f">
 </head>
 <body>
 <div class="top-bar">
@@ -61,10 +61,12 @@
     </div>
     <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
-      <button class="action" onclick="document.getElementById('status').innerText='ローカル./data を優先します。キャッシュも使用可能です。'">データ読み込みについて</button>
-      <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
+      <button class="action" onclick="showSummary()" style="display:block;width:100%;margin-bottom:8px;">学習進捗を見る</button>
+      <button class="action" onclick="openCMS()" style="display:block;width:100%;margin-bottom:8px;">内容を管理（CMS）</button>
+      <button class="action" onclick="exportContentDB()" style="display:block;width:100%;margin-bottom:8px;">内容DBをエクスポート</button>
+      <button class="action" onclick="exportUserDB()" style="display:block;width:100%;margin-bottom:8px;">進捗と設定をエクスポート</button>
       <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
-      <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
+      <button class="action" onclick="document.getElementById('importUser').click()" style="display:block;width:100%;margin-bottom:8px;">進捗をインポート</button>
       <div id="status">レベル選択時に ./data から読み込みます。</div>
     </div>
   </div>

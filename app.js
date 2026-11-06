@@ -412,7 +412,7 @@ function showWords(container) {
         params.push(currentFilter);
       }
     }
-    sql += " LIMIT " + PAGE_SIZE + " OFFSET " + currentOffset;
+    sql += " ORDER BY reading LIMIT " + PAGE_SIZE + " OFFSET " + currentOffset;
     const rows = contentDB.exec(sql, params);
     
     let filterHtml = `<div class="filter-bar">
@@ -620,7 +620,7 @@ function applyRubyToText(text) {
 
 function showGrammar(container) {
   try {
-    const rows = contentDB.exec("SELECT * FROM grammar WHERE level = ?", [currentLevel]);
+    const rows = contentDB.exec("SELECT * FROM grammar WHERE level = ? ORDER BY title", [currentLevel]);
     if (!rows.length) { container.innerHTML = '<p style="text-align:center;padding:40px;">文法データなし</p>'; return; }
     let html = '';
     rows[0].values.forEach(r => {
