@@ -1120,9 +1120,17 @@ function showConversations() {
         ${sc.title}
       </div>
       <div class="chat-messages">`;
+    const rightSpeakers = ['日本人', '店員', 'B', '通行人', '客A', '客B', '医師', '上司', '患者'];
+    let lastSpeaker = '';
+    let lastSide = 'left';
     sc.lines.forEach(line => {
-      const rightSpeakers = ['日本人', '店員', 'B', '通行人', '客A', '客B'];
-      const isRight = rightSpeakers.includes(line.speaker);
+      let isRight = rightSpeakers.includes(line.speaker);
+      // Alternate sides for unknown speakers
+      if (!rightSpeakers.includes(line.speaker) && !['外国人', '客', 'A', '部下'].includes(line.speaker)) {
+        isRight = lastSpeaker !== line.speaker ? !lastSide === 'right' : lastSide === 'right';
+      }
+      lastSpeaker = line.speaker;
+      lastSide = isRight ? 'right' : 'left';
       const side = isRight ? 'right' : 'left';
       html += `<div class="chat-row ${side}">
         <div class="chat-bubble ${side}">
