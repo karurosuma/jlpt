@@ -143,17 +143,16 @@ body {
   margin-left: 8px;
   vertical-align: middle;
 }
+.badge { background: #f5f5f5; color: #616161; }
+body.dark .badge { background: #3a3a3c; color: #a1a1a6; }
 .badge-noun { background: #e3f2fd; color: #1565c0; }
 .badge-verb { background: #fce4ec; color: #c2185b; }
 .badge-iadj { background: #e8f5e9; color: #2e7d32; }
 .badge-nadj { background: #fff3e0; color: #ef6c00; }
 .badge-adv { background: #f3e5f5; color: #7b1fa2; }
-
-.badge { background: #f5f5f5; color: #616161; }
-body.dark .badge { background: #3a3a3c; color: #a1a1a6; }
 .badge-conj { background: #e1f5fe; color: #0277bd; }
-body.dark .badge-conj { background: #1a3a4a; color: #81d4fa; }
 .badge-expr { background: #fbe9e7; color: #bf360c; }
+body.dark .badge-conj { background: #1a3a4a; color: #81d4fa; }
 body.dark .badge-expr { background: #4a2a1a; color: #ffab91; }
 
 
@@ -305,10 +304,10 @@ ruby {
   ruby-align: center;
 }
 rt {
-  font-size: 0.55em;
+  font-size: 0.65em;
   color: var(--furi, #555);
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 .example { line-height: 2; }
@@ -390,9 +389,9 @@ rt {
 
 /* Chat bubble furigana - readable on colored backgrounds */
 .chat-bubble rt {
-  font-size: 0.5em;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
+  font-size: 0.7em;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
 }
 .chat-bubble.left rt {
   color: var(--furi, #555);
