@@ -48,9 +48,10 @@ function safeDBRun(sql, params) {
 
 async function init() {
   try {
+    console.log('init() called');
     console.log('Initializing SQL.js...');
     SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${f}` });
-    console.log('SQL.js initialized');
+    console.log('SQL.js initialized OK');
     userDB = new SQL.Database();
     userDB.run(`CREATE TABLE IF NOT EXISTS progress (
       level TEXT, type TEXT, item_id INTEGER,
@@ -85,7 +86,9 @@ async function init() {
   renderLevelNav();
   switchTab('words');
   // Auto-load N5 on startup
+  console.log('Calling loadLevel...');
   await loadLevel('N5');
+  console.log('loadLevel completed, contentDB:', contentDB ? 'OK' : 'NULL');
 }
 
 function goToWord(word) {
