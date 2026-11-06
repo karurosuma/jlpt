@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JLPT 自習アプリ N5〜N1</title>
-<link rel="stylesheet" href="style.css?v=20261106g">
+<link rel="stylesheet" href="style.css?v=20261106h">
 </head>
 <body>
 <div class="top-bar">
@@ -52,22 +52,51 @@
 <div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()">
   <div class="settings-panel" onclick="event.stopPropagation()">
     <div class="settings-header">
-      <h2>設定 / 設定</h2>
+      <h2>設定</h2>
       <button class="close-btn" onclick="closeSettings()">完了</button>
     </div>
-    <div class="card">
-      <div style="font-weight:600;margin-bottom:8px;">レベル選択 / 級別選擇</div>
-      <div class="level-btns" id="levelNav"></div>
-    </div>
-    <div class="card">
-      <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
-      <button class="action" onclick="showSummary()" style="display:block;width:100%;margin-bottom:8px;">学習進捗を見る</button>
-      <button class="action" onclick="openCMS()" style="display:block;width:100%;margin-bottom:8px;">内容を管理（CMS）</button>
-      <button class="action" onclick="exportContentDB()" style="display:block;width:100%;margin-bottom:8px;">内容DBをエクスポート</button>
-      <button class="action" onclick="exportUserDB()" style="display:block;width:100%;margin-bottom:8px;">進捗と設定をエクスポート</button>
-      <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
-      <button class="action" onclick="document.getElementById('importUser').click()" style="display:block;width:100%;margin-bottom:8px;">進捗をインポート</button>
-      <div id="status">レベル選択時に ./data から読み込みます。</div>
+    <div class="settings-content">
+      <div class="settings-section">
+        <div class="settings-section-header">レベル</div>
+        <div class="settings-group" id="levelNav"></div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-header">学習</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="showSummary()">
+            <span class="settings-icon">📊</span>
+            <span class="settings-label">学習進捗</span>
+            <span class="settings-chevron">›</span>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-header">データ管理</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="openCMS()">
+            <span class="settings-icon">✏️</span>
+            <span class="settings-label">内容を管理</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <div class="settings-item" onclick="exportContentDB()">
+            <span class="settings-icon">📤</span>
+            <span class="settings-label">内容をエクスポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <div class="settings-item" onclick="exportUserDB()">
+            <span class="settings-icon">💾</span>
+            <span class="settings-label">進捗をエクスポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
+          <div class="settings-item" onclick="document.getElementById('importUser').click()">
+            <span class="settings-icon">📥</span>
+            <span class="settings-label">進捗をインポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+        </div>
+      </div>
+      <div id="status" class="settings-footer">レベル選択時にデータを読み込みます。</div>
     </div>
   </div>
 </div>

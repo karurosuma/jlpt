@@ -207,13 +207,18 @@ function showLevelMenu() {
 
 function renderLevelNav() {
   const nav = document.getElementById('levelNav');
+  if (!nav) return;
   nav.innerHTML = '';
   LEVELS.forEach(lv => {
-    const btn = document.createElement('button');
-    btn.textContent = lv;
-    btn.className = lv === currentLevel ? 'active' : '';
-    btn.onclick = () => { currentLevel = lv; loadLevel(lv); switchTab('words'); };
-    nav.appendChild(btn);
+    const item = document.createElement('div');
+    item.className = 'settings-item';
+    item.innerHTML = `
+      <span class="settings-icon">${lv === currentLevel ? '✓' : ''}</span>
+      <span class="settings-label">${lv}</span>
+      <span class="settings-chevron">${lv === currentLevel ? '' : '›'}</span>
+    `;
+    item.onclick = () => { currentLevel = lv; loadLevel(lv); closeSettings(); switchTab('words'); };
+    nav.appendChild(item);
   });
 }
 
