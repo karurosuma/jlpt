@@ -1092,7 +1092,9 @@ const conversations = [
       { speaker: '自分', jp: 'わかりました。<ruby>助<rt>たす</rt></ruby>かります。もし<ruby>迷<rt>まよ</rt></ruby>ったら、また<ruby>聞<rt>き</rt></ruby>いてもいいですか。<ruby>帰<rt>かえ</rt></ruby>りの<ruby>電車<rt>でんしゃ</rt></ruby>は<ruby>終電<rt>しゅうでん</rt></ruby>が<ruby>遅<rt>おそ</rt></ruby>いですか。', tc: '明白了。幫了大忙。如果迷路了可以再問嗎？回程的電車末班車晚嗎？' },
       { speaker: '日本人', jp: 'もちろんです。<ruby>終電<rt>しゅうでん</rt></ruby>は<ruby>十二時<rt>じゅうにじ</rt></ruby><ruby>過<rt>す</rt></ruby>ぎまでありますよ。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '當然可以。末班車到十二點過後都有喔。路上小心。' },
       { speaker: '自分', jp: 'ありがとうございます。<ruby>電車<rt>でんしゃ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>座<rt>すわ</rt></ruby>れますか。<ruby>混<rt>こ</rt></ruby>んでますか。', tc: '謝謝。電車裡可以坐到位子嗎？會很擠嗎？' },
-      { speaker: '日本人', jp: '<ruby>平日<rt>へいじつ</rt></ruby>の<ruby>昼間<rt>ひるま</rt></ruby>なら<ruby>空<rt>す</rt></ruby>いていますよ。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。', tc: '平日的白天的話會比較空喔。沒問題的。' }
+      { speaker: '日本人', jp: '<ruby>平日<rt>へいじつ</rt></ruby>の<ruby>昼間<rt>ひるま</rt></ruby>なら<ruby>空<rt>す</rt></ruby>いていますよ。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。', tc: '平日的白天的話會比較空喔。沒問題的。' },
+      { speaker: '自分', jp: 'わかりました。<ruby>本当<rt>ほんとう</rt></ruby>に<ruby>助<rt>たす</rt></ruby>かりました。ありがとうございました。', tc: '我知道了。真的幫了大忙。謝謝你。' },
+      { speaker: '日本人', jp: 'いえいえ。いってらっしゃい。', tc: '不客氣。路上小心。' }
     ]
   },
   {
@@ -1106,7 +1108,9 @@ const conversations = [
       { speaker: '自分', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>願<rt>ねが</rt></ruby>いします。アップルパイも<ruby>一<rt>ひと</rt></ruby>つください。ポイントカードは<ruby>使<rt>つか</rt></ruby>えますか。', tc: '在店內用餐。蘋果派也請給我一個。可以使用集點卡嗎？' },
       { speaker: '店員', jp: 'はい、<ruby>使<rt>つか</rt></ruby>えますよ。<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', tc: '可以的。請稍等一下。' },
       { speaker: '自分', jp: 'あと、ソースの<ruby>種類<rt>しゅるい</rt></ruby>は<ruby>何<rt>なに</rt></ruby>がありますか。', tc: '還有，醬汁有哪些種類？' },
-      { speaker: '店員', jp: 'ケチャップとマスタード、あとBBQソースがありますよ。', tc: '有番茄醬和芥末醬，還有BBQ醬喔。' }
+      { speaker: '店員', jp: 'ケチャップとマスタード、あとBBQソースがありますよ。', tc: '有番茄醬和芥末醬，還有BBQ醬喔。' },
+      { speaker: '自分', jp: 'じゃあ、BBQソースでお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '那就請給我BBQ醬。' },
+      { speaker: '店員', jp: 'かしこまりました。こちらがお<ruby>会計<rt>かいけい</rt></ruby>です。ありがとうございました。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '好的。這是帳單。謝謝您。歡迎再次光臨。' }
     ]
   },
   {
@@ -1120,7 +1124,9 @@ const conversations = [
       { speaker: '自分', jp: 'はい、<ruby>持<rt>も</rt></ruby>っています。<ruby>唐揚<rt>からあ</rt></ruby>げ<ruby>弁当<rt>べんとう</rt></ruby>も<ruby>一<rt>ひと</rt></ruby>つください。あと、ティッシュもください。', tc: '有的，我有帶。炸雞便當也請給我一個。還有，面紙也請給我。' },
       { speaker: '店員', jp: 'かしこまりました。ありがとうございました。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '好的。謝謝您。歡迎再次光臨。' },
       { speaker: '自分', jp: 'すみません、<ruby>袋<rt>ふくろ</rt></ruby>は<ruby>有料<rt>ゆうりょう</rt></ruby>ですか。', tc: '不好意思，袋子要收費嗎？' },
-      { speaker: '店員', jp: 'はい、<ruby>一枚<rt>いちまい</rt></ruby><ruby>五円<rt>ごえん</rt></ruby>です。', tc: '是的，一個五圓。' }
+      { speaker: '店員', jp: 'はい、<ruby>一枚<rt>いちまい</rt></ruby><ruby>五円<rt>ごえん</rt></ruby>です。', tc: '是的，一個五圓。' },
+      { speaker: '自分', jp: 'じゃあ、<ruby>袋<rt>ふくろ</rt></ruby>もお<ruby>願<rt>ねが</rt></ruby>いします。ありがとうございました。', tc: '那袋子也請給我。謝謝。' },
+      { speaker: '店員', jp: 'はい、ありがとうございます。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '好的，謝謝。歡迎再次光臨。' }
     ]
   },
   {
@@ -1135,7 +1141,9 @@ const conversations = [
       { speaker: '自分', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>日本酒<rt>にほんしゅ</rt></ruby>にします。<ruby>少<rt>すこ</rt></ruby>し<ruby>辛<rt>から</rt></ruby>いのが<ruby>好<rt>す</rt></ruby>きです。<ruby>野菜<rt>やさい</rt></ruby>の<ruby>煮物<rt>にもの</rt></ruby>も<ruby>一<rt>ひと</rt></ruby>つください。あと、<ruby>枝豆<rt>えだまめ</rt></ruby>もお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '我要喝日本酒。我喜歡稍微辛一點的。蔬菜燉菜也請給我一份。還有毛豆也請給我。' },
       { speaker: '店員', jp: 'かしこまりました。<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', tc: '好的。請稍等一下。' },
       { speaker: '自分', jp: 'すみません、ビールは<ruby>大<rt>おお</rt></ruby>きいサイズありますか。', tc: '不好意思，啤酒有大杯的嗎？' },
-      { speaker: '店員', jp: 'はい、ジョッキもありますよ。', tc: '有的，也有大杯喔。' }
+      { speaker: '店員', jp: 'はい、ジョッキもありますよ。', tc: '有的，也有大杯喔。' },
+      { speaker: '自分', jp: 'じゃあ、ジョッキでお<ruby>願<rt>ねが</rt></ruby>いします。ありがとうございました。', tc: '那就請給我大杯。謝謝。' },
+      { speaker: '店員', jp: 'かしこまりました。<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', tc: '好的。請稍等一下。' }
     ]
   },
   {
@@ -1148,7 +1156,9 @@ const conversations = [
       { speaker: '自分', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったと<ruby>聞<rt>き</rt></ruby>きましたが。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？聽說你去旅行了？' },
       { speaker: 'B', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。<ruby>景色<rt>けしき</rt></ruby>が<ruby>素晴<rt>すば</rt></ruby>らしかったですよ。<ruby>京都<rt>きょうと</rt></ruby>に<ruby>行<rt>い</rt></ruby>ってきました。', tc: '上週我跟朋友去旅行了。非常開心。風景非常棒喔。去了京都。' },
       { speaker: '自分', jp: 'いいですね。私も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。<ruby>次<rt>つぎ</rt></ruby>は<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>行<rt>い</rt></ruby>きましょう。いつがいいですか。', tc: '真好啊。我也想最近去旅行。下次一起去吧。什麼時候好？' },
-      { speaker: 'B', jp: '<ruby>来月<rt>らいげつ</rt></ruby>の<ruby>連休<rt>れんきゅう</rt></ruby>はどうですか。', tc: '下個月的連假怎麼樣？' }
+      { speaker: 'B', jp: '<ruby>来月<rt>らいげつ</rt></ruby>の<ruby>連休<rt>れんきゅう</rt></ruby>はどうですか。', tc: '下個月的連假怎麼樣？' },
+      { speaker: '自分', jp: 'いいですね。じゃあ、また<ruby>連絡<rt>れんらく</rt></ruby>します。<ruby>今日<rt>きょう</rt></ruby>は<ruby>楽<rt>たの</rt></ruby>しかったです。', tc: '好啊。那就再聯絡。今天很開心。' },
+      { speaker: 'B', jp: 'こちらこそ。また<ruby>会<rt>あ</rt></ruby>いましょう。', tc: '我才是。下次再見。' }
     ]
   },
   {
@@ -1161,7 +1171,9 @@ const conversations = [
       { speaker: '自分', jp: 'ありがとうございます。<ruby>助<rt>たす</rt></ruby>かります。<ruby>夜<rt>よる</rt></ruby>は<ruby>安全<rt>あんぜん</rt></ruby>ですか。<ruby>終電<rt>しゅうでん</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>ですか。', tc: '謝謝你。幫了大忙。晚上安全嗎？末班車是幾點？' },
       { speaker: '通行人', jp: 'はい、<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>終電<rt>しゅうでん</rt></ruby>は<ruby>十二時<rt>じゅうにじ</rt></ruby><ruby>頃<rt>ごろ</rt></ruby>です。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '沒問題的。末班車大概十二點。路上小心。' },
       { speaker: '自分', jp: 'ありがとうございます。<ruby>信号<rt>しんごう</rt></ruby>の<ruby>色<rt>いろ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>ですか。', tc: '謝謝。紅綠燈的顏色是什麼？' },
-      { speaker: '通行人', jp: '<ruby>青<rt>あお</rt></ruby>で<ruby>渡<rt>わた</rt></ruby>ってください。', tc: '請在綠燈時過馬路。' }
+      { speaker: '通行人', jp: '<ruby>青<rt>あお</rt></ruby>で<ruby>渡<rt>わた</rt></ruby>ってください。', tc: '請在綠燈時過馬路。' },
+      { speaker: '自分', jp: 'わかりました。<ruby>本当<rt>ほんとう</rt></ruby>に<ruby>助<rt>たす</rt></ruby>かりました。ありがとうございました。', tc: '我知道了。真的幫了大忙。謝謝你。' },
+      { speaker: '通行人', jp: 'いえいえ。いってらっしゃい。', tc: '不客氣。路上小心。' }
     ]
   },
   {
@@ -1174,7 +1186,9 @@ const conversations = [
       { speaker: '医師', jp: '<ruby>熱<rt>ねつ</rt></ruby>は<ruby>三十八度<rt>さんじゅうはちど</rt></ruby>です。<ruby>風邪<rt>かぜ</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますので、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>んでください。<ruby>休息<rt>きゅうそく</rt></ruby>も<ruby>取<rt>と</rt></ruby>ってください。', tc: '體溫是三十八度。很可能是感冒。我會開藥，請在飯後服用。也請休息。' },
       { speaker: '自分', jp: 'わかりました。どのくらいで<ruby>治<rt>なお</rt></ruby>りますか。<ruby>仕事<rt>しごと</rt></ruby>は<ruby>休<rt>やす</rt></ruby>んだほうがいいですか。<ruby>水分<rt>すいぶん</rt></ruby>はたくさん<ruby>取<rt>と</rt></ruby>ったほうがいいですか。', tc: '我知道了。大概多久會好呢？工作要休息比較好嗎？水分要多補充比較好嗎？' },
       { speaker: '医師', jp: '<ruby>二<rt>に</rt></ruby>、<ruby>三日<rt>さんにち</rt></ruby>でよくなると<ruby>思<rt>おも</rt></ruby>いますが、<ruby>無理<rt>むり</rt></ruby>をしないでください。<ruby>明日<rt>あした</rt></ruby>も<ruby>熱<rt>ねつ</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>いたら、また<ruby>来<rt>き</rt></ruby>てください。<ruby>水分<rt>すいぶん</rt></ruby>はしっかり<ruby>取<rt>と</rt></ruby>ってください。', tc: '我想兩、三天就會好轉，但請不要勉強自己。如果明天還在發燒，請再來。水分要好好補充。' },
-      { speaker: '自分', jp: 'はい、わかりました。お<ruby>薬<rt>くすり</rt></ruby>は<ruby>何日分<rt>なんにちぶん</rt></ruby>ですか。', tc: '好的，我知道了。藥是幾天份的？' }
+      { speaker: '自分', jp: 'はい、わかりました。お<ruby>薬<rt>くすり</rt></ruby>は<ruby>何日分<rt>なんにちぶん</rt></ruby>ですか。', tc: '好的，我知道了。藥是幾天份的？' },
+      { speaker: '医師', jp: '<ruby>三日分<rt>みっかぶん</rt></ruby>です。お<ruby>大事<rt>だいじ</rt></ruby>に。', tc: '三天份。請多保重。' },
+      { speaker: '自分', jp: 'ありがとうございました。', tc: '謝謝你。' }
     ]
   },
   {
@@ -1187,7 +1201,9 @@ const conversations = [
       { speaker: '店員', jp: '<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。はい、<ruby>三時<rt>さんじ</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。お<ruby>名前<rt>なまえ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。<ruby>所要時間<rt>しょようじかん</rt></ruby>は<ruby>二時間<rt>にじかん</rt></ruby>くらいです。<ruby>担当<rt>たんとう</rt></ruby>のスタイリストは<ruby>希望<rt>きぼう</rt></ruby>ありますか。', tc: '請稍等一下。是的，三點沒問題。請告訴我您的名字。大約需要兩小時。有指定的設計師嗎？' },
       { speaker: '自分', jp: '<ruby>田中<rt>たなか</rt></ruby>です。<ruby>特<rt>とく</rt></ruby>に<ruby>希望<rt>きぼう</rt></ruby>はありません。わかりました。', tc: '我是田中。沒有特別指定。我知道了。' },
       { speaker: '店員', jp: '<ruby>田中様<rt>たなかさま</rt></ruby>、<ruby>明日<rt>あした</rt></ruby><ruby>三時<rt>さんじ</rt></ruby>でご<ruby>予約<rt>よやく</rt></ruby>を<ruby>承<rt>うけたまわ</rt></ruby>りました。お<ruby>待<rt>ま</rt></ruby>ちしております。', tc: '田中先生，已為您預約明天三點。我們恭候您的光臨。' },
-      { speaker: '自分', jp: 'ありがとうございます。キャンセルは<ruby>何日前<rt>なんにちまえ</rt></ruby>まで<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。', tc: '謝謝。取消預約到幾天前都可以？' }
+      { speaker: '自分', jp: 'ありがとうございます。キャンセルは<ruby>何日前<rt>なんにちまえ</rt></ruby>まで<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。', tc: '謝謝。取消預約到幾天前都可以？' },
+      { speaker: '店員', jp: '<ruby>前日<rt>ぜんじつ</rt></ruby>まで<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。', tc: '前一天都可以。' },
+      { speaker: '自分', jp: 'わかりました。ありがとうございました。', tc: '我知道了。謝謝。' }
     ]
   },
   {
@@ -1200,11 +1216,12 @@ const conversations = [
       { speaker: '自分', jp: '<ruby>今<rt>いま</rt></ruby>のところ<ruby>特<rt>とく</rt></ruby>にありませんが、<ruby>人員<rt>じんいん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ないので、<ruby>追加<rt>ついか</rt></ruby>を<ruby>検討<rt>けんとう</rt></ruby>したいです。<ruby>外注<rt>がいちゅう</rt></ruby>も<ruby>考<rt>かんが</rt></ruby>えています。', tc: '目前特別沒有，但人員比較少，所以想討論一下是否要追加。也在考慮外包。' },
       { speaker: '上司', jp: 'そうですね。それでは、<ruby>計画書<rt>けいかくしょ</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って<ruby>提出<rt>ていしゅつ</rt></ruby>してください。<ruby>来週<rt>らいしゅう</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>できますか。<ruby>他<rt>ほか</rt></ruby>に<ruby>確認<rt>かくにん</rt></ruby>したいことはありますか。', tc: '這樣啊。那就請你製作計劃書並提交。下週前可以提交嗎？還有其他想確認的事情嗎？' },
       { speaker: '自分', jp: 'はい、すぐに<ruby>準備<rt>じゅんび</rt></ruby>します。<ruby>金曜日<rt>きんようび</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>します。<ruby>進捗<rt>しんちょく</rt></ruby>は<ruby>毎週<rt>まいしゅう</rt></ruby><ruby>報告<rt>ほうこく</rt></ruby>します。', tc: '好的，我馬上準備。星期五前會提交。進度每週會報告。' },
-      { speaker: '上司', jp: 'わかりました。よろしくお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '我知道了。請多關照。' }
+      { speaker: '上司', jp: 'わかりました。よろしくお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '我知道了。請多關照。' },
+      { speaker: '自分', jp: 'はい、<ruby>失礼<rt>しつれい</rt></ruby>します。', tc: '好的，我先告辭了。' }
     ]
-  },
-  {
-    title: 'シナリオ10：就職面接の会話',
+  }
+,
+  {  title: 'シナリオ10：就職面接の会話',
     lines: [
       { speaker: '面接官', jp: '<ruby>本日<rt>ほんじつ</rt></ruby>は<ruby>遠<rt>とお</rt></ruby>いところからお<ruby>越<rt>こ</rt></ruby>しいただき、ありがとうございます。まず<ruby>自己紹介<rt>じこしょうかい</rt></ruby>をお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '今天非常感謝您從遠方過來。首先請做自我介紹。' },
       { speaker: '自分', jp: 'はい。<ruby>田中<rt>たなか</rt></ruby>と<ruby>申<rt>もう</rt></ruby>します。<ruby>大学<rt>だいがく</rt></ruby>では<ruby>経済<rt>けいざい</rt></ruby><ruby>学<rt>がく</rt></ruby>を<ruby>専攻<rt>せんこう</rt></ruby>し、<ruby>卒業<rt>そつぎょう</rt></ruby><ruby>後<rt>ご</rt></ruby>は<ruby>営業<rt>えいぎょう</rt></ruby><ruby>部門<rt>ぶもん</rt></ruby>で<ruby>三年<rt>さんねん</rt></ruby><ruby>働<rt>はたら</rt></ruby>いておりました。<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>以前<rt>いぜん</rt></ruby>から<ruby>興味<rt>きょうみ</rt></ruby>があり、<ruby>今回<rt>こんかい</rt></ruby><ruby>応募<rt>おうぼ</rt></ruby>いたしました。', tc: '好的。我叫田中。大學主修經濟學，畢業後在業務部門工作了三年。我以前就對貴公司的商品有興趣，所以這次投了履歷。' },
@@ -1236,80 +1253,3 @@ const conversations = [
     ]
   }
 ];
-
-let currentConversation = null;
-
-function showConversations() {
-  const container = document.getElementById('content');
-  if (currentConversation === null) {
-    // Show list
-    let html = '<div style="padding:8px 16px;font-weight:600;">会話シナリオ / 會話情境</div>';
-    conversations.forEach((sc, idx) => {
-      html += `<div class="card" style="cursor:pointer;" onclick="openConversation(${idx})">
-        <div style="font-weight:600;">${sc.title}</div>
-      </div>`;
-    });
-    container.innerHTML = html;
-  } else {
-    // Show chat
-    const sc = conversations[currentConversation];
-    let html = `<div class="chat-scenario">
-      <div class="chat-title" style="display:flex;align-items:center;gap:8px;">
-        <button onclick="currentConversation=null;showConversations();" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--primary);">←</button>
-        ${sc.title}
-      </div>
-      <div class="chat-messages">`;
-    sc.lines.forEach(line => {
-      // 自分 always on right, no avatar
-      const isRight = line.speaker === '自分';
-      const displaySpeaker = line.speaker;
-      const side = isRight ? 'right' : 'left';
-      const avatar = isRight ? '' : `<div class="chat-avatar">${getAvatar(line.speaker)}</div>`;
-      html += `<div class="chat-row ${side}">
-        ${avatar}
-        <div class="chat-bubble ${side}">
-          <div class="chat-speaker">${displaySpeaker}</div>
-          <div class="chat-jp">${applyRubyToText(line.jp)}</div>
-          <div class="chat-tc">${line.tc}</div>
-        </div>
-      </div>`;
-    });
-    html += '</div></div>';
-    container.innerHTML = html;
-  }
-}
-
-
-function getAvatar(speaker) {
-  const avatars = {
-    '自分': '😊',
-    '日本人': '👨',
-    '店員': '🧑‍💼',
-    '客': '🙋',
-    '客A': '🙋',
-    '客B': '🙋‍♂️',
-    '医師': '👨‍⚕️',
-    '患者': '🤒',
-    '上司': '👔',
-    '部下': '💼',
-    '面接官': '📋',
-    '応募者': '📝',
-    '通行人': '🚶',
-    '佐藤': '👩',
-    '鈴木': '👨',
-    '高橋': '👩',
-    '伊藤': '👨',
-    'B': '👩',
-    'C': '👨',
-    'D': '👩',
-    'E': '👨'
-  };
-  return avatars[speaker] || '👤';
-}
-
-function openConversation(idx) {
-  currentConversation = idx;
-  showConversations();
-}
-
-init();
