@@ -209,13 +209,16 @@ function renderLevelNav() {
   const nav = document.getElementById('levelNav');
   if (!nav) return;
   nav.innerHTML = '';
+  const levelColors = { 'N5': 'green', 'N4': 'blue', 'N3': 'orange', 'N2': 'purple', 'N1': 'red' };
   LEVELS.forEach(lv => {
     const item = document.createElement('div');
     item.className = 'settings-item';
+    const isActive = lv === currentLevel;
     item.innerHTML = `
-      <span class="settings-icon">${lv === currentLevel ? '✓' : ''}</span>
+      <span class="settings-icon ${levelColors[lv] || 'blue'}">${isActive ? '✓' : lv.slice(1)}</span>
       <span class="settings-label">${lv}</span>
-      <span class="settings-chevron">${lv === currentLevel ? '' : '›'}</span>
+      <span class="settings-value">${isActive ? '選択中' : ''}</span>
+      <span class="settings-chevron">›</span>
     `;
     item.onclick = () => { currentLevel = lv; loadLevel(lv); closeSettings(); switchTab('words'); };
     nav.appendChild(item);

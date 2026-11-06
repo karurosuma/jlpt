@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JLPT 自習アプリ N5〜N1</title>
-<link rel="stylesheet" href="style.css?v=20261106h">
+<link rel="stylesheet" href="style.css?v=20261106i">
 </head>
 <body>
 <div class="top-bar">
@@ -64,7 +64,7 @@
         <div class="settings-section-header">学習</div>
         <div class="settings-group">
           <div class="settings-item" onclick="showSummary()">
-            <span class="settings-icon">📊</span>
+            <span class="settings-icon green">📊</span>
             <span class="settings-label">学習進捗</span>
             <span class="settings-chevron">›</span>
           </div>
@@ -74,23 +74,23 @@
         <div class="settings-section-header">データ管理</div>
         <div class="settings-group">
           <div class="settings-item" onclick="openCMS()">
-            <span class="settings-icon">✏️</span>
+            <span class="settings-icon blue">✏️</span>
             <span class="settings-label">内容を管理</span>
             <span class="settings-chevron">›</span>
           </div>
           <div class="settings-item" onclick="exportContentDB()">
-            <span class="settings-icon">📤</span>
+            <span class="settings-icon orange">📤</span>
             <span class="settings-label">内容をエクスポート</span>
             <span class="settings-chevron">›</span>
           </div>
           <div class="settings-item" onclick="exportUserDB()">
-            <span class="settings-icon">💾</span>
+            <span class="settings-icon purple">💾</span>
             <span class="settings-label">進捗をエクスポート</span>
             <span class="settings-chevron">›</span>
           </div>
           <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
           <div class="settings-item" onclick="document.getElementById('importUser').click()">
-            <span class="settings-icon">📥</span>
+            <span class="settings-icon gray">📥</span>
             <span class="settings-label">進捗をインポート</span>
             <span class="settings-chevron">›</span>
           </div>
