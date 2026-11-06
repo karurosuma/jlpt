@@ -388,6 +388,26 @@ rt {
 }
 .chat-bubble.right .chat-tc { opacity: 0.9; }
 
+/* Chat bubble furigana - readable on colored backgrounds */
+.chat-bubble rt {
+  font-size: 0.5em;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+.chat-bubble.left rt {
+  color: var(--furi, #555);
+}
+.chat-bubble.right rt {
+  color: rgba(255, 255, 255, 0.9);
+}
+.chat-bubble.right .chat-jp {
+  color: #fff;
+}
+.chat-bubble.right ruby {
+  color: #fff;
+}
+
+
 .top-title-wrap {
   display: flex;
   flex-direction: column;
