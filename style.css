@@ -90,7 +90,7 @@ body {
 }
 /* Content area - leave space for top bar */
 #content {
-  padding: calc(58px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
+  padding: calc(52px + var(--safe-top)) 0 calc(70px + var(--safe-bottom)) 0;
   min-height: 100vh;
 }
 /* Bottom Tab Bar */
@@ -217,10 +217,10 @@ body.dark .badge-adv { background: #3a1a4a; color: #ce93d8; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   position: sticky;
-  top: calc(58px + var(--safe-top));
+  top: calc(52px + var(--safe-top));
   z-index: 99;
   flex-wrap: nowrap;
-  margin-top: -2px;
+  margin-top: -4px;
 }
 .filter-btn {
   padding: 6px 14px;

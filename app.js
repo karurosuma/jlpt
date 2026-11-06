@@ -201,6 +201,7 @@ function updateLevelIndicator() {
     wrap.appendChild(indicator);
   }
   indicator.textContent = currentLevel ? currentLevel : '';
+  indicator.style.display = levelFilterEnabled ? 'block' : 'none';
 }
 
 function showLevelMenu() {
@@ -333,20 +334,88 @@ async function getCachedDB(level) {
 }
 
 
+
+function goBackToSettings() {
+  switchTab('settings');
+}
+
 function showSettings() {
   const container = document.getElementById('content');
   container.innerHTML = `
-    <div class="card">
-      <div style="font-weight:600;margin-bottom:8px;">データベース / 資料庫</div>
-      <button class="action" onclick="showSummary()">学習進捗を見る</button>
-      <button class="action" onclick="openCMS()">内容を管理（CMS）</button>
-      <button class="action" onclick="exportContentDB()">内容DBをエクスポート</button>
-      <button class="action" onclick="exportUserDB()">進捗と設定をエクスポート</button>
-      <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
-      <button class="action" onclick="document.getElementById('importUser').click()">進捗をインポート</button>
-      <div id="status">レベル選択時に ./data から読み込みます。</div>
+    <div class="settings-content" style="padding-top:20px;">
+      <div class="settings-section">
+        <div class="settings-section-header">表示設定</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <span class="settings-icon orange">📚</span>
+            <span class="settings-label">レベル別に表示</span>
+            <div class="ios-toggle ${levelFilterEnabled ? 'active' : ''}" id="levelFilterToggle" onclick="toggleLevelFilter()"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section" id="levelSection" style="display:${levelFilterEnabled ? 'block' : 'none'}">
+        <div class="settings-section-header">レベル選択</div>
+        <div class="settings-group" id="levelNavSettings"></div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-header">学習</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="showSummary()">
+            <span class="settings-icon green">📊</span>
+            <span class="settings-label">学習進捗</span>
+            <span class="settings-chevron">›</span>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-header">データ管理</div>
+        <div class="settings-group">
+          <div class="settings-item" onclick="openCMS()">
+            <span class="settings-icon blue">✏️</span>
+            <span class="settings-label">内容を管理</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <div class="settings-item" onclick="exportContentDB()">
+            <span class="settings-icon orange">📤</span>
+            <span class="settings-label">内容をエクスポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <div class="settings-item" onclick="exportUserDB()">
+            <span class="settings-icon purple">💾</span>
+            <span class="settings-label">進捗をエクスポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+          <input type="file" id="importUser" accept=".db,.sqlite" style="display:none" onchange="importUserDB(this)">
+          <div class="settings-item" onclick="document.getElementById('importUser').click()">
+            <span class="settings-icon gray">📥</span>
+            <span class="settings-label">進捗をインポート</span>
+            <span class="settings-chevron">›</span>
+          </div>
+        </div>
+      </div>
     </div>
   `;
+  renderLevelNavSettings();
+}
+
+function renderLevelNavSettings() {
+  const nav = document.getElementById('levelNavSettings');
+  if (!nav) return;
+  nav.innerHTML = '';
+  const levelColors = { 'N5': 'green', 'N4': 'blue', 'N3': 'orange', 'N2': 'purple', 'N1': 'red' };
+  LEVELS.forEach(lv => {
+    const item = document.createElement('div');
+    item.className = 'settings-item';
+    const isActive = lv === currentLevel;
+    item.innerHTML = `
+      <span class="settings-icon ${levelColors[lv] || 'blue'}">${isActive ? '✓' : lv.slice(1)}</span>
+      <span class="settings-label">${lv}</span>
+      <span class="settings-value">${isActive ? '選択中' : ''}</span>
+      <span class="settings-chevron">›</span>
+    `;
+    item.onclick = () => { currentLevel = lv; loadLevel(lv); switchTab('words'); };
+    nav.appendChild(item);
+  });
 }
 function renderContent() {
   const c = document.getElementById('content');
@@ -531,7 +600,16 @@ function showWords(container, append = false) {
         html += '<div id="loadMore" style="text-align:center;padding:20px;color:var(--muted);">読み込み中...</div>';
       }
     }
-    container.innerHTML = html;
+    if (append) {
+      // Remove old loadMore indicator
+      const oldLoadMore = document.getElementById('loadMore');
+      if (oldLoadMore) oldLoadMore.remove();
+      // Append new content (without filter bar)
+      const cardsHtml = html.replace(filterHtml, '');
+      container.insertAdjacentHTML('beforeend', cardsHtml);
+    } else {
+      container.innerHTML = html;
+    }
   } catch(e) { 
     console.error(e);
     container.innerHTML = '<p>語彙テーブルがありません</p>'; 
@@ -770,6 +848,9 @@ function openCMS() {
 function showCMS() {
   const container = document.getElementById('content');
   container.innerHTML = `
+    <div style="padding:12px 16px;">
+      <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--primary);font-size:16px;cursor:pointer;padding:8px 0;">← 戻る</button>
+    </div>
     <div class="card">
       <div style="font-weight:600;margin-bottom:8px;">内容管理 / 內容管理</div>
       <div class="level-btns">
@@ -995,7 +1076,8 @@ function toggleLearnt(type, id, btn) {
 
 function showSummary() {
   const container = document.getElementById('content');
-  let html = '<div class="card"><h3>学習進捗 / 學習進度</h3><div class="progress-summary">';
+  let html = '<div style="padding:12px 16px;"><button onclick="switchTab(\'settings\')" style="background:none;border:none;color:var(--primary);font-size:16px;cursor:pointer;padding:8px 0;">← 戻る</button></div>';
+  html += '<div class="card"><h3>学習進捗 / 學習進度</h3><div class="progress-summary">';
   LEVELS.forEach(lv => {
     let count = 0;
     if (userDB) {
@@ -1023,22 +1105,22 @@ const conversations = [
   {
     title: 'シナリオ1：東京駅からスカイツリーまでの道を聞く会話',
     lines: [
-      { speaker: '外国人', jp: 'すみません。東京駅からスカイツリーまで、どうやって行けばいいですか。', tc: '不好意思。從東京車站到晴空塔，怎麼去比較好呢？' },
-      { speaker: '日本人', jp: 'はい、スカイツリーですね。電車で行くのが一番便利ですよ。山手線に乗って、上野駅で乗り換えます。それから日比谷線で押上駅まで行きます。', tc: '是晴空塔啊。坐電車最方便喔。搭山手線到上野站轉車。然後搭日比谷線到押上站。' },
-      { speaker: '外国人', jp: 'ありがとうございます。どのくらい時間がかかりますか。', tc: '謝謝。大概要花多久時間？' },
-      { speaker: '日本人', jp: 'だいたい三十分くらいです。駅を出たら、すぐ見えますよ。', tc: '大概三十分鐘左右。出了車站馬上就能看到。' },
-      { speaker: '外国人', jp: 'わかりました。助かります。', tc: '明白了。幫了大忙。' }
+      { speaker: '外国人', jp: 'すみません。<ruby>東京駅<rt>とうきょうえき</rt></ruby>からスカイツリーまで、どうやって<ruby>行<rt>い</rt></ruby>けばいいですか。', tc: '不好意思。從東京車站到晴空塔，怎麼去比較好呢？' },
+      { speaker: '日本人', jp: 'はい、スカイツリーですね。<ruby>電車<rt>でんしゃ</rt></ruby>で<ruby>行<rt>い</rt></ruby>くのが<ruby>一番<rt>いちばん</rt></ruby><ruby>便利<rt>べんり</rt></ruby>ですよ。<ruby>山手線<rt>やまのてせん</rt></ruby>に<ruby>乗<rt>の</rt></ruby>って、<ruby>上野駅<rt>うえのえき</rt></ruby>で<ruby>乗<rt>の</rt></ruby>り<ruby>換<rt>か</rt></ruby>えます。それから<ruby>日比谷線<rt>ひびやせん</rt></ruby>で<ruby>押上駅<rt>おしあげえき</rt></ruby>まで<ruby>行<rt>い</rt></ruby>きます。', tc: '是晴空塔啊。坐電車最方便喔。搭山手線到上野站轉車。然後搭日比谷線到押上站。' },
+      { speaker: '外国人', jp: 'ありがとうございます。どのくらい<ruby>時間<rt>じかん</rt></ruby>がかかりますか。', tc: '謝謝。大概要花多久時間？' },
+      { speaker: '日本人', jp: 'だいたい<ruby>三十分<rt>さんじゅっぷん</rt></ruby>くらいです。<ruby>駅<rt>えき</rt></ruby>を<ruby>出<rt>で</rt></ruby>たら、すぐ<ruby>見<rt>み</rt></ruby>えますよ。', tc: '大概三十分鐘左右。出了車站馬上就能看到。' },
+      { speaker: '外国人', jp: 'わかりました。<ruby>助<rt>たす</rt></ruby>かります。', tc: '明白了。幫了大忙。' }
     ]
   },
   {
     title: 'シナリオ2：マクドナルドで食べ物を注文する会話',
     lines: [
-      { speaker: '店員', jp: 'いらっしゃいませ。ご注文はお決まりですか。', tc: '歡迎光臨。您決定要點什麼了嗎？' },
-      { speaker: '客', jp: 'はい。ビッグマックセットを一つと、ポテトのMサイズをお願いします。', tc: '是的。請給我一份大麥克套餐，還有一份中薯。' },
-      { speaker: '店員', jp: '飲み物は何にしますか。', tc: '飲料要什麼呢？' },
+      { speaker: '店員', jp: 'いらっしゃいませ。ご<ruby>注文<rt>ちゅうもん</rt></ruby>はお<ruby>決<rt>き</rt></ruby>まりですか。', tc: '歡迎光臨。您決定要點什麼了嗎？' },
+      { speaker: '客', jp: 'はい。ビッグマックセットを<ruby>一<rt>ひと</rt></ruby>つと、ポテトのMサイズをお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '是的。請給我一份大麥克套餐，還有一份中薯。' },
+      { speaker: '店員', jp: '<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>は<ruby>何<rt>なに</rt></ruby>にしますか。', tc: '飲料要什麼呢？' },
       { speaker: '客', jp: 'コーラをお願いします。', tc: '請給我可樂。' },
-      { speaker: '店員', jp: '店内でお召し上がりですか、それともお持ち帰りですか。', tc: '是在店內用餐，還是外帶呢？' },
-      { speaker: '客', jp: '店内でお願いします。ソースは多めにお願いできますか。', tc: '在店內用餐。醬汁可以多一點嗎？' },
+      { speaker: '店員', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>召<rt>め</rt></ruby>し<ruby>上<rt>あ</rt></ruby>がりですか、それともお<ruby>持<rt>も</rt></ruby>ち<ruby>帰<rt>かえ</rt></ruby>りですか。', tc: '是在店內用餐，還是外帶呢？' },
+      { speaker: '客', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>願<rt>ねが</rt></ruby>いします。ソースは<ruby>多<rt>おお</rt></ruby>めにお<ruby>願<rt>ねが</rt></ruby>いできますか。', tc: '在店內用餐。醬汁可以多一點嗎？' },
       { speaker: '店員', jp: 'かしこまりました。少々お待ちください。', tc: '好的。請稍等一下。' }
     ]
   },
@@ -1046,72 +1128,72 @@ const conversations = [
     title: 'シナリオ3：コンビニで買い物をする会話',
     lines: [
       { speaker: '店員', jp: 'いらっしゃいませ。', tc: '歡迎光臨。' },
-      { speaker: '客', jp: 'すみません。このおにぎりは今日の朝作ったものですか。', tc: '不好意思。這個飯糰是今天早上做的嗎？' },
-      { speaker: '店員', jp: 'はい、朝に新しく作りました。まだ温かいですよ。', tc: '是的，早上剛做好的。還是溫熱的喔。' },
-      { speaker: '客', jp: 'じゃあ、これを二つと、あとホットコーヒーを一つください。', tc: '那請給我兩個，還有一杯熱咖啡。' },
-      { speaker: '店員', jp: 'かしこまりました。ポイントカードはお持ちですか。', tc: '好的。您有集點卡嗎？' },
+      { speaker: '客', jp: 'すみません。このおにぎりは<ruby>今日<rt>きょう</rt></ruby>の<ruby>朝<rt>あさ</rt></ruby><ruby>作<rt>つく</rt></ruby>ったものですか。', tc: '不好意思。這個飯糰是今天早上做的嗎？' },
+      { speaker: '店員', jp: 'はい、<ruby>朝<rt>あさ</rt></ruby>に<ruby>新<rt>あたら</rt></ruby>しく<ruby>作<rt>つく</rt></ruby>りました。まだ<ruby>温<rt>あたた</rt></ruby>かいですよ。', tc: '是的，早上剛做好的。還是溫熱的喔。' },
+      { speaker: '客', jp: 'じゃあ、これを<ruby>二<rt>ふた</rt></ruby>つと、あとホットコーヒーを<ruby>一<rt>ひと</rt></ruby>つください。', tc: '那請給我兩個，還有一杯熱咖啡。' },
+      { speaker: '店員', jp: 'かしこまりました。ポイントカードはお<ruby>持<rt>も</rt></ruby>ちですか。', tc: '好的。您有集點卡嗎？' },
       { speaker: '客', jp: 'はい、持っています。', tc: '有的，我有帶。' },
-      { speaker: '店員', jp: 'ありがとうございました。またお越しください。', tc: '謝謝您。歡迎再次光臨。' }
+      { speaker: '店員', jp: 'ありがとうございました。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '謝謝您。歡迎再次光臨。' }
     ]
   },
   {
     title: 'シナリオ4：居酒屋で夕食を食べる会話',
     lines: [
-      { speaker: '店員', jp: 'いらっしゃいませ。何名様ですか。', tc: '歡迎光臨。請問幾位呢？' },
-      { speaker: '客', jp: '二名です。席はありますか。', tc: '兩位。有位子嗎？' },
-      { speaker: '店員', jp: 'はい、奥の席をご案内します。', tc: '有的，我帶您到裡面的位子。' },
+      { speaker: '店員', jp: 'いらっしゃいませ。<ruby>何名様<rt>なんめいさま</rt></ruby>ですか。', tc: '歡迎光臨。請問幾位呢？' },
+      { speaker: '客', jp: '<ruby>二名<rt>にめい</rt></ruby>です。<ruby>席<rt>せき</rt></ruby>はありますか。', tc: '兩位。有位子嗎？' },
+      { speaker: '店員', jp: 'はい、<ruby>奥<rt>おく</rt></ruby>の<ruby>席<rt>せき</rt></ruby>をご<ruby>案内<rt>あんない</rt></ruby>します。', tc: '有的，我帶您到裡面的位子。' },
       { speaker: '客A', jp: 'とりあえず生ビールを二つください。おすすめのメニューは何ですか。', tc: '先請給我們兩杯生啤酒。有什麼推薦的菜色嗎？' },
-      { speaker: '店員', jp: '今日は新鮮な刺身がおすすめです。あと、焼き鳥も人気ですよ。', tc: '今天新鮮的生魚片很推薦。還有烤鳥也很受歡迎喔。' },
-      { speaker: '客B', jp: 'じゃあ、刺身の盛り合わせと、焼き鳥を五本お願いします。', tc: '那就請給我們一份生魚片拼盤，還有五串烤鳥。' },
-      { speaker: '客A', jp: '私は日本酒にします。少し辛いのが好きです。', tc: '我要喝日本酒。我喜歡稍微辛一點的。' },
+      { speaker: '店員', jp: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>刺身<rt>さしみ</rt></ruby>がおすすめです。あと、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>も<ruby>人気<rt>にんき</rt></ruby>ですよ。', tc: '今天新鮮的生魚片很推薦。還有烤鳥也很受歡迎喔。' },
+      { speaker: '客B', jp: 'じゃあ、<ruby>刺身<rt>さしみ</rt></ruby>の<ruby>盛<rt>も</rt></ruby>り<ruby>合<rt>あ</rt></ruby>わせと、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>を<ruby>五本<rt>ごほん</rt></ruby>お<ruby>願<rt>ねが</rt></ruby>いします。', tc: '那就請給我們一份生魚片拼盤，還有五串烤鳥。' },
+      { speaker: '客A', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>日本酒<rt>にほんしゅ</rt></ruby>にします。<ruby>少<rt>すこ</rt></ruby>し<ruby>辛<rt>から</rt></ruby>いのが<ruby>好<rt>す</rt></ruby>きです。', tc: '我要喝日本酒。我喜歡稍微辛一點的。' },
       { speaker: '店員', jp: 'かしこまりました。少々お待ちください。', tc: '好的。請稍等一下。' }
     ]
   },
   {
     title: 'シナリオ5：久しぶりに会った友達との会話',
     lines: [
-      { speaker: 'A', jp: '久しぶりですね。元気にしていましたか。', tc: '好久不見。你還好嗎？' },
+      { speaker: 'A', jp: '<ruby>久<rt>ひさ</rt></ruby>しぶりですね。<ruby>元気<rt>げんき</rt></ruby>にしていましたか。', tc: '好久不見。你還好嗎？' },
       { speaker: 'B', jp: 'はい、おかげさまで元気にしています。Aさんはどうですか。', tc: '還好，託你的福我一直很健康。A你呢？' },
-      { speaker: 'A', jp: '私も忙しいですが、元気です。仕事が大変で、なかなか連絡できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
-      { speaker: 'B', jp: '大丈夫ですよ。今日はゆっくり話しましょう。何か飲みますか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？' },
-      { speaker: 'A', jp: 'じゃあ、ビールを一つください。最近、何か面白いことがありましたか。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？' },
-      { speaker: 'B', jp: '先週、友達と旅行に行きました。とても楽しかったです。', tc: '上週我跟朋友去旅行了。非常開心。' },
-      { speaker: 'A', jp: 'いいですね。私も近いうちに旅行したいです。', tc: '真好啊。我也想最近去旅行。' }
+      { speaker: 'A', jp: '<ruby>私<rt>わたし</rt></ruby>も<ruby>忙<rt>いそが</rt></ruby>しいですが、<ruby>元気<rt>げんき</rt></ruby>です。<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>で、なかなか<ruby>連絡<rt>れんらく</rt></ruby>できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
+      { speaker: 'B', jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。<ruby>今日<rt>きょう</rt></ruby>はゆっくり<ruby>話<rt>はな</rt></ruby>しましょう。<ruby>何<rt>なに</rt></ruby>か<ruby>飲<rt>の</rt></ruby>みますか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？' },
+      { speaker: 'A', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？' },
+      { speaker: 'B', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。', tc: '上週我跟朋友去旅行了。非常開心。' },
+      { speaker: 'A', jp: 'いいですね。<ruby>私<rt>わたし</rt></ruby>も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。', tc: '真好啊。我也想最近去旅行。' }
     ]
   },
   {
     title: 'シナリオ6：道を聞く会話（詳細な案内）',
     lines: [
-      { speaker: '外国人', jp: 'すみません。駅までどうやって行けばいいですか。', tc: '不好意思。到車站怎麼走比較好？' },
-      { speaker: '通行人', jp: '駅ですか。この道をまっすぐ進んで、二つ目の信号を右に曲がります。それから歩いて五分くらいです。', tc: '到車站嗎。沿著這條路直走，在第二個紅綠燈右轉。然後再走大概五分鐘。' },
-      { speaker: '外国人', jp: '二つ目の信号ですね。わかりました。コンビニはありますか。', tc: '第二個紅綠燈對吧。我知道了。附近有便利商店嗎？' },
-      { speaker: '通行人', jp: 'はい、信号を曲がったすぐのところにあります。もし迷ったら、また聞いてください。', tc: '有的，轉過紅綠燈馬上就有。如果迷路了再問別人吧。' },
+      { speaker: '外国人', jp: 'すみません。<ruby>駅<rt>えき</rt></ruby>までどうやって<ruby>行<rt>い</rt></ruby>けばいいですか。', tc: '不好意思。到車站怎麼走比較好？' },
+      { speaker: '通行人', jp: '<ruby>駅<rt>えき</rt></ruby>ですか。この<ruby>道<rt>みち</rt></ruby>をまっすぐ<ruby>進<rt>すす</rt></ruby>んで、<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>信号<rt>しんごう</rt></ruby>を<ruby>右<rt>みぎ</rt></ruby>に<ruby>曲<rt>ま</rt></ruby>がります。それから<ruby>歩<rt>ある</rt></ruby>いて<ruby>五分<rt>ごふん</rt></ruby>くらいです。', tc: '到車站嗎。沿著這條路直走，在第二個紅綠燈右轉。然後再走大概五分鐘。' },
+      { speaker: '外国人', jp: '<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>信号<rt>しんごう</rt></ruby>ですね。わかりました。コンビニはありますか。', tc: '第二個紅綠燈對吧。我知道了。附近有便利商店嗎？' },
+      { speaker: '通行人', jp: 'はい、<ruby>信号<rt>しんごう</rt></ruby>を<ruby>曲<rt>ま</rt></ruby>がったすぐのところにあります。もし<ruby>迷<rt>まよ</rt></ruby>ったら、また<ruby>聞<rt>き</rt></ruby>いてください。', tc: '有的，轉過紅綠燈馬上就有。如果迷路了再問別人吧。' },
       { speaker: '外国人', jp: 'ありがとうございます。助かります。', tc: '謝謝你。幫了大忙。' },
-      { speaker: '通行人', jp: 'いえいえ。気をつけて行ってください。', tc: '不客氣。路上小心。' }
+      { speaker: '通行人', jp: 'いえいえ。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '不客氣。路上小心。' }
     ]
   },
   {
     title: 'シナリオ7：医師の診察を受ける会話',
     lines: [
-      { speaker: '医師', jp: 'こんにちは。今日はどうされましたか。', tc: '你好。今天是哪裡不舒服呢？' },
-      { speaker: '患者', jp: '頭が痛くて、熱もあります。昨日からずっと続いています。', tc: '頭痛，還有發燒。從昨天開始一直持續到現在。' },
-      { speaker: '医師', jp: 'そうですか。では、体温を測りますね。口を開けてください。', tc: '這樣啊。那我來量一下體溫。請張開嘴巴。' },
+      { speaker: '医師', jp: 'こんにちは。<ruby>今日<rt>きょう</rt></ruby>はどうされましたか。', tc: '你好。今天是哪裡不舒服呢？' },
+      { speaker: '患者', jp: '<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>くて、<ruby>熱<rt>ねつ</rt></ruby>もあります。<ruby>昨日<rt>きのう</rt></ruby>からずっと<ruby>続<rt>つづ</rt></ruby>いています。', tc: '頭痛，還有發燒。從昨天開始一直持續到現在。' },
+      { speaker: '医師', jp: 'そうですか。では、<ruby>体温<rt>たいおん</rt></ruby>を<ruby>測<rt>はか</rt></ruby>りますね。<ruby>口<rt>くち</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けてください。', tc: '這樣啊。那我來量一下體溫。請張開嘴巴。' },
       { speaker: '患者', jp: 'はい。', tc: '好的。' },
-      { speaker: '医師', jp: '熱は三十八度です。風邪の可能性が高いです。薬を出しますので、食後に飲んでください。', tc: '體溫是三十八度。很可能是感冒。我會開藥，請在飯後服用。' },
-      { speaker: '患者', jp: 'わかりました。どのくらいで治りますか。', tc: '我知道了。大概多久會好呢？' },
-      { speaker: '医師', jp: '二、三日でよくなると思いますが、無理をしないでください。', tc: '我想兩、三天就會好轉，但請不要勉強自己。' }
+      { speaker: '医師', jp: '<ruby>熱<rt>ねつ</rt></ruby>は<ruby>三十八度<rt>さんじゅうはちど</rt></ruby>です。<ruby>風邪<rt>かぜ</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますので、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>んでください。', tc: '體溫是三十八度。很可能是感冒。我會開藥，請在飯後服用。' },
+      { speaker: '患者', jp: 'わかりました。どのくらいで<ruby>治<rt>なお</rt></ruby>りますか。', tc: '我知道了。大概多久會好呢？' },
+      { speaker: '医師', jp: '<ruby>二<rt>に</rt></ruby>、<ruby>三日<rt>さんにち</rt></ruby>でよくなると<ruby>思<rt>おも</rt></ruby>いますが、<ruby>無理<rt>むり</rt></ruby>をしないでください。', tc: '我想兩、三天就會好轉，但請不要勉強自己。' }
     ]
   },
   {
     title: 'シナリオ8：電話でサービス予約する会話',
     lines: [
-      { speaker: '店員', jp: 'はい、美容院のさくらです。', tc: '您好，這裡是美容院櫻花。' },
-      { speaker: '客', jp: 'すみません。カットの予約をしたいのですが。', tc: '不好意思。我想預約剪髮。' },
-      { speaker: '店員', jp: 'はい、かしこまりました。ご希望の日時はいつですか。', tc: '好的。請問您希望的日期和時間是什麼時候呢？' },
-      { speaker: '客', jp: '明日の午後三時頃は空いていますか。', tc: '明天下午三點左右有空嗎？' },
-      { speaker: '店員', jp: '少々お待ちください。はい、三時は大丈夫です。お名前を教えてください。', tc: '請稍等一下。是的，三點沒問題。請告訴我您的名字。' },
+      { speaker: '店員', jp: 'はい、<ruby>美容院<rt>びよういん</rt></ruby>のさくらです。', tc: '您好，這裡是美容院櫻花。' },
+      { speaker: '客', jp: 'すみません。カットの<ruby>予約<rt>よやく</rt></ruby>をしたいのですが。', tc: '不好意思。我想預約剪髮。' },
+      { speaker: '店員', jp: 'はい、かしこまりました。ご<ruby>希望<rt>きぼう</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>はいつですか。', tc: '好的。請問您希望的日期和時間是什麼時候呢？' },
+      { speaker: '客', jp: '<ruby>明日<rt>あした</rt></ruby>の<ruby>午後<rt>ごご</rt></ruby><ruby>三時<rt>さんじ</rt></ruby><ruby>頃<rt>ごろ</rt></ruby>は<ruby>空<rt>あ</rt></ruby>いていますか。', tc: '明天下午三點左右有空嗎？' },
+      { speaker: '店員', jp: '<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。はい、<ruby>三時<rt>さんじ</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。お<ruby>名前<rt>なまえ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。', tc: '請稍等一下。是的，三點沒問題。請告訴我您的名字。' },
       { speaker: '客', jp: '田中です。', tc: '我是田中。' },
-      { speaker: '店員', jp: '田中様、明日三時でご予約を承りました。お待ちしております。', tc: '田中先生，已為您預約明天三點。我們恭候您的光臨。' }
+      { speaker: '店員', jp: '<ruby>田中様<rt>たなかさま</rt></ruby>、<ruby>明日<rt>あした</rt></ruby><ruby>三時<rt>さんじ</rt></ruby>でご<ruby>予約<rt>よやく</rt></ruby>を<ruby>承<rt>うけたまわ</rt></ruby>りました。お<ruby>待<rt>ま</rt></ruby>ちしております。', tc: '田中先生，已為您預約明天三點。我們恭候您的光臨。' }
     ]
   },
   {
