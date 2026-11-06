@@ -31,7 +31,22 @@ let currentTab = 'words';
 
 const LEVELS = ['N5','N4','N3','N2','N1'];
 
-async function init() {
+async 
+function safeDBRun(sql, params) {
+  if (!contentDB) {
+    console.error('Database not loaded');
+    return false;
+  }
+  try {
+    contentDB.run(sql, params);
+    return true;
+  } catch(e) {
+    console.error('DB error:', e);
+    return false;
+  }
+}
+
+function init() {
   try {
     console.log('Initializing SQL.js...');
     SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${f}` });
@@ -988,10 +1003,10 @@ function saveCMSItem(id) {
       const example = document.getElementById('f_example').value;
       const example_tc = document.getElementById('f_example_tc').value;
       if (id) {
-        contentDB.run("UPDATE vocab SET level=?, word=?, reading=?, pos=?, meaning_tc=?, example=?, meaning_tc_example=? WHERE id=?",
+        safeDBRun("UPDATE vocab SET level=?, word=?, reading=?, pos=?, meaning_tc=?, example=?, meaning_tc_example=? WHERE id=?",
           [level, word, reading, pos, meaning_tc, example, example_tc, id]);
       } else {
-        contentDB.run("INSERT INTO vocab (level, word, reading, pos, meaning_tc, example, meaning_tc_example) VALUES (?,?,?,?,?,?,?)",
+        safeDBRun("INSERT INTO vocab (level, word, reading, pos, meaning_tc, example, meaning_tc_example) VALUES (?,?,?,?,?,?,?)",
           [level, word, reading, pos, meaning_tc, example, example_tc]);
       }
     } else if (cmsType === 'grammar') {
@@ -1001,10 +1016,10 @@ function saveCMSItem(id) {
       const exp_tc = document.getElementById('f_exp_tc').value;
       const examples = document.getElementById('f_examples').value;
       if (id) {
-        contentDB.run("UPDATE grammar SET level=?, title=?, explanation_jp=?, explanation_tc=?, examples=? WHERE id=?",
+        safeDBRun("UPDATE grammar SET level=?, title=?, explanation_jp=?, explanation_tc=?, examples=? WHERE id=?",
           [level, title, exp_jp, exp_tc, examples, id]);
       } else {
-        contentDB.run("INSERT INTO grammar (level, title, explanation_jp, explanation_tc, examples) VALUES (?,?,?,?,?)",
+        safeDBRun("INSERT INTO grammar (level, title, explanation_jp, explanation_tc, examples) VALUES (?,?,?,?,?)",
           [level, title, exp_jp, exp_tc, examples]);
       }
     } else {
@@ -1012,9 +1027,9 @@ function saveCMSItem(id) {
       const correct = document.getElementById('f_correct').value;
       const parts = document.getElementById('f_parts').value;
       if (id) {
-        contentDB.run("UPDATE rearrange SET level=?, correct=?, parts=? WHERE id=?", [level, correct, parts, id]);
+        safeDBRun("UPDATE rearrange SET level=?, correct=?, parts=? WHERE id=?", [level, correct, parts, id]);
       } else {
-        contentDB.run("INSERT INTO rearrange (level, correct, parts) VALUES (?,?,?)", [level, correct, parts]);
+        safeDBRun("INSERT INTO rearrange (level, correct, parts) VALUES (?,?,?)", [level, correct, parts]);
       }
     }
     alert('保存しました');
