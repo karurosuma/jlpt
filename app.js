@@ -1068,7 +1068,8 @@ function showConversations() {
       </div>
       <div class="chat-messages">`;
     sc.lines.forEach(line => {
-      const isRight = (line.speaker === '日本人' || line.speaker === '店員');
+      const rightSpeakers = ['日本人', '店員', 'B', '通行人', '客A', '客B'];
+      const isRight = rightSpeakers.includes(line.speaker);
       const side = isRight ? 'right' : 'left';
       html += `<div class="chat-row ${side}">
         <div class="chat-bubble ${side}">
