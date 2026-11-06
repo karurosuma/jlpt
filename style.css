@@ -360,10 +360,12 @@ rt {
   gap: 8px;
   margin-bottom: 4px;
 }
-.chat-row.left { justify-content: flex-start; }
+.chat-row.left { 
+  justify-content: flex-start; 
+}
 .chat-row.right { 
   justify-content: flex-end;
-  flex-direction: row-reverse;
+  margin-left: auto;
 }
 .chat-avatar {
   width: 36px;
