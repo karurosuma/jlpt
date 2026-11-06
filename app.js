@@ -1174,7 +1174,7 @@ function openConversation(idx) {
 function getAvatar(speaker) {
   const avatars = {
     '自分': '😊', '日本人': '👨', '店員': '🧑‍💼', '客': '🙋', '客B': '🙋‍♂️',
-    '医師': '👨‍⚕️', '患者': '🤒', '上司': '👔', '彼氏': '👨', '部下': '💼', '面接官': '📋',
+    '医師': '👨‍⚕️', '患者': '🤒', '上司': '👔', '彼氏': '👨', '友達B': '👩', '部下': '💼', '面接官': '📋',
     '応募者': '📝', '通行人': '🚶', '佐藤': '👩', '鈴木': '👨', '高橋': '👩', '伊藤': '👨'
   };
   return avatars[speaker] || '👤';
@@ -1364,6 +1364,21 @@ const conversations = [
       { speaker: '彼氏', jp: 'パーク<ruby>内<rt>ない</rt></ruby>で<ruby>軽<rt>かる</rt></ruby>く<ruby>食<rt>た</rt></ruby>べて、<ruby>夜<rt>よる</rt></ruby>はホテルの<ruby>近<rt>ちか</rt></ruby>くでゆっくり<ruby>ご飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べましょう。', tc: '園區內簡單吃一點，晚上在飯店附近慢慢吃吧。' },
       { speaker: '自分', jp: 'いいですね。じゃあ、<ruby>今週末<rt>こんしゅうまつ</rt></ruby>にチケットとホテルを<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>予約<rt>よやく</rt></ruby>しましょう。', tc: '好啊。那這週末一起預約票和飯店吧。' },
       { speaker: '彼氏', jp: 'わかりました。<ruby>楽<rt>たの</rt></ruby>しみです。', tc: '了解。很期待呢。' }
+    ]
+  }
+  {
+    title: 'シナリオ13：天気予報を確認して計画を立てる会話',
+    lines: [
+      { speaker: '自分', jp: '<ruby>明日<rt>あした</rt></ruby>の<ruby>天気<rt>てんき</rt></ruby><ruby>予報<rt>よほう</rt></ruby>を<ruby>見<rt>み</rt></ruby>ましたか。', tc: '你看明天的天氣預報了嗎？' },
+      { speaker: '友達B', jp: 'はい、<ruby>見<rt>み</rt></ruby>ました。<ruby>午前<rt>ごぜん</rt></ruby>は<ruby>晴<rt>は</rt></ruby>れますが、<ruby>午後<rt>ごご</rt></ruby>から<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>るそうです。', tc: '看了。上午會晴天，下午開始會下雨。' },
+      { speaker: '自分', jp: 'そうですか。<ruby>気温<rt>きおん</rt></ruby>はどのくらいですか。', tc: '這樣啊。氣溫大概多少度？' },
+      { speaker: '友達B', jp: '<ruby>最高気温<rt>さいこうきおん</rt></ruby>は<ruby>二十三度<rt>にじゅうさんど</rt></ruby>くらいで、<ruby>涼<rt>すず</rt></ruby>しいですよ。', tc: '最高氣溫大概二十三度左右，很涼爽喔。' },
+      { speaker: '自分', jp: 'じゃあ、<ruby>午前中<rt>ごぜんちゅう</rt></ruby>に<ruby>外<rt>そと</rt></ruby>で<ruby>散歩<rt>さんぽ</rt></ruby>をして、<ruby>午後<rt>ごご</rt></ruby>は<ruby>室内<rt>しつない</rt></ruby>で<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ましょう。', tc: '那上午在外面散步，下午在室內看電影吧。' },
+      { speaker: '友達B', jp: 'いいですね。<ruby>傘<rt>かさ</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>ったほうがいいですよ。<ruby>急<rt>きゅう</rt></ruby>に<ruby>雨<rt>あめ</rt></ruby>が<ruby>強<rt>つよ</rt></ruby>くなるかもしれません。', tc: '好啊。最好帶傘去。可能會突然下大雨。' },
+      { speaker: '自分', jp: 'わかりました。<ruby>天気予報<rt>てんきよほう</rt></ruby>は<ruby>正確<rt>せいかく</rt></ruby>ですか。', tc: '知道了。天氣預報準確嗎？' },
+      { speaker: '友達B', jp: '<ruby>最近<rt>さいきん</rt></ruby>はわりと<ruby>正確<rt>せいかく</rt></ruby>ですよ。でも、<ruby>念<rt>ねん</rt></ruby>のため<ruby>傘<rt>かさ</rt></ruby>を<ruby>用意<rt>ようい</rt></ruby>しておきます。', tc: '最近還算準確。不過為了保險起見，還是準備傘比較好。' },
+      { speaker: '自分', jp: 'そうしましょう。では、<ruby>明日<rt>あした</rt></ruby>の<ruby>十時<rt>じゅうじ</rt></ruby>に<ruby>駅<rt>えき</rt></ruby>で<ruby>会<rt>あ</rt></ruby>いましょう。', tc: '那就這樣吧。明天十點在車站見吧。' },
+      { speaker: '友達B', jp: 'はい、<ruby>了解<rt>りょうかい</rt></ruby>です。<ruby>楽<rt>たの</rt></ruby>しみにしています。', tc: '好的，了解。很期待。' }
     ]
   }
 ];
