@@ -301,28 +301,27 @@ async function loadLevel(level) {
     return;
   }
 
-  const fname = 'data/data.db';
+  const paths = ['data/data.db', './data/data.db', '/data/data.db'];
   let loaded = false;
 
-  // Try to load database
-  try {
-    console.log('Fetching database...');
-    const resp = await fetch(fname + '?t=' + Date.now());
-    if (resp.ok) {
-      const buf = await resp.arrayBuffer();
-      console.log('Database size:', buf.byteLength);
-      if (buf.byteLength > 1000) {
-        contentDB = new SQL.Database(new Uint8Array(buf));
-        console.log('Database loaded successfully');
-        loaded = true;
-      } else {
-        console.error('Database file too small:', buf.byteLength);
+  for (const fname of paths) {
+    try {
+      console.log('Trying:', fname);
+      const resp = await fetch(fname + '?t=' + Date.now());
+      console.log('Response:', resp.status, resp.ok);
+      if (resp.ok) {
+        const buf = await resp.arrayBuffer();
+        console.log('Size:', buf.byteLength);
+        if (buf.byteLength > 1000) {
+          contentDB = new SQL.Database(new Uint8Array(buf));
+          console.log('Loaded successfully from', fname);
+          loaded = true;
+          break;
+        }
       }
-    } else {
-      console.error('Fetch failed:', resp.status);
+    } catch(e) {
+      console.error('Failed:', fname, e);
     }
-  } catch(e) {
-    console.error('Database load error:', e);
   }
 
   // Fallback to cache
