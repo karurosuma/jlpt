@@ -394,7 +394,7 @@ let isLoading = false;
 let hasMore = true;
 const PAGE_SIZE = 20;
 
-function showWords(container) {
+function showWords(container, append = false) {
   try {
     let sql = "SELECT * FROM vocab WHERE level = ?";
     let params = [currentLevel];
@@ -427,7 +427,14 @@ function showWords(container) {
     
     let html = filterHtml;
     if (!rows.length || !rows[0].values.length) {
-      html += '<p style="text-align:center;padding:40px;">語彙データなし</p>';
+      if (!append) {
+        html += '<p style="text-align:center;padding:40px;">語彙データなし</p>';
+      }
+      hasMore = false;
+      const loadMore = document.getElementById('loadMore');
+      if (loadMore) loadMore.remove();
+      if (!append) container.innerHTML = html;
+      return;
     } else {
       rows[0].values.forEach(r => {
         const pos = r[7] || '';
@@ -543,10 +550,10 @@ window.addEventListener('scroll', function() {
 });
 
 function loadMoreWords() {
-  if (isLoading) return;
+  if (isLoading || !hasMore) return;
   isLoading = true;
   currentOffset += PAGE_SIZE;
-  showWords(document.getElementById('content'));
+  showWords(document.getElementById('content'), true);
   isLoading = false;
 }
 
