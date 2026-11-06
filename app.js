@@ -491,7 +491,7 @@ let currentFilter = '';
 let currentOffset = 0;
 let isLoading = false;
 let hasMore = true;
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 100;
 
 function showWords(container, append = false) {
   try {
@@ -567,9 +567,9 @@ function showWords(container, append = false) {
           badgeClass = 'badge badge-verb';
         }
         // Adjective conjugations
-        else if ((pos === '形容詞' || pos.includes('形容詞')) && r[10]) {
+        else if ((pos === '形容詞' || pos.includes('形容詞')) && r[11]) {
           const conjMap = {};
-          r[10].split('|').forEach(c => {
+          r[11].split('|').forEach(c => {
             const [k, v] = c.split(':');
             conjMap[k] = v;
           });
@@ -596,9 +596,7 @@ function showWords(container, append = false) {
           <div style="margin-top:10px;">${learntBtn}</div>
         </div>`;
       });
-      if (rows[0].values.length === PAGE_SIZE) {
-        html += '<div id="loadMore" style="text-align:center;padding:20px;color:var(--muted);">読み込み中...</div>';
-      }
+      
     }
     if (append) {
       // Remove old loadMore indicator
@@ -617,28 +615,7 @@ function showWords(container, append = false) {
 }
 
 
-// Infinite scroll
-let scrollTimeout;
-window.addEventListener('scroll', function() {
-  if (scrollTimeout) clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(function() {
-    if (currentTab !== 'words') return;
-    const loadMore = document.getElementById('loadMore');
-    if (!loadMore || isLoading) return;
-    const rect = loadMore.getBoundingClientRect();
-    if (rect.top < window.innerHeight + 100) {
-      loadMoreWords();
-    }
-  }, 100);
-});
-
-function loadMoreWords() {
-  if (isLoading || !hasMore) return;
-  isLoading = true;
-  currentOffset += PAGE_SIZE;
-  showWords(document.getElementById('content'), true);
-  isLoading = false;
-}
+// Infinite scroll removed
 
 function setFilter(pos) {
   currentFilter = pos;
