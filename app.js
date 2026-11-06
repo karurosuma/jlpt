@@ -1253,6 +1253,7 @@ let currentConversation = null;
 
 function showConversations() {
   const container = document.getElementById('content');
+  const userName = getUserName();
   if (currentConversation === null) {
     // Show list
     let html = '<div style="padding:8px 16px;font-weight:600;">会話シナリオ / 會話情境</div>';
@@ -1272,15 +1273,14 @@ function showConversations() {
       </div>
       <div class="chat-messages">`;
     const userName = getUserName();
-    const rightSpeakers = ['日本人', '店員', '佐藤', '通行人', '客A', '客B', '医師', '上司', '面接官', '高橋', '伊藤', userName];
-    const leftSpeakers = ['外国人', '客', '田中', '部下', '患者', '鈴木', '応募者'];
     sc.lines.forEach(line => {
-      // User's name always on right
-      const isRight = line.speaker === userName || rightSpeakers.includes(line.speaker);
+      // Replace 田中/佐藤 with user's name, always on right
+      const displaySpeaker = (line.speaker === '田中' || line.speaker === '佐藤') ? userName : line.speaker;
+      const isRight = displaySpeaker === userName;
       const side = isRight ? 'right' : 'left';
       html += `<div class="chat-row ${side}">
         <div class="chat-bubble ${side}">
-          <div class="chat-speaker">${line.speaker}</div>
+          <div class="chat-speaker">${displaySpeaker}</div>
           <div class="chat-jp">${applyRubyToText(line.jp)}</div>
           <div class="chat-tc">${line.tc}</div>
         </div>
