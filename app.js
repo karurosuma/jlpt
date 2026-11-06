@@ -1113,138 +1113,140 @@ const conversations = [
   {
     title: 'シナリオ1：東京駅からスカイツリーまでの道を聞く会話',
     lines: [
-      { speaker: '外国人', jp: 'すみません。<ruby>東京駅<rt>とうきょうえき</rt></ruby>からスカイツリーまで、どうやって<ruby>行<rt>い</rt></ruby>けばいいですか。', tc: '不好意思。從東京車站到晴空塔，怎麼去比較好呢？' },
+      { speaker: '自分', jp: 'すみません。<ruby>東京駅<rt>とうきょうえき</rt></ruby>からスカイツリーまで、どうやって<ruby>行<rt>い</rt></ruby>けばいいですか。<ruby>電車<rt>でんしゃ</rt></ruby>がいいですか、それともバスですか。', tc: '不好意思。從東京車站到晴空塔，怎麼去比較好呢？坐電車好還是巴士好？' },
       { speaker: '日本人', jp: 'はい、スカイツリーですね。<ruby>電車<rt>でんしゃ</rt></ruby>で<ruby>行<rt>い</rt></ruby>くのが<ruby>一番<rt>いちばん</rt></ruby><ruby>便利<rt>べんり</rt></ruby>ですよ。<ruby>山手線<rt>やまのてせん</rt></ruby>に<ruby>乗<rt>の</rt></ruby>って、<ruby>上野駅<rt>うえのえき</rt></ruby>で<ruby>乗<rt>の</rt></ruby>り<ruby>換<rt>か</rt></ruby>えます。それから<ruby>日比谷線<rt>ひびやせん</rt></ruby>で<ruby>押上駅<rt>おしあげえき</rt></ruby>まで<ruby>行<rt>い</rt></ruby>きます。', tc: '是晴空塔啊。坐電車最方便喔。搭山手線到上野站轉車。然後搭日比谷線到押上站。' },
-      { speaker: '外国人', jp: 'ありがとうございます。どのくらい<ruby>時間<rt>じかん</rt></ruby>がかかりますか。', tc: '謝謝。大概要花多久時間？' },
-      { speaker: '日本人', jp: 'だいたい<ruby>三十分<rt>さんじゅっぷん</rt></ruby>くらいです。<ruby>駅<rt>えき</rt></ruby>を<ruby>出<rt>で</rt></ruby>たら、すぐ<ruby>見<rt>み</rt></ruby>えますよ。', tc: '大概三十分鐘左右。出了車站馬上就能看到。' },
-      { speaker: '外国人', jp: 'わかりました。<ruby>助<rt>たす</rt></ruby>かります。', tc: '明白了。幫了大忙。' }
+      { speaker: '自分', jp: 'ありがとうございます。どのくらい<ruby>時間<rt>じかん</rt></ruby>がかかりますか。<ruby>切符<rt>きっぷ</rt></ruby>はどこで<ruby>買<rt>か</rt></ruby>えばいいですか。', tc: '謝謝。大概要花多久時間？車票要在哪裡買？' },
+      { speaker: '日本人', jp: 'だいたい<ruby>三十分<rt>さんじゅっぷん</rt></ruby>くらいです。<ruby>切符<rt>きっぷ</rt></ruby>はこの<ruby>駅<rt>えき</rt></ruby>の<ruby>自動券売機<rt>じどうけんばいき</rt></ruby>で<ruby>買<rt>か</rt></ruby>えますよ。<ruby>駅<rt>えき</rt></ruby>を<ruby>出<rt>で</rt></ruby>たら、すぐスカイツリーが<ruby>見<rt>み</rt></ruby>えます。', tc: '大概三十分鐘左右。車票可以在這個車站的自動售票機買。出了車站馬上就能看到晴空塔。' },
+      { speaker: '自分', jp: 'わかりました。<ruby>助<rt>たす</rt></ruby>かります。もし<ruby>迷<rt>まよ</rt></ruby>ったら、また<ruby>聞<rt>き</rt></ruby>いてもいいですか。', tc: '明白了。幫了大忙。如果迷路了可以再問嗎？' },
+      { speaker: '日本人', jp: 'もちろんです。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '當然可以。路上小心。' }
     ]
   },
   {
     title: 'シナリオ2：マクドナルドで食べ物を注文する会話',
     lines: [
       { speaker: '店員', jp: 'いらっしゃいませ。ご<ruby>注文<rt>ちゅうもん</rt></ruby>はお<ruby>決<rt>き</rt></ruby>まりですか。', tc: '歡迎光臨。您決定要點什麼了嗎？' },
-      { speaker: '客', jp: 'はい。ビッグマックセットを<ruby>一<rt>ひと</rt></ruby>つと、ポテトのMサイズをお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '是的。請給我一份大麥克套餐，還有一份中薯。' },
-      { speaker: '店員', jp: '<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>は<ruby>何<rt>なに</rt></ruby>にしますか。', tc: '飲料要什麼呢？' },
-      { speaker: '客', jp: 'コーラをお願いします。', tc: '請給我可樂。' },
-      { speaker: '店員', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>召<rt>め</rt></ruby>し<ruby>上<rt>あ</rt></ruby>がりですか、それともお<ruby>持<rt>も</rt></ruby>ち<ruby>帰<rt>かえ</rt></ruby>りですか。', tc: '是在店內用餐，還是外帶呢？' },
-      { speaker: '客', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>願<rt>ねが</rt></ruby>いします。ソースは<ruby>多<rt>おお</rt></ruby>めにお<ruby>願<rt>ねが</rt></ruby>いできますか。', tc: '在店內用餐。醬汁可以多一點嗎？' },
-      { speaker: '店員', jp: 'かしこまりました。少々お待ちください。', tc: '好的。請稍等一下。' }
+      { speaker: '自分', jp: 'はい。ビッグマックセットを<ruby>一<rt>ひと</rt></ruby>つと、ポテトのMサイズをお<ruby>願<rt>ねが</rt></ruby>いします。あと、ナゲットも<ruby>追加<rt>ついか</rt></ruby>できますか。', tc: '是的。請給我一份大麥克套餐，還有一份中薯。雞塊也可以追加嗎？' },
+      { speaker: '店員', jp: 'はい、できますよ。<ruby>何個<rt>なんこ</rt></ruby>にしますか。<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>は<ruby>何<rt>なに</rt></ruby>にしますか。', tc: '可以的。要幾個呢？飲料要什麼？' },
+      { speaker: '自分', jp: 'ナゲットは<ruby>六個<rt>ろっこ</rt></ruby>で、コーラをお<ruby>願<rt>ねが</rt></ruby>いします。ソースは<ruby>多<rt>おお</rt></ruby>めにお<ruby>願<rt>ねが</rt></ruby>いできますか。', tc: '雞塊要六個，請給我可樂。醬汁可以多一點嗎？' },
+      { speaker: '店員', jp: 'かしこまりました。<ruby>店内<rt>てんない</rt></ruby>でお<ruby>召<rt>め</rt></ruby>し<ruby>上<rt>あ</rt></ruby>がりですか、それともお<ruby>持<rt>も</rt></ruby>ち<ruby>帰<rt>かえ</rt></ruby>りですか。', tc: '好的。是在店內用餐，還是外帶呢？' },
+      { speaker: '自分', jp: '<ruby>店内<rt>てんない</rt></ruby>でお<ruby>願<rt>ねが</rt></ruby>いします。ポイントカードは<ruby>使<rt>つか</rt></ruby>えますか。', tc: '在店內用餐。可以使用集點卡嗎？' },
+      { speaker: '店員', jp: 'はい、<ruby>使<rt>つか</rt></ruby>えますよ。<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', tc: '可以的。請稍等一下。' }
     ]
   },
   {
     title: 'シナリオ3：コンビニで買い物をする会話',
     lines: [
       { speaker: '店員', jp: 'いらっしゃいませ。', tc: '歡迎光臨。' },
-      { speaker: '客', jp: 'すみません。このおにぎりは<ruby>今日<rt>きょう</rt></ruby>の<ruby>朝<rt>あさ</rt></ruby><ruby>作<rt>つく</rt></ruby>ったものですか。', tc: '不好意思。這個飯糰是今天早上做的嗎？' },
-      { speaker: '店員', jp: 'はい、<ruby>朝<rt>あさ</rt></ruby>に<ruby>新<rt>あたら</rt></ruby>しく<ruby>作<rt>つく</rt></ruby>りました。まだ<ruby>温<rt>あたた</rt></ruby>かいですよ。', tc: '是的，早上剛做好的。還是溫熱的喔。' },
-      { speaker: '客', jp: 'じゃあ、これを<ruby>二<rt>ふた</rt></ruby>つと、あとホットコーヒーを<ruby>一<rt>ひと</rt></ruby>つください。', tc: '那請給我兩個，還有一杯熱咖啡。' },
-      { speaker: '店員', jp: 'かしこまりました。ポイントカードはお<ruby>持<rt>も</rt></ruby>ちですか。', tc: '好的。您有集點卡嗎？' },
-      { speaker: '客', jp: 'はい、持っています。', tc: '有的，我有帶。' },
-      { speaker: '店員', jp: 'ありがとうございました。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '謝謝您。歡迎再次光臨。' }
+      { speaker: '自分', jp: 'すみません。このおにぎりは<ruby>今日<rt>きょう</rt></ruby>の<ruby>朝<rt>あさ</rt></ruby><ruby>作<rt>つく</rt></ruby>ったものですか。<ruby>賞味期限<rt>しょうみきげん</rt></ruby>はいつまでですか。', tc: '不好意思。這個飯糰是今天早上做的嗎？保存期限到什麼時候？' },
+      { speaker: '店員', jp: 'はい、<ruby>朝<rt>あさ</rt></ruby>に<ruby>新<rt>あたら</rt></ruby>しく<ruby>作<rt>つく</rt></ruby>りました。まだ<ruby>温<rt>あたた</rt></ruby>かいですよ。<ruby>賞味期限<rt>しょうみきげん</rt></ruby>は<ruby>明日<rt>あした</rt></ruby>までです。', tc: '是的，早上剛做好的。還是溫熱的喔。保存期限到明天。' },
+      { speaker: '自分', jp: 'じゃあ、これを<ruby>二<rt>ふた</rt></ruby>つと、あとホットコーヒーを<ruby>一<rt>ひと</rt></ruby>つください。お<ruby>弁当<rt>べんとう</rt></ruby>もおすすめありますか。', tc: '那請給我兩個，還有一杯熱咖啡。便當有推薦的嗎？' },
+      { speaker: '店員', jp: 'はい、<ruby>今日<rt>きょう</rt></ruby>は<ruby>唐揚<rt>からあ</rt></ruby>げ<ruby>弁当<rt>べんとう</rt></ruby>が<ruby>人気<rt>にんき</rt></ruby>ですよ。ポイントカードはお<ruby>持<rt>も</rt></ruby>ちですか。', tc: '有的，今天炸雞便當很受歡迎喔。您有集點卡嗎？' },
+      { speaker: '自分', jp: 'はい、<ruby>持<rt>も</rt></ruby>っています。<ruby>唐揚<rt>からあ</rt></ruby>げ<ruby>弁当<rt>べんとう</rt></ruby>も<ruby>一<rt>ひと</rt></ruby>つください。', tc: '有的，我有帶。炸雞便當也請給我一個。' },
+      { speaker: '店員', jp: 'かしこまりました。ありがとうございました。またお<ruby>越<rt>こ</rt></ruby>しください。', tc: '好的。謝謝您。歡迎再次光臨。' }
     ]
   },
   {
     title: 'シナリオ4：居酒屋で夕食を食べる会話',
     lines: [
       { speaker: '店員', jp: 'いらっしゃいませ。<ruby>何名様<rt>なんめいさま</rt></ruby>ですか。', tc: '歡迎光臨。請問幾位呢？' },
-      { speaker: '客', jp: '<ruby>二名<rt>にめい</rt></ruby>です。<ruby>席<rt>せき</rt></ruby>はありますか。', tc: '兩位。有位子嗎？' },
-      { speaker: '店員', jp: 'はい、<ruby>奥<rt>おく</rt></ruby>の<ruby>席<rt>せき</rt></ruby>をご<ruby>案内<rt>あんない</rt></ruby>します。', tc: '有的，我帶您到裡面的位子。' },
-      { speaker: '客A', jp: 'とりあえず生ビールを二つください。おすすめのメニューは何ですか。', tc: '先請給我們兩杯生啤酒。有什麼推薦的菜色嗎？' },
-      { speaker: '店員', jp: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>刺身<rt>さしみ</rt></ruby>がおすすめです。あと、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>も<ruby>人気<rt>にんき</rt></ruby>ですよ。', tc: '今天新鮮的生魚片很推薦。還有烤鳥也很受歡迎喔。' },
+      { speaker: '自分', jp: '<ruby>二名<rt>にめい</rt></ruby>です。<ruby>席<rt>せき</rt></ruby>はありますか。<ruby>禁煙席<rt>きんえんせき</rt></ruby>がいいのですが。', tc: '兩位。有位子嗎？我想要禁煙席。' },
+      { speaker: '店員', jp: 'はい、<ruby>奥<rt>おく</rt></ruby>の<ruby>席<rt>せき</rt></ruby>をご<ruby>案内<rt>あんない</rt></ruby>します。メニューはこちらです。', tc: '有的，我帶您到裡面的位子。這是菜單。' },
+      { speaker: '自分', jp: 'とりあえず<ruby>生<rt>なま</rt></ruby>ビールを<ruby>二<rt>ふた</rt></ruby>つください。おすすめのメニューは<ruby>何<rt>なに</rt></ruby>ですか。', tc: '先請給我們兩杯生啤酒。有什麼推薦的菜色嗎？' },
+      { speaker: '店員', jp: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>刺身<rt>さしみ</rt></ruby>がおすすめです。あと、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>も<ruby>人気<rt>にんき</rt></ruby>ですよ。<ruby>季節<rt>きせつ</rt></ruby>の<ruby>野菜<rt>やさい</rt></ruby>の<ruby>煮物<rt>にもの</rt></ruby>もあります。', tc: '今天新鮮的生魚片很推薦。還有烤鳥也很受歡迎喔。還有季節蔬菜的燉菜。' },
       { speaker: '客B', jp: 'じゃあ、<ruby>刺身<rt>さしみ</rt></ruby>の<ruby>盛<rt>も</rt></ruby>り<ruby>合<rt>あ</rt></ruby>わせと、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>を<ruby>五本<rt>ごほん</rt></ruby>お<ruby>願<rt>ねが</rt></ruby>いします。', tc: '那就請給我們一份生魚片拼盤，還有五串烤鳥。' },
-      { speaker: '客A', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>日本酒<rt>にほんしゅ</rt></ruby>にします。<ruby>少<rt>すこ</rt></ruby>し<ruby>辛<rt>から</rt></ruby>いのが<ruby>好<rt>す</rt></ruby>きです。', tc: '我要喝日本酒。我喜歡稍微辛一點的。' },
-      { speaker: '店員', jp: 'かしこまりました。少々お待ちください。', tc: '好的。請稍等一下。' }
+      { speaker: '自分', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>日本酒<rt>にほんしゅ</rt></ruby>にします。<ruby>少<rt>すこ</rt></ruby>し<ruby>辛<rt>から</rt></ruby>いのが<ruby>好<rt>す</rt></ruby>きです。<ruby>野菜<rt>やさい</rt></ruby>の<ruby>煮物<rt>にもの</rt></ruby>も<ruby>一<rt>ひと</rt></ruby>つください。', tc: '我要喝日本酒。我喜歡稍微辛一點的。蔬菜燉菜也請給我一份。' },
+      { speaker: '店員', jp: 'かしこまりました。<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', tc: '好的。請稍等一下。' }
     ]
   },
   {
     title: 'シナリオ5：久しぶりに会った友達との会話',
     lines: [
-      { speaker: '田中', jp: '<ruby>久<rt>ひさ</rt></ruby>しぶりですね。<ruby>元気<rt>げんき</rt></ruby>にしていましたか。', tc: '好久不見。你還好嗎？' },
-      { speaker: '佐藤', jp: 'はい、おかげさまで元気にしています。田中さんはどうですか。', tc: '還好，託你的福我一直很健康。A你呢？' },
-      { speaker: '田中', jp: '<ruby>私<rt>わたし</rt></ruby>も<ruby>忙<rt>いそが</rt></ruby>しいですが、<ruby>元気<rt>げんき</rt></ruby>です。<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>で、なかなか<ruby>連絡<rt>れんらく</rt></ruby>できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
-      { speaker: '佐藤', jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。<ruby>今日<rt>きょう</rt></ruby>はゆっくり<ruby>話<rt>はな</rt></ruby>しましょう。<ruby>何<rt>なに</rt></ruby>か<ruby>飲<rt>の</rt></ruby>みますか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？' },
-      { speaker: '田中', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？' },
-      { speaker: '佐藤', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。', tc: '上週我跟朋友去旅行了。非常開心。' },
-      { speaker: '田中', jp: 'いいですね。<ruby>私<rt>わたし</rt></ruby>も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。', tc: '真好啊。我也想最近去旅行。' }
+      { speaker: '自分', jp: '<ruby>久<rt>ひさ</rt></ruby>しぶりですね。<ruby>元気<rt>げんき</rt></ruby>にしていましたか。<ruby>仕事<rt>しごと</rt></ruby>は<ruby>忙<rt>いそが</rt></ruby>しいですか。', tc: '好久不見。你還好嗎？工作忙嗎？' },
+      { speaker: 'B', jp: 'はい、おかげさまで<ruby>元気<rt>げんき</rt></ruby>にしています。Aさんはどうですか。<ruby>最近<rt>さいきん</rt></ruby>どうしていましたか。', tc: '還好，託你的福我一直很健康。A你呢？最近過得怎麼樣？' },
+      { speaker: '自分', jp: '<ruby>私<rt>わたし</rt></ruby>も<ruby>忙<rt>いそが</rt></ruby>しいですが、<ruby>元気<rt>げんき</rt></ruby>です。<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>で、なかなか<ruby>連絡<rt>れんらく</rt></ruby>できなくてすみません。', tc: '我也還好，雖然很忙。工作很辛苦，一直沒聯絡真的很抱歉。' },
+      { speaker: 'B', jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。<ruby>今日<rt>きょう</rt></ruby>はゆっくり<ruby>話<rt>はな</rt></ruby>しましょう。<ruby>何<rt>なに</rt></ruby>か<ruby>飲<rt>の</rt></ruby>みますか。ビールでいいですか。', tc: '沒關係啦。今天就好好聊聊吧。要喝點什麼嗎？啤酒可以嗎？' },
+      { speaker: '自分', jp: 'じゃあ、ビールを<ruby>一<rt>ひと</rt></ruby>つください。<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>か<ruby>面白<rt>おもしろ</rt></ruby>いことがありましたか。<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったと<ruby>聞<rt>き</rt></ruby>きましたが。', tc: '那就請給我一杯啤酒。最近有什麼有趣的事嗎？聽說你去旅行了？' },
+      { speaker: 'B', jp: '<ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とても<ruby>楽<rt>たの</rt></ruby>しかったです。<ruby>景色<rt>けしき</rt></ruby>が<ruby>素晴<rt>すば</rt></ruby>らしかったですよ。', tc: '上週我跟朋友去旅行了。非常開心。風景非常棒喔。' },
+      { speaker: '自分', jp: 'いいですね。私も<ruby>近<rt>ちか</rt></ruby>いうちに<ruby>旅行<rt>りょこう</rt></ruby>したいです。<ruby>次<rt>つぎ</rt></ruby>は<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>行<rt>い</rt></ruby>きましょう。', tc: '真好啊。我也想最近去旅行。下次一起去吧。' }
     ]
   },
   {
-    title: 'シナリオ6：道を聞く会話（詳細な案内）',
+    title: 'シナリオ6：道を聞く会話',
     lines: [
-      { speaker: '外国人', jp: 'すみません。<ruby>駅<rt>えき</rt></ruby>までどうやって<ruby>行<rt>い</rt></ruby>けばいいですか。', tc: '不好意思。到車站怎麼走比較好？' },
+      { speaker: '自分', jp: 'すみません。<ruby>駅<rt>えき</rt></ruby>までどうやって<ruby>行<rt>い</rt></ruby>けばいいですか。<ruby>歩<rt>ある</rt></ruby>いてどのくらいですか。', tc: '不好意思。到車站怎麼走比較好？走路大概要多久？' },
       { speaker: '通行人', jp: '<ruby>駅<rt>えき</rt></ruby>ですか。この<ruby>道<rt>みち</rt></ruby>をまっすぐ<ruby>進<rt>すす</rt></ruby>んで、<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>信号<rt>しんごう</rt></ruby>を<ruby>右<rt>みぎ</rt></ruby>に<ruby>曲<rt>ま</rt></ruby>がります。それから<ruby>歩<rt>ある</rt></ruby>いて<ruby>五分<rt>ごふん</rt></ruby>くらいです。', tc: '到車站嗎。沿著這條路直走，在第二個紅綠燈右轉。然後再走大概五分鐘。' },
-      { speaker: '外国人', jp: '<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>信号<rt>しんごう</rt></ruby>ですね。わかりました。コンビニはありますか。', tc: '第二個紅綠燈對吧。我知道了。附近有便利商店嗎？' },
-      { speaker: '通行人', jp: 'はい、<ruby>信号<rt>しんごう</rt></ruby>を<ruby>曲<rt>ま</rt></ruby>がったすぐのところにあります。もし<ruby>迷<rt>まよ</rt></ruby>ったら、また<ruby>聞<rt>き</rt></ruby>いてください。', tc: '有的，轉過紅綠燈馬上就有。如果迷路了再問別人吧。' },
-      { speaker: '外国人', jp: 'ありがとうございます。助かります。', tc: '謝謝你。幫了大忙。' },
-      { speaker: '通行人', jp: 'いえいえ。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '不客氣。路上小心。' }
+      { speaker: '自分', jp: '<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>信号<rt>しんごう</rt></ruby>ですね。わかりました。コンビニやカフェはありますか。', tc: '第二個紅綠燈對吧。我知道了。附近有便利商店或咖啡廳嗎？' },
+      { speaker: '通行人', jp: 'はい、<ruby>信号<rt>しんごう</rt></ruby>を<ruby>曲<rt>ま</rt></ruby>がったすぐのところにコンビニがあります。もし<ruby>迷<rt>まよ</rt></ruby>ったら、また<ruby>聞<rt>き</rt></ruby>いてください。タクシーを<ruby>使<rt>つか</rt></ruby>う<ruby>手<rt>て</rt></ruby>もありますよ。', tc: '有的，轉過紅綠燈馬上就有便利商店。如果迷路了再問別人吧。也可以搭計程車。' },
+      { speaker: '自分', jp: 'ありがとうございます。<ruby>助<rt>たす</rt></ruby>かります。<ruby>夜<rt>よる</rt></ruby>は<ruby>安全<rt>あんぜん</rt></ruby>ですか。', tc: '謝謝你。幫了大忙。晚上安全嗎？' },
+      { speaker: '通行人', jp: 'はい、<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>気<rt>き</rt></ruby>をつけて<ruby>行<rt>い</rt></ruby>ってください。', tc: '沒問題的。路上小心。' }
     ]
   },
   {
     title: 'シナリオ7：医師の診察を受ける会話',
     lines: [
-      { speaker: '医師', jp: 'こんにちは。<ruby>今日<rt>きょう</rt></ruby>はどうされましたか。', tc: '你好。今天是哪裡不舒服呢？' },
-      { speaker: '患者', jp: '<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>くて、<ruby>熱<rt>ねつ</rt></ruby>もあります。<ruby>昨日<rt>きのう</rt></ruby>からずっと<ruby>続<rt>つづ</rt></ruby>いています。', tc: '頭痛，還有發燒。從昨天開始一直持續到現在。' },
-      { speaker: '医師', jp: 'そうですか。では、<ruby>体温<rt>たいおん</rt></ruby>を<ruby>測<rt>はか</rt></ruby>りますね。<ruby>口<rt>くち</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けてください。', tc: '這樣啊。那我來量一下體溫。請張開嘴巴。' },
-      { speaker: '患者', jp: 'はい。', tc: '好的。' },
-      { speaker: '医師', jp: '<ruby>熱<rt>ねつ</rt></ruby>は<ruby>三十八度<rt>さんじゅうはちど</rt></ruby>です。<ruby>風邪<rt>かぜ</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますので、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>んでください。', tc: '體溫是三十八度。很可能是感冒。我會開藥，請在飯後服用。' },
-      { speaker: '患者', jp: 'わかりました。どのくらいで<ruby>治<rt>なお</rt></ruby>りますか。', tc: '我知道了。大概多久會好呢？' },
-      { speaker: '医師', jp: '<ruby>二<rt>に</rt></ruby>、<ruby>三日<rt>さんにち</rt></ruby>でよくなると<ruby>思<rt>おも</rt></ruby>いますが、<ruby>無理<rt>むり</rt></ruby>をしないでください。', tc: '我想兩、三天就會好轉，但請不要勉強自己。' }
+      { speaker: '医師', jp: 'こんにちは。<ruby>今日<rt>きょう</rt></ruby>はどうされましたか。いつから<ruby>症状<rt>しょうじょう</rt></ruby>がありますか。', tc: '你好。今天是哪裡不舒服呢？從什麼時候開始有症狀的？' },
+      { speaker: '自分', jp: '<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>くて、<ruby>熱<rt>ねつ</rt></ruby>もあります。<ruby>昨日<rt>きのう</rt></ruby>からずっと<ruby>続<rt>つづ</rt></ruby>いています。<ruby>咳<rt>せき</rt></ruby>も<ruby>出<rt>で</rt></ruby>ます。', tc: '頭痛，還有發燒。從昨天開始一直持續到現在。還有咳嗽。' },
+      { speaker: '医師', jp: 'そうですか。では、<ruby>体温<rt>たいおん</rt></ruby>を<ruby>測<rt>はか</rt></ruby>りますね。<ruby>口<rt>くち</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けてください。<ruby>喉<rt>のど</rt></ruby>も<ruby>見<rt>み</rt></ruby>ます。', tc: '這樣啊。那我來量一下體溫。請張開嘴巴。喉嚨也看一下。' },
+      { speaker: '自分', jp: 'はい。', tc: '好的。' },
+      { speaker: '医師', jp: '<ruby>熱<rt>ねつ</rt></ruby>は<ruby>三十八度<rt>さんじゅうはちど</rt></ruby>です。<ruby>風邪<rt>かぜ</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますので、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>んでください。<ruby>休息<rt>きゅうそく</rt></ruby>も<ruby>取<rt>と</rt></ruby>ってください。', tc: '體溫是三十八度。很可能是感冒。我會開藥，請在飯後服用。也請休息。' },
+      { speaker: '自分', jp: 'わかりました。どのくらいで<ruby>治<rt>なお</rt></ruby>りますか。<ruby>仕事<rt>しごと</rt></ruby>は<ruby>休<rt>やす</rt></ruby>んだほうがいいですか。', tc: '我知道了。大概多久會好呢？工作要休息比較好嗎？' },
+      { speaker: '医師', jp: '<ruby>二<rt>に</rt></ruby>、<ruby>三日<rt>さんにち</rt></ruby>でよくなると<ruby>思<rt>おも</rt></ruby>いますが、<ruby>無理<rt>むり</rt></ruby>をしないでください。<ruby>明日<rt>あした</rt></ruby>も<ruby>熱<rt>ねつ</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>いたら、また<ruby>来<rt>き</rt></ruby>てください。', tc: '我想兩、三天就會好轉，但請不要勉強自己。如果明天還在發燒，請再來。' }
     ]
   },
   {
     title: 'シナリオ8：電話でサービス予約する会話',
     lines: [
       { speaker: '店員', jp: 'はい、<ruby>美容院<rt>びよういん</rt></ruby>のさくらです。', tc: '您好，這裡是美容院櫻花。' },
-      { speaker: '客', jp: 'すみません。カットの<ruby>予約<rt>よやく</rt></ruby>をしたいのですが。', tc: '不好意思。我想預約剪髮。' },
-      { speaker: '店員', jp: 'はい、かしこまりました。ご<ruby>希望<rt>きぼう</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>はいつですか。', tc: '好的。請問您希望的日期和時間是什麼時候呢？' },
-      { speaker: '客', jp: '<ruby>明日<rt>あした</rt></ruby>の<ruby>午後<rt>ごご</rt></ruby><ruby>三時<rt>さんじ</rt></ruby><ruby>頃<rt>ごろ</rt></ruby>は<ruby>空<rt>あ</rt></ruby>いていますか。', tc: '明天下午三點左右有空嗎？' },
-      { speaker: '店員', jp: '<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。はい、<ruby>三時<rt>さんじ</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。お<ruby>名前<rt>なまえ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。', tc: '請稍等一下。是的，三點沒問題。請告訴我您的名字。' },
-      { speaker: '客', jp: '田中です。', tc: '我是田中。' },
+      { speaker: '自分', jp: 'すみません。カットの<ruby>予約<rt>よやく</rt></ruby>をしたいのですが。カラーもできますか。', tc: '不好意思。我想預約剪髮。染髮也可以嗎？' },
+      { speaker: '店員', jp: 'はい、かしこまりました。ご<ruby>希望<rt>きぼう</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>はいつですか。カラーも<ruby>可能<rt>かのう</rt></ruby>ですよ。', tc: '好的。請問您希望的日期和時間是什麼時候呢？染髮也可以的。' },
+      { speaker: '自分', jp: '<ruby>明日<rt>あした</rt></ruby>の<ruby>午後<rt>ごご</rt></ruby><ruby>三時<rt>さんじ</rt></ruby><ruby>頃<rt>ごろ</rt></ruby>は<ruby>空<rt>あ</rt></ruby>いていますか。カットとカラーでお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '明天下午三點左右有空嗎？請給我剪髮和染髮。' },
+      { speaker: '店員', jp: '<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。はい、<ruby>三時<rt>さんじ</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。お<ruby>名前<rt>なまえ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。<ruby>所要時間<rt>しょようじかん</rt></ruby>は<ruby>二時間<rt>にじかん</rt></ruby>くらいです。', tc: '請稍等一下。是的，三點沒問題。請告訴我您的名字。大約需要兩小時。' },
+      { speaker: '自分', jp: '<ruby>田中<rt>たなか</rt></ruby>です。わかりました。', tc: '我是田中。我知道了。' },
       { speaker: '店員', jp: '<ruby>田中様<rt>たなかさま</rt></ruby>、<ruby>明日<rt>あした</rt></ruby><ruby>三時<rt>さんじ</rt></ruby>でご<ruby>予約<rt>よやく</rt></ruby>を<ruby>承<rt>うけたまわ</rt></ruby>りました。お<ruby>待<rt>ま</rt></ruby>ちしております。', tc: '田中先生，已為您預約明天三點。我們恭候您的光臨。' }
     ]
   },
   {
     title: 'シナリオ9：下屬が上司に報告する会話',
     lines: [
-      { speaker: '部下', jp: 'お忙しいところすみません。昨日の会議の内容について報告します。', tc: '不好意思打擾您。我來報告昨天會議的內容。' },
+      { speaker: '自分', jp: 'お<ruby>忙<rt>いそが</rt></ruby>しいところすみません。<ruby>昨日<rt>きのう</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>について<ruby>報告<rt>ほうこく</rt></ruby>します。<ruby>資料<rt>しりょう</rt></ruby>も<ruby>持<rt>も</rt></ruby>ってきました。', tc: '不好意思打擾您。我來報告昨天會議的內容。資料也帶來了。' },
       { speaker: '上司', jp: 'はい、どうぞ。', tc: '好的，請說。' },
-      { speaker: '部下', jp: '新しいプロジェクトの予算が承認されました。来週から作業を始めます。', tc: '新專案的預算已經獲得核准。從下週開始進行作業。' },
-      { speaker: '上司', jp: 'わかりました。問題はありそうですか。', tc: '我知道了。看起來有什麼問題嗎？' },
-      { speaker: '部下', jp: '今のところ特にありませんが、人員が少ないので、追加を検討したいです。', tc: '目前特別沒有，但人員比較少，所以想討論一下是否要追加。' },
-      { speaker: '上司', jp: 'そうですね。それでは、計画書を作って提出してください。', tc: '這樣啊。那就請你製作計劃書並提交。' },
-      { speaker: '部下', jp: 'はい、すぐに準備します。', tc: '好的，我馬上準備。' }
+      { speaker: '自分', jp: '<ruby>新<rt>あたら</rt></ruby>しいプロジェクトの<ruby>予算<rt>よさん</rt></ruby>が<ruby>承認<rt>しょうにん</rt></ruby>されました。<ruby>来週<rt>らいしゅう</rt></ruby>から<ruby>作業<rt>さぎょう</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めます。スケジュールも<ruby>作<rt>つく</rt></ruby>りました。', tc: '新專案的預算已經獲得核准。從下週開始進行作業。行程表也做好了。' },
+      { speaker: '上司', jp: 'わかりました。<ruby>問題<rt>もんだい</rt></ruby>はありそうですか。リスクは<ruby>何<rt>なに</rt></ruby>ですか。', tc: '我知道了。看起來有什麼問題嗎？風險是什麼？' },
+      { speaker: '自分', jp: '<ruby>今<rt>いま</rt></ruby>のところ<ruby>特<rt>とく</rt></ruby>にありませんが、<ruby>人員<rt>じんいん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ないので、<ruby>追加<rt>ついか</rt></ruby>を<ruby>検討<rt>けんとう</rt></ruby>したいです。<ruby>外注<rt>がいちゅう</rt></ruby>も<ruby>考<rt>かんが</rt></ruby>えています。', tc: '目前特別沒有，但人員比較少，所以想討論一下是否要追加。也在考慮外包。' },
+      { speaker: '上司', jp: 'そうですね。それでは、<ruby>計画書<rt>けいかくしょ</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って<ruby>提出<rt>ていしゅつ</rt></ruby>してください。<ruby>来週<rt>らいしゅう</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>できますか。', tc: '這樣啊。那就請你製作計劃書並提交。下週前可以提交嗎？' },
+      { speaker: '自分', jp: 'はい、すぐに<ruby>準備<rt>じゅんび</rt></ruby>します。<ruby>金曜日<rt>きんようび</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>します。', tc: '好的，我馬上準備。星期五前會提交。' }
     ]
   },
   {
     title: 'シナリオ10：就職面接の会話',
     lines: [
       { speaker: '面接官', jp: '<ruby>本日<rt>ほんじつ</rt></ruby>は<ruby>遠<rt>とお</rt></ruby>いところからお<ruby>越<rt>こ</rt></ruby>しいただき、ありがとうございます。まず<ruby>自己紹介<rt>じこしょうかい</rt></ruby>をお<ruby>願<rt>ねが</rt></ruby>いします。', tc: '今天非常感謝您從遠方過來。首先請做自我介紹。' },
-      { speaker: '応募者', jp: 'はい。<ruby>田中<rt>たなか</rt></ruby>と<ruby>申<rt>もう</rt></ruby>します。<ruby>大学<rt>だいがく</rt></ruby>では<ruby>経済<rt>けいざい</rt></ruby><ruby>学<rt>がく</rt></ruby>を<ruby>専攻<rt>せんこう</rt></ruby>し、<ruby>卒業<rt>そつぎょう</rt></ruby><ruby>後<rt>ご</rt></ruby>は<ruby>営業<rt>えいぎょう</rt></ruby><ruby>部門<rt>ぶもん</rt></ruby>で<ruby>三年<rt>さんねん</rt></ruby><ruby>働<rt>はたら</rt></ruby>いておりました。<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>以前<rt>いぜん</rt></ruby>から<ruby>興味<rt>きょうみ</rt></ruby>があり、<ruby>今回<rt>こんかい</rt></ruby><ruby>応募<rt>おうぼ</rt></ruby>いたしました。', tc: '好的。我叫田中。大學主修經濟學，畢業後在業務部門工作了三年。我以前就對貴公司的商品有興趣，所以這次投了履歷。' },
+      { speaker: '自分', jp: 'はい。<ruby>田中<rt>たなか</rt></ruby>と<ruby>申<rt>もう</rt></ruby>します。<ruby>大学<rt>だいがく</rt></ruby>では<ruby>経済<rt>けいざい</rt></ruby><ruby>学<rt>がく</rt></ruby>を<ruby>専攻<rt>せんこう</rt></ruby>し、<ruby>卒業<rt>そつぎょう</rt></ruby><ruby>後<rt>ご</rt></ruby>は<ruby>営業<rt>えいぎょう</rt></ruby><ruby>部門<rt>ぶもん</rt></ruby>で<ruby>三年<rt>さんねん</rt></ruby><ruby>働<rt>はたら</rt></ruby>いておりました。<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>以前<rt>いぜん</rt></ruby>から<ruby>興味<rt>きょうみ</rt></ruby>があり、<ruby>今回<rt>こんかい</rt></ruby><ruby>応募<rt>おうぼ</rt></ruby>いたしました。', tc: '好的。我叫田中。大學主修經濟學，畢業後在業務部門工作了三年。我以前就對貴公司的商品有興趣，所以這次投了履歷。' },
       { speaker: '面接官', jp: 'わかりました。<ruby>前職<rt>ぜんしょく</rt></ruby>では<ruby>主<rt>おも</rt></ruby>にどのような<ruby>仕事<rt>しごと</rt></ruby>を<ruby>担当<rt>たんとう</rt></ruby>していましたか。', tc: '我了解了。在前職主要負責什麼樣的工作呢？' },
-      { speaker: '応募者', jp: '<ruby>新規<rt>しんき</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>の<ruby>開拓<rt>かいたく</rt></ruby>と<ruby>既存<rt>きそん</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>のフォローが<ruby>中心<rt>ちゅうしん</rt></ruby>でした。<ruby>数字<rt>すうじ</rt></ruby>を<ruby>分析<rt>ぶんせき</rt></ruby>して<ruby>提案<rt>ていあん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>り、チームと<ruby>協力<rt>きょうりょく</rt></ruby>して<ruby>目標<rt>もくひょう</rt></ruby>を<ruby>達成<rt>たっせい</rt></ruby>していました。', tc: '主要是開發新客戶和跟進既有客戶。分析數據後製作提案，並和團隊合作達成目標。' },
-      { speaker: '面接官', jp: '<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>成果<rt>せいか</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。', tc: '請告訴我具體的成果。' },
-      { speaker: '応募者', jp: '<ruby>一年目<rt>いちねんめ</rt></ruby>に<ruby>新規<rt>しんき</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>を<ruby>十社<rt>じゅっしゃ</rt></ruby><ruby>獲得<rt>かくとく</rt></ruby>し、<ruby>売<rt>う</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げを<ruby>二十<rt>にじゅう</rt></ruby>パーセント<ruby>上<rt>あ</rt></ruby>げることができました。<ruby>特<rt>とく</rt></ruby>に<ruby>難<rt>むずか</rt></ruby>しい<ruby>顧客<rt>こきゃく</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>を<ruby>築<rt>きず</rt></ruby>いたことが<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '第一年獲得了十家新客戶，並將營業額提升了百分之二十。特別是和困難客戶建立關係的經驗，讓我印象深刻。' },
+      { speaker: '自分', jp: '<ruby>新規<rt>しんき</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>の<ruby>開拓<rt>かいたく</rt></ruby>と<ruby>既存<rt>きそん</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>のフォローが<ruby>中心<rt>ちゅうしん</rt></ruby>でした。<ruby>数字<rt>すうじ</rt></ruby>を<ruby>分析<rt>ぶんせき</rt></ruby>して<ruby>提案<rt>ていあん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>り、チームと<ruby>協力<rt>きょうりょく</rt></ruby>して<ruby>目標<rt>もくひょう</rt></ruby>を<ruby>達成<rt>たっせい</rt></ruby>していました。', tc: '主要是開發新客戶和跟進既有客戶。分析數據後製作提案，並和團隊合作達成目標。' },
+      { speaker: '面接官', jp: '<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>成果<rt>せいか</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。<ruby>難<rt>むずか</rt></ruby>しかったことは<ruby>何<rt>なに</rt></ruby>ですか。', tc: '請告訴我具體的成果。困難的事情是什麼？' },
+      { speaker: '自分', jp: '<ruby>一年目<rt>いちねんめ</rt></ruby>に<ruby>新規<rt>しんき</rt></ruby><ruby>顧客<rt>こきゃく</rt></ruby>を<ruby>十社<rt>じゅっしゃ</rt></ruby><ruby>獲得<rt>かくとく</rt></ruby>し、<ruby>売<rt>う</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げを<ruby>二十<rt>にじゅう</rt></ruby>パーセント<ruby>上<rt>あ</rt></ruby>げることができました。<ruby>特<rt>とく</rt></ruby>に<ruby>難<rt>むずか</rt></ruby>しい<ruby>顧客<rt>こきゃく</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>を<ruby>築<rt>きず</rt></ruby>いたことが<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '第一年獲得了十家新客戶，並將營業額提升了百分之二十。特別是和困難客戶建立關係的經驗，讓我印象深刻。' },
       { speaker: '面接官', jp: 'それは<ruby>素晴<rt>すば</rt></ruby>らしいですね。<ruby>入社<rt>にゅうしゃ</rt></ruby><ruby>後<rt>ご</rt></ruby>はどの<ruby>部署<rt>ぶしょ</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きたいですか。また、なぜその<ruby>部署<rt>ぶしょ</rt></ruby>を<ruby>選<rt>えら</rt></ruby>んだのですか。', tc: '那很棒呢。入社後希望在哪個部門工作呢？為什麼選擇那個部門？' },
-      { speaker: '応募者', jp: 'マーケティング<ruby>部<rt>ぶ</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きたいと<ruby>考<rt>かんが</rt></ruby>えております。<ruby>営業<rt>えいぎょう</rt></ruby>で<ruby>培<rt>つちか</rt></ruby>った<ruby>顧客<rt>こきゃく</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>を<ruby>活<rt>い</rt></ruby>かして、<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>魅力<rt>みりょく</rt></ruby>を<ruby>広<rt>ひろ</rt></ruby>げたいからです。', tc: '我想在行銷部門工作。因為我想活用在業務中累積的客戶聲音，來推廣商品的魅力。' },
+      { speaker: '自分', jp: 'マーケティング<ruby>部<rt>ぶ</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きたいと<ruby>考<rt>かんが</rt></ruby>えております。<ruby>営業<rt>えいぎょう</rt></ruby>で<ruby>培<rt>つちか</rt></ruby>った<ruby>顧客<rt>こきゃく</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>を<ruby>活<rt>い</rt></ruby>かして、<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>魅力<rt>みりょく</rt></ruby>を<ruby>広<rt>ひろ</rt></ruby>げたいからです。', tc: '我想在行銷部門工作。因為我想活用在業務中累積的客戶聲音，來推廣商品的魅力。' },
       { speaker: '面接官', jp: 'わかりました。<ruby>最後<rt>さいご</rt></ruby>に、<ruby>何<rt>なに</rt></ruby>か<ruby>質問<rt>しつもん</rt></ruby>はありますか。', tc: '我了解了。最後有什麼問題嗎？' },
-      { speaker: '応募者', jp: 'はい。<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>研修<rt>けんしゅう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>について<ruby>少<rt>すこ</rt></ruby>し<ruby>教<rt>おし</rt></ruby>えていただけますか。', tc: '有的。可以稍微告訴我貴公司的研修制度嗎？' },
-      { speaker: '面接官', jp: 'もちろんです。<ruby>入社<rt>にゅうしゃ</rt></ruby><ruby>後<rt>ご</rt></ruby>に<ruby>三ヶ月<rt>さんかげつ</rt></ruby>の<ruby>研修<rt>けんしゅう</rt></ruby>があります。<ruby>本日<rt>ほんじつ</rt></ruby>はありがとうございました。', tc: '當然可以。入社後有三個月的研修。今天謝謝您。' }
+      { speaker: '自分', jp: 'はい。<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>研修<rt>けんしゅう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>について<ruby>少<rt>すこ</rt></ruby>し<ruby>教<rt>おし</rt></ruby>えていただけますか。また、チームの<ruby>雰囲気<rt>ふんいき</rt></ruby>はどんな<ruby>感<rt>かん</rt></ruby>じですか。', tc: '有的。可以稍微告訴我貴公司的研修制度嗎？還有團隊的氣氛是什麼感覺？' },
+      { speaker: '面接官', jp: 'もちろんです。<ruby>入社<rt>にゅうしゃ</rt></ruby><ruby>後<rt>ご</rt></ruby>に<ruby>三ヶ月<rt>さんかげつ</rt></ruby>の<ruby>研修<rt>けんしゅう</rt></ruby>があります。チームは<ruby>協力<rt>きょうりょく</rt></ruby><ruby>的<rt>てき</rt></ruby>です。<ruby>本日<rt>ほんじつ</rt></ruby>はありがとうございました。', tc: '當然可以。入社後有三個月的研修。團隊很合作。今天謝謝您。' }
     ]
   },
   {
     title: 'シナリオ11：映画について話すグループチャット',
     lines: [
-      { speaker: '田中', jp: 'みんな、<ruby>昨日<rt>きのう</rt></ruby><ruby>見<rt>み</rt></ruby>た<ruby>映画<rt>えいが</rt></ruby>、どう<ruby>思<rt>おも</rt></ruby>いましたか。<ruby>主人公<rt>しゅじんこう</rt></ruby>の<ruby>決断<rt>けつだん</rt></ruby>がすごく<ruby>印象的<rt>いんしょうてき</rt></ruby>だったよね。', tc: '大家昨天看的那部電影，覺得怎麼樣？主角的決定真的很令人印象深刻對吧。' },
-      { speaker: '佐藤', jp: 'うん、<ruby>特<rt>とく</rt></ruby>に<ruby>最後<rt>さいご</rt></ruby>のシーンで<ruby>友達<rt>ともだち</rt></ruby>を<ruby>助<rt>たす</rt></ruby>ける<ruby>選択<rt>せんたく</rt></ruby>をしたところ、<ruby>心<rt>こころ</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かされました。', tc: '對啊，特別是最後一幕選擇幫助朋友的地方，真的打動了我。' },
-      { speaker: '鈴木', jp: 'でも、<ruby>友達<rt>ともだち</rt></ruby><ruby>役<rt>やく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>がもっと<ruby>話<rt>はな</rt></ruby>してほしかったです。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なかったような<ruby>気<rt>き</rt></ruby>がします。', tc: '可是我希望朋友角色的人可以多講一點話。感覺感情的表現有點少。' },
-      { speaker: '高橋', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>悪役<rt>あくやく</rt></ruby>の<ruby>動機<rt>どうき</rt></ruby>が<ruby>複雑<rt>ふくざつ</rt></ruby>で<ruby>好<rt>す</rt></ruby>きでした。ただの<ruby>悪<rt>わる</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>じゃなくて、<ruby>過去<rt>かこ</rt></ruby>の<ruby>経験<rt>けいけん</rt></ruby>から<ruby>行動<rt>こうどう</rt></ruby>しているのが<ruby>面白<rt>おもしろ</rt></ruby>かったです。', tc: '我喜歡反派的動機很複雜。不是單純的壞人，而是從過去的經驗來行動，覺得很有趣。' },
-      { speaker: '伊藤', jp: '<ruby>全体的<rt>ぜんたいてき</rt></ruby>にストーリーが<ruby>楽<rt>たの</rt></ruby>しかったです。でも<ruby>途中<rt>とちゅう</rt></ruby>でちょっと<ruby>長<rt>なが</rt></ruby>く<ruby>感<rt>かん</rt></ruby>じた<ruby>部分<rt>ぶぶん</rt></ruby>もありました。<ruby>続編<rt>ぞくへん</rt></ruby>があるといいですね。', tc: '整體來說故事很有趣。不過中途有些部分覺得有點長。如果有續集就好了。' },
-      { speaker: '田中', jp: 'そうですね。キャラクターの<ruby>成長<rt>せいちょう</rt></ruby>がよく<ruby>描<rt>えが</rt></ruby>かれていました。<ruby>主人公<rt>しゅじんこう</rt></ruby>が<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>弱<rt>よわ</rt></ruby>かったのに、だんだん<ruby>強<rt>つよ</rt></ruby>くなっていくのがよかったです。', tc: '是啊。角色的成長描寫得很好。主角一開始很弱，但漸漸變強的過程很棒。' },
-      { speaker: '佐藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>も<ruby>良<rt>よ</rt></ruby>かったと<ruby>思<rt>おも</rt></ruby>います。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>場面<rt>ばめん</rt></ruby>で<ruby>使<rt>つか</rt></ruby>われている<ruby>曲<rt>きょく</rt></ruby>が<ruby>特<rt>とく</rt></ruby>に<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '我也覺得音樂很好。在感情場面使用的曲子特別令人印象深刻。' },
-      { speaker: '鈴木', jp: '<ruby>次<rt>つぎ</rt></ruby>はみんなで<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>見<rt>み</rt></ruby>ましょう。<ruby>別<rt>べつ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby>もおすすめですよ。', tc: '下次大家一起去看吧。我還有其他推薦的電影。' },
-      { speaker: '高橋', jp: 'いいですね。<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はどうですか。', tc: '好啊。下週末怎麼樣？' },
-      { speaker: '伊藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。', tc: '我沒問題。那我們來決定地點吧。' }
+      { speaker: '自分', jp: 'みんな、<ruby>昨日<rt>きのう</rt></ruby><ruby>見<rt>み</rt></ruby>た<ruby>映画<rt>えいが</rt></ruby>、どう<ruby>思<rt>おも</rt></ruby>いましたか。<ruby>主人公<rt>しゅじんこう</rt></ruby>の<ruby>決断<rt>けつだん</rt></ruby>がすごく<ruby>印象的<rt>いんしょうてき</rt></ruby>だったよね。', tc: '大家昨天看的那部電影，覺得怎麼樣？主角的決定真的很令人印象深刻對吧。' },
+      { speaker: 'B', jp: 'うん、<ruby>特<rt>とく</rt></ruby>に<ruby>最後<rt>さいご</rt></ruby>のシーンで<ruby>友達<rt>ともだち</rt></ruby>を<ruby>助<rt>たす</rt></ruby>ける<ruby>選択<rt>せんたく</rt></ruby>をしたところ、<ruby>心<rt>こころ</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かされました。<ruby>音楽<rt>おんがく</rt></ruby>も<ruby>良<rt>よ</rt></ruby>かったです。', tc: '對啊，特別是最後一幕選擇幫助朋友的地方，真的打動了我。音樂也很好。' },
+      { speaker: 'C', jp: 'でも、<ruby>友達<rt>ともだち</rt></ruby><ruby>役<rt>やく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>がもっと<ruby>話<rt>はな</rt></ruby>してほしかったです。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なかったような<ruby>気<rt>き</rt></ruby>がします。', tc: '可是我希望朋友角色的人可以多講一點話。感覺感情的表現有點少。' },
+      { speaker: 'D', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>悪役<rt>あくやく</rt></ruby>の<ruby>動機<rt>どうき</rt></ruby>が<ruby>複雑<rt>ふくざつ</rt></ruby>で<ruby>好<rt>す</rt></ruby>きでした。ただの<ruby>悪<rt>わる</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>じゃなくて、<ruby>過去<rt>かこ</rt></ruby>の<ruby>経験<rt>けいけん</rt></ruby>から<ruby>行動<rt>こうどう</rt></ruby>しているのが<ruby>面白<rt>おもしろ</rt></ruby>かったです。', tc: '我喜歡反派的動機很複雜。不是單純的壞人，而是從過去的經驗來行動，覺得很有趣。' },
+      { speaker: 'E', jp: '<ruby>全体的<rt>ぜんたいてき</rt></ruby>にストーリーが<ruby>楽<rt>たの</rt></ruby>しかったです。でも<ruby>途中<rt>とちゅう</rt></ruby>でちょっと<ruby>長<rt>なが</rt></ruby>く<ruby>感<rt>かん</rt></ruby>じた<ruby>部分<rt>ぶぶん</rt></ruby>もありました。<ruby>続編<rt>ぞくへん</rt></ruby>があるといいですね。', tc: '整體來說故事很有趣。不過中途有些部分覺得有點長。如果有續集就好了。' },
+      { speaker: '自分', jp: 'そうですね。キャラクターの<ruby>成長<rt>せいちょう</rt></ruby>がよく<ruby>描<rt>えが</rt></ruby>かれていました。<ruby>主人公<rt>しゅじんこう</rt></ruby>が<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>弱<rt>よわ</rt></ruby>かったのに、だんだん<ruby>強<rt>つよ</rt></ruby>くなっていくのがよかったです。', tc: '是啊。角色的成長描寫得很好。主角一開始很弱，但漸漸變強的過程很棒。' },
+      { speaker: 'B', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>も<ruby>良<rt>よ</rt></ruby>かったと<ruby>思<rt>おも</rt></ruby>います。<ruby>感情<rt>かんじょう</rt></ruby>の<ruby>場面<rt>ばめん</rt></ruby>で<ruby>使<rt>つか</rt></ruby>われている<ruby>曲<rt>きょく</rt></ruby>が<ruby>特<rt>とく</rt></ruby>に<ruby>印象<rt>いんしょう</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>っています。', tc: '我也覺得音樂很好。在感情場面使用的曲子特別令人印象深刻。' },
+      { speaker: 'C', jp: '<ruby>次<rt>つぎ</rt></ruby>はみんなで<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>見<rt>み</rt></ruby>ましょう。<ruby>別<rt>べつ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby>もおすすめですよ。アクション<ruby>映画<rt>えいが</rt></ruby>はどうですか。', tc: '下次大家一起去看吧。我還有其他推薦的電影。動作片怎麼樣？' },
+      { speaker: 'D', jp: 'いいですね。<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はどうですか。<ruby>私<rt>わたし</rt></ruby>は<ruby>空<rt>あ</rt></ruby>いています。', tc: '好啊。下週末怎麼樣？我有空。' },
+      { speaker: 'E', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。<ruby>映画館<rt>えいがかん</rt></ruby>で<ruby>見<rt>み</rt></ruby>るか、<ruby>家<rt>いえ</rt></ruby>で<ruby>見<rt>み</rt></ruby>るか、どちらがいいですか。', tc: '我沒問題。那我們來決定地點吧。在電影院看還是在家看，哪個比較好？' },
+      { speaker: '自分', jp: '<ruby>映画館<rt>えいがかん</rt></ruby>がいいです。<ruby>大画面<rt>だいがめん</rt></ruby>で<ruby>見<rt>み</rt></ruby>たいです。', tc: '電影院比較好。我想在大螢幕上看。' }
     ]
   }
 ];
@@ -1274,9 +1276,9 @@ function showConversations() {
       <div class="chat-messages">`;
     const userName = getUserName();
     sc.lines.forEach(line => {
-      // Replace 田中/佐藤 with user's name, always on right
-      const displaySpeaker = (line.speaker === '田中' || line.speaker === '佐藤') ? userName : line.speaker;
-      const isRight = displaySpeaker === userName;
+      // 自分 always on right
+      const isRight = line.speaker === '自分';
+      const displaySpeaker = isRight ? userName : line.speaker;
       const side = isRight ? 'right' : 'left';
       html += `<div class="chat-row ${side}">
         <div class="chat-bubble ${side}">
