@@ -1240,8 +1240,8 @@ function showConversations() {
         ${sc.title}
       </div>
       <div class="chat-messages">`;
-    const rightSpeakers = ['日本人', '店員', 'B', '通行人', '客A', '客B', '医師', '上司', '面接官', 'D', 'E'];
-    const leftSpeakers = ['外国人', '客', 'A', '部下', '患者'];
+    const rightSpeakers = ['日本人', '店員', '佐藤', '通行人', '客A', '客B', '医師', '上司', '面接官', '高橋', '伊藤'];
+    const leftSpeakers = ['外国人', '客', '田中', '部下', '患者', '鈴木', '応募者'];
     sc.lines.forEach(line => {
       const isRight = rightSpeakers.includes(line.speaker);
       const side = isRight ? 'right' : 'left';
