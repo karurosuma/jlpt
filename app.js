@@ -1349,3 +1349,6 @@ const conversations = [
     ]
   }
 ];
+
+// Start app
+document.addEventListener("DOMContentLoaded", () => init());
