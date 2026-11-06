@@ -1350,7 +1350,7 @@ const conversations = [
       { speaker: '伊藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。', tc: '我沒問題。那我們來決定地點吧。' },
       { speaker: '自分', jp: '<ruby>映画館<rt>えいがかん</rt></ruby>がいいです。<ruby>大画面<rt>だいがめん</rt></ruby>で<ruby>見<rt>み</rt></ruby>たいです。', tc: '電影院比較好。我想在大螢幕上看。' }
     ]
-  }
+  },
   {
     title: 'シナリオ12：カップルがUSJに行く計画を立てる会話',
     lines: [
