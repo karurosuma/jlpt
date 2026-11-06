@@ -93,20 +93,26 @@ async function init() {
 
 function goToWord(word) {
   closeSearch();
-  // Filter to show the word and scroll to it
   currentFilter = '';
+  currentOffset = 0;
   renderContent();
   setTimeout(() => {
     const cards = document.querySelectorAll('.card');
     for (const card of cards) {
-      if (card.textContent.includes(word)) {
+      const wordEl = card.querySelector('.word');
+      if (wordEl && (wordEl.textContent.includes(word) || wordEl.innerHTML.includes(word))) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         card.style.outline = '2px solid var(--primary)';
         setTimeout(() => card.style.outline = '', 2000);
-        break;
+        return;
       }
     }
-  }, 100);
+    // If not found, try loading more
+    if (hasMore) {
+      loadMore();
+      setTimeout(() => goToWord(word), 200);
+    }
+  }, 150);
 }
 function openSearch() {
   document.getElementById('searchOverlay').classList.add('show');
