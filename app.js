@@ -97,9 +97,7 @@ function goToWord(word) {
   currentOffset = 0;
   allLoaded = [];
   renderContent();
-  setTimeout(() => {
-    scrollToWord(word, 0);
-  }, 200);
+  setTimeout(() => scrollToWord(word, 0), 300);
 }
 
 function scrollToWord(word, attempts) {
@@ -108,8 +106,7 @@ function scrollToWord(word, attempts) {
     const wordEl = card.querySelector('.word');
     if (wordEl) {
       const text = wordEl.textContent || '';
-      const html = wordEl.innerHTML || '';
-      if (text.includes(word) || html.includes(word)) {
+      if (text.includes(word)) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         card.style.outline = '2px solid var(--primary)';
         setTimeout(() => card.style.outline = '', 2000);
@@ -117,10 +114,9 @@ function scrollToWord(word, attempts) {
       }
     }
   }
-  // Load more and retry
-  if (hasMore && attempts < 10) {
+  if (hasMore && attempts < 20) {
     loadMore();
-    setTimeout(() => scrollToWord(word, attempts + 1), 300);
+    setTimeout(() => scrollToWord(word, attempts + 1), 200);
   }
 }
 function openSearch() {
@@ -158,7 +154,7 @@ function doSearch(query) {
         } else if (currentTab === 'exercises') {
           html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToItem('${r[0].replace(/'/g,"\\'")}')"><div class="word">${r[0]}</div></div>`;
         } else {
-          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" data-word="${r[0].replace(/"/g, '"')}" onclick="goToWord(this.dataset.word)"><div class="word">${toRuby(r[0], r[1])} <span class="badge">${r[3]}</span></div><div class="meaning">${r[2]}</div></div>`;
+          html += `<div class="card search-result" style="margin:8px 0;cursor:pointer;" onclick="goToWord('${r[0].replace(/'/g, "\\'")}')"><div class="word">${toRuby(r[0], r[1])} <span class="badge">${r[3]}</span></div><div class="reading">${r[1]}</div><div class="meaning">${r[2]}</div></div>`;
         }
       });
     } else {
