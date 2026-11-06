@@ -1120,6 +1120,60 @@ function showSummary() {
 
 
 // ===== Conversations =====
+
+let currentConversation = null;
+
+function showConversations() {
+  const container = document.getElementById('content');
+  if (currentConversation === null) {
+    let html = '<div class="conv-list" style="padding:12px;">';
+    conversations.forEach((sc, i) => {
+      html += `<div class="card" onclick="openConversation(${i})" style="cursor:pointer;margin-bottom:8px;">
+        <div style="font-weight:600;">${sc.title}</div>
+      </div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  } else {
+    const sc = conversations[currentConversation];
+    let html = `<div class="chat-container">
+      <div class="chat-title" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border);">
+        <button onclick="currentConversation=null;showConversations();" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--primary);">←</button>
+        ${sc.title}
+      </div>
+      <div class="chat-messages">`;
+    sc.lines.forEach(line => {
+      const isRight = line.speaker === '自分';
+      const side = isRight ? 'right' : 'left';
+      const avatar = isRight ? '' : `<div class="chat-avatar">${getAvatar(line.speaker)}</div>`;
+      html += `<div class="chat-row ${side}">
+        ${avatar}
+        <div class="chat-bubble ${side}">
+          <div class="chat-speaker">${line.speaker}</div>
+          <div class="chat-jp">${applyRubyToText(line.jp)}</div>
+          <div class="chat-tc">${line.tc}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div></div>';
+    container.innerHTML = html;
+  }
+}
+
+function openConversation(idx) {
+  currentConversation = idx;
+  showConversations();
+}
+
+function getAvatar(speaker) {
+  const avatars = {
+    '自分': '😊', '日本人': '👨', '店員': '🧑‍💼', '客': '🙋', '客B': '🙋‍♂️',
+    '医師': '👨‍⚕️', '患者': '🤒', '上司': '👔', '部下': '💼', '面接官': '📋',
+    '応募者': '📝', '通行人': '🚶', '佐藤': '👩', '鈴木': '👨', '高橋': '👩', '伊藤': '👨'
+  };
+  return avatars[speaker] || '👤';
+}
+
 const conversations = [
   {
     title: 'シナリオ1：東京駅からスカイツリーまでの道を聞く会話',
