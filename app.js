@@ -33,7 +33,9 @@ const LEVELS = ['N5','N4','N3','N2','N1'];
 
 async function init() {
   try {
+    console.log('Initializing SQL.js...');
     SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${f}` });
+    console.log('SQL.js initialized');
     userDB = new SQL.Database();
     userDB.run(`CREATE TABLE IF NOT EXISTS progress (
       level TEXT, type TEXT, item_id INTEGER,
@@ -55,7 +57,10 @@ async function init() {
         localStorage.setItem('theme', pref[0].values[0][0]);
       }
     } catch(e) {}
-  } catch(e) { console.error(e); }
+  } catch(e) { 
+    console.error('Init error:', e); 
+    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#ff3b30;">初期化エラー: ' + e.message + '</p>';
+  }
   // Theme
   const theme = localStorage.getItem('theme');
   document.body.classList.remove('dark', 'light');
@@ -966,7 +971,10 @@ function loadCMSItem(id) {
         document.getElementById('f_parts').value = v[2]||'';
       }
     }
-  } catch(e) { console.error(e); }
+  } catch(e) { 
+    console.error('Init error:', e); 
+    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#ff3b30;">初期化エラー: ' + e.message + '</p>';
+  }
 }
 
 function saveCMSItem(id) {
