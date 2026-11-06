@@ -1,3 +1,4 @@
+console.log("app.js loaded");
 let SQL = null;
 let contentDB = null;
 let userDB = null;
