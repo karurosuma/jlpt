@@ -1174,7 +1174,7 @@ function openConversation(idx) {
 function getAvatar(speaker) {
   const avatars = {
     '自分': '😊', '日本人': '👨', '店員': '🧑‍💼', '客': '🙋', '客B': '🙋‍♂️',
-    '医師': '👨‍⚕️', '患者': '🤒', '上司': '👔', '部下': '💼', '面接官': '📋',
+    '医師': '👨‍⚕️', '患者': '🤒', '上司': '👔', '彼氏': '👨', '部下': '💼', '面接官': '📋',
     '応募者': '📝', '通行人': '🚶', '佐藤': '👩', '鈴木': '👨', '高橋': '👩', '伊藤': '👨'
   };
   return avatars[speaker] || '👤';
@@ -1349,6 +1349,21 @@ const conversations = [
       { speaker: '高橋', jp: 'いいですね。<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はどうですか。', tc: '好啊。下週末怎麼樣？' },
       { speaker: '伊藤', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>決<rt>き</rt></ruby>めましょう。', tc: '我沒問題。那我們來決定地點吧。' },
       { speaker: '自分', jp: '<ruby>映画館<rt>えいがかん</rt></ruby>がいいです。<ruby>大画面<rt>だいがめん</rt></ruby>で<ruby>見<rt>み</rt></ruby>たいです。', tc: '電影院比較好。我想在大螢幕上看。' }
+    ]
+  }
+  {
+    title: 'シナリオ12：カップルがUSJに行く計画を立てる会話',
+    lines: [
+      { speaker: '自分', jp: '<ruby>来月<rt>らいげつ</rt></ruby>の<ruby>連休<rt>れんきゅう</rt></ruby>にUSJに<ruby>行<rt>い</rt></ruby>きたいんだけど、どう<ruby>思<rt>おも</rt></ruby>いますか。', tc: '下個月連休想去USJ，你覺得怎麼樣？' },
+      { speaker: '彼氏', jp: 'いいですね。ずっと<ruby>行<rt>い</rt></ruby>きたかったです。<ruby>何日<rt>なんにち</rt></ruby>くらい<ruby>滞在<rt>たいざい</rt></ruby>しますか。', tc: '好啊。我一直想去。打算待幾天呢？' },
+      { speaker: '自分', jp: '<ruby>二泊三日<rt>にはくみっか</rt></ruby>くらいがいいと<ruby>思<rt>おも</rt></ruby>います。ホテルも<ruby>近<rt>ちか</rt></ruby>くに<ruby>取<rt>と</rt></ruby>りたいです。', tc: '我覺得兩晚三天左右比較好。也想在附近訂飯店。' },
+      { speaker: '彼氏', jp: 'そうですね。USJのオフィシャルホテルが<ruby>便利<rt>べんり</rt></ruby>ですよ。<ruby>早<rt>はや</rt></ruby>めに<ruby>予約<rt>よやく</rt></ruby>したほうがいいです。<ruby>混<rt>こ</rt></ruby>みますから。', tc: '對啊。USJ的官方飯店很方便。最好早點預約。因為會很擠。' },
+      { speaker: '自分', jp: 'わかりました。チケットも<ruby>今<rt>いま</rt></ruby>のうちに<ruby>買<rt>か</rt></ruby>っておいたほうがいいですよね。エクスプレスパスも<ruby>必要<rt>ひつよう</rt></ruby>ですか。', tc: '知道了。票也最好現在就先買吧。需要快速通關嗎？' },
+      { speaker: '彼氏', jp: '<ruby>必要<rt>ひつよう</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>います。<ruby>人気<rt>にんき</rt></ruby>のアトラクションは<ruby>並<rt>なら</rt></ruby>ぶ<ruby>時間<rt>じかん</rt></ruby>が<ruby>長<rt>なが</rt></ruby>いです。マリオエリアも<ruby>見<rt>み</rt></ruby>たいです。', tc: '我覺得需要。受歡迎的設施排隊時間很長。也想看瑪利歐區。' },
+      { speaker: '自分', jp: 'うん、<ruby>絶対<rt>ぜったい</rt></ruby><ruby>見<rt>み</rt></ruby>たいです。あと、<ruby>夜<rt>よる</rt></ruby>のパレードも<ruby>見<rt>み</rt></ruby>たいです。<ruby>食事<rt>しょくじ</rt></ruby>はパーク<ruby>内<rt>ない</rt></ruby>でしますか。それとも<ruby>外<rt>そと</rt></ruby>でしますか。', tc: '嗯，一定要看。還有晚上的遊行也想看。用餐是在園區內吃，還是外面？' },
+      { speaker: '彼氏', jp: 'パーク<ruby>内<rt>ない</rt></ruby>で<ruby>軽<rt>かる</rt></ruby>く<ruby>食<rt>た</rt></ruby>べて、<ruby>夜<rt>よる</rt></ruby>はホテルの<ruby>近<rt>ちか</rt></ruby>くでゆっくり<ruby>ご飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べましょう。', tc: '園區內簡單吃一點，晚上在飯店附近慢慢吃吧。' },
+      { speaker: '自分', jp: 'いいですね。じゃあ、<ruby>今週末<rt>こんしゅうまつ</rt></ruby>にチケットとホテルを<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>予約<rt>よやく</rt></ruby>しましょう。', tc: '好啊。那這週末一起預約票和飯店吧。' },
+      { speaker: '彼氏', jp: 'わかりました。<ruby>楽<rt>たの</rt></ruby>しみです。', tc: '了解。很期待呢。' }
     ]
   }
 ];
