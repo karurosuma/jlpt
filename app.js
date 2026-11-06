@@ -136,13 +136,13 @@ function doSearch(query) {
   try {
     let sql, params;
     if (currentTab === 'grammar') {
-      sql = "SELECT title, explanation_tc FROM grammar WHERE title LIKE ? OR explanation_tc LIKE ? LIMIT 20";
+      sql = "SELECT title, explanation_tc FROM grammar WHERE title LIKE ? OR explanation_tc LIKE ? LIMIT 100";
       params = [`%${query}%`, `%${query}%`];
     } else if (currentTab === 'exercises') {
-      sql = "SELECT correct FROM rearrange WHERE correct LIKE ? LIMIT 20";
+      sql = "SELECT correct FROM rearrange WHERE correct LIKE ? LIMIT 100";
       params = [`%${query}%`];
     } else {
-      sql = "SELECT word, reading, meaning_tc, pos FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 20";
+      sql = "SELECT word, reading, meaning_tc, pos FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 100";
       params = [`%${query}%`, `%${query}%`, `%${query}%`];
     }
     const rows = contentDB.exec(sql, params);
