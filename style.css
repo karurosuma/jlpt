@@ -148,6 +148,13 @@ body {
 .badge-iadj { background: #e8f5e9; color: #2e7d32; }
 .badge-nadj { background: #fff3e0; color: #ef6c00; }
 .badge-adv { background: #f3e5f5; color: #7b1fa2; }
+
+body.dark .badge-noun { background: #1a3a5c; color: #90caf9; }
+body.dark .badge-verb { background: #4a1a2a; color: #f48fb1; }
+body.dark .badge-iadj { background: #1a3a1a; color: #a5d6a7; }
+body.dark .badge-nadj { background: #4a2a1a; color: #ffcc80; }
+body.dark .badge-adv { background: #3a1a4a; color: #ce93d8; }
+
 .meaning { margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .example { margin-top: 10px; font-size: 15px; color: var(--text); line-height: 1.8; }
 .example-tc { color: var(--muted); font-size: 14px; white-space: nowrap; overflow-x: auto; }
