@@ -496,6 +496,8 @@ function showWords(container) {
         }
         else if (pos === '名詞') badgeClass = 'badge badge-noun';
         else if (pos === '副詞') badgeClass = 'badge badge-adv';
+        else if (pos === '接続詞') badgeClass = 'badge badge-conj';
+        else if (pos === '感動詞' || pos === '表現') badgeClass = 'badge badge-expr';
         
         const wordRuby = toRuby(displayWord, displayReading);
         const learnt = isLearnt('vocab', r[0]);

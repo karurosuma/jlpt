@@ -149,6 +149,14 @@ body {
 .badge-nadj { background: #fff3e0; color: #ef6c00; }
 .badge-adv { background: #f3e5f5; color: #7b1fa2; }
 
+.badge { background: #f5f5f5; color: #616161; }
+body.dark .badge { background: #3a3a3c; color: #a1a1a6; }
+.badge-conj { background: #e1f5fe; color: #0277bd; }
+body.dark .badge-conj { background: #1a3a4a; color: #81d4fa; }
+.badge-expr { background: #fbe9e7; color: #bf360c; }
+body.dark .badge-expr { background: #4a2a1a; color: #ffab91; }
+
+
 body.dark .badge-noun { background: #1a3a5c; color: #90caf9; }
 body.dark .badge-verb { background: #4a1a2a; color: #f48fb1; }
 body.dark .badge-iadj { background: #1a3a1a; color: #a5d6a7; }
