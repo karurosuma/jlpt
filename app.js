@@ -189,8 +189,8 @@ function doSearch(query) {
       sql = "SELECT correct FROM rearrange WHERE correct LIKE ? LIMIT 100";
       params = [`%${query}%`];
     } else {
-      sql = "SELECT * FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? LIMIT 50";
-      params = [`%${query}%`, `%${query}%`, `%${query}%`];
+      sql = "SELECT * FROM vocab WHERE word LIKE ? OR reading LIKE ? OR meaning_tc LIKE ? OR conjugations LIKE ? LIMIT 50";
+      params = [`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`];
     }
     const rows = contentDB.exec(sql, params);
     let html = '';
