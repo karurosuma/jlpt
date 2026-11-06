@@ -406,7 +406,7 @@ function showWords(container) {
       } else if (currentFilter === 'な形容詞') {
         sql += " AND pos = 'な形容詞'";
       } else if (currentFilter === '動詞') {
-        sql += " AND (pos = '動詞' OR pos LIKE '%動詞%')";
+        sql += " AND (pos = '動詞' OR pos LIKE '%動詞%') AND pos != '感動詞'";
       } else {
         sql += " AND pos = ?";
         params.push(currentFilter);
@@ -474,9 +474,9 @@ function showWords(container) {
             }
           }
           // Order: 辞書形 first, then others (exclude ます形 from list)
-          const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反'];
+          const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反','尊敬','謙譲'];
           const conjs = order.filter(k => conjMap[k]).map(k => {
-            const label = {'辞書':'辞書形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形','自然':'自然形','相反':'相反'}[k] || k;
+            const label = {'辞書':'辞書形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形','自然':'自然形','相反':'相反','尊敬':'尊敬語','謙譲':'謙譲語'}[k] || k;
             let value = conjMap[k];
             // Apply ruby to conjugation values
             value = applyRubyToText(value);
@@ -516,7 +516,7 @@ function showWords(container) {
         </div>`;
       });
       if (rows[0].values.length === PAGE_SIZE) {
-        html += '<div id="loadMore" style="text-align:center;padding:20px;"><button class="btn" onclick="loadMoreWords()">もっと見る</button></div>';
+        html += '<div id="loadMore" style="text-align:center;padding:20px;color:var(--muted);">読み込み中...</div>';
       }
     }
     container.innerHTML = html;
@@ -525,6 +525,22 @@ function showWords(container) {
     container.innerHTML = '<p>語彙テーブルがありません</p>'; 
   }
 }
+
+
+// Infinite scroll
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+  if (scrollTimeout) clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(function() {
+    if (currentTab !== 'words') return;
+    const loadMore = document.getElementById('loadMore');
+    if (!loadMore || isLoading) return;
+    const rect = loadMore.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 100) {
+      loadMoreWords();
+    }
+  }, 100);
+});
 
 function loadMoreWords() {
   if (isLoading) return;
