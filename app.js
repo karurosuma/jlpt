@@ -450,35 +450,10 @@ function showWords(container, append = false) {
             const parts = c.split(':');
             if (parts.length === 2) conjMap[parts[0]] = parts[1];
           });
-          // Always show ます形 as main word for verbs (except 辞書形)
+          // Always show ます形 as main word for verbs
           if (conjMap['ます']) {
             displayWord = conjMap['ます'];
-            // Generate reading for ます形
-            if (displayReading) {
-              const dictForm = conjMap['辞書'] || r[2];
-              if (dictForm.endsWith('する')) {
-                displayReading = displayReading.replace(/する$/, 'します');
-              } else if (dictForm === '来る') {
-                displayReading = 'きます';
-              } else if (dictForm === '行く') {
-                displayReading = 'いきます';
-              } else if (dictForm.endsWith('る') && displayReading.endsWith('る')) {
-                // ru-verb
-                displayReading = displayReading.slice(0, -1) + 'ます';
-              } else {
-                // u-verb: convert last mora
-                const lastChar = dictForm.slice(-1);
-                const uVerbMap = {
-                  'う':'い','く':'き','ぐ':'ぎ','す':'し','つ':'ち',
-                  'ぬ':'に','ぶ':'び','む':'み','る':'り'
-                };
-                if (uVerbMap[lastChar] && displayReading.endsWith(lastChar)) {
-                  displayReading = displayReading.slice(0, -1) + uVerbMap[lastChar] + 'ます';
-                } else {
-                  displayReading = displayReading.slice(0, -1) + 'ます';
-                }
-              }
-            }
+            // Reading is already in ます形 from database
           }
           // Order: 辞書形 first, then others (exclude ます形 from list)
           const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反','尊敬','謙譲'];
