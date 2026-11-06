@@ -65,7 +65,7 @@ async function init() {
   renderLevelNav();
   switchTab('words');
   // Auto-load N5 on startup
-  loadLevel('N5');
+  await loadLevel('N5');
 }
 
 function goToWord(word) {
@@ -275,18 +275,28 @@ async function loadLevel(level) {
   let loaded = false;
   let statusEl = document.getElementById('status');
 
+  // Check if SQL is ready
+  if (!SQL) {
+    console.error('SQL.js not initialized');
+    document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">SQL.js が読み込まれていません。<br>ページを再読み込みしてください。</p>';
+    return;
+  }
+
   // Try relative path first (with cache bust)
   try {
+    console.log('Fetching:', fname);
     const resp = await fetch(fname, { cache: 'no-store' });
+    console.log('Response:', resp.status, resp.ok);
     if (resp.ok) {
       const buf = await resp.arrayBuffer();
+      console.log('Buffer size:', buf.byteLength);
       contentDB = new SQL.Database(new Uint8Array(buf));
-      if (statusEl) statusEl.innerText = `${level} を読み込みました (v2026-11-04)`;
+      if (statusEl) statusEl.innerText = `${level} を読み込みました`;
       loaded = true;
       try { await cacheDB(level, buf); } catch(e) {}
     }
   } catch(e) {
-    console.log('Local fetch failed:', e);
+    console.error('Local fetch failed:', e);
   }
 
   // Fallback to cache
