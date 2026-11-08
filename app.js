@@ -947,6 +947,7 @@ function showCMS() {
         <button class="${cmsType==='rearrange'?'active':''}" onclick="cmsType='rearrange';showCMS()">練習</button>
       </div>
       <button class="action" onclick="showCMSForm()">新規追加</button>
+      <button class="action" onclick="showBulkImport()" style="background:#34c759;">一括インポート</button>
     </div>
     <div id="cmsList"></div>
   `;
@@ -1068,6 +1069,109 @@ function loadCMSItem(id) {
     console.error('Init error:', e); 
     document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#ff3b30;">初期化エラー: ' + e.message + '</p>';
   }
+}
+
+
+function showBulkImport() {
+  const container = document.getElementById('content');
+  container.innerHTML = `
+    <div style="padding:12px 16px;">
+      <button onclick="showCMS()" style="background:none;border:none;color:var(--primary);font-size:16px;cursor:pointer;padding:8px 0;">← 戻る</button>
+    </div>
+    <div class="card">
+      <div style="font-weight:600;margin-bottom:12px;">一括インポート / 批量匯入</div>
+      <p style="font-size:13px;color:#666;margin-bottom:12px;">対応形式：CSV、JSON、XLSX</p>
+      <input type="file" id="importFile" accept=".csv,.json,.xlsx,.xls" style="margin-bottom:12px;">
+      <div style="margin-bottom:12px;">
+        <label style="font-size:13px;">形式：</label>
+        <select id="importFormat" style="padding:6px;border-radius:6px;border:1px solid var(--border);">
+          <option value="auto">自動検出</option>
+          <option value="csv">CSV</option>
+          <option value="json">JSON</option>
+          <option value="xlsx">XLSX</option>
+        </select>
+      </div>
+      <button class="action" onclick="processBulkImport()">インポート実行</button>
+      <div id="importStatus" style="margin-top:12px;font-size:13px;"></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:600;margin-bottom:8px;">CSV形式例</div>
+      <pre style="font-size:11px;background:#f5f5f5;padding:8px;border-radius:6px;overflow-x:auto;">level,word,reading,pos,meaning_tc,example,meaning_tc_example
+N5,食べる,たべます,動詞,吃,<ruby>ご飯<rt>ごはん</rt></ruby>を食べます。,吃飯。</pre>
+    </div>
+  `;
+}
+
+async function processBulkImport() {
+  const fileInput = document.getElementById('importFile');
+  const format = document.getElementById('importFormat').value;
+  const status = document.getElementById('importStatus');
+  
+  if (!fileInput.files.length) {
+    status.innerHTML = '<span style="color:#ff3b30;">ファイルを選択してください</span>';
+    return;
+  }
+  
+  const file = fileInput.files[0];
+  status.innerHTML = '読み込み中...';
+  
+  try {
+    let data = [];
+    const ext = file.name.split('.').pop().toLowerCase();
+    const useFormat = format === 'auto' ? ext : format;
+    
+    if (useFormat === 'json') {
+      const text = await file.text();
+      data = JSON.parse(text);
+      if (!Array.isArray(data)) data = [data];
+    } else if (useFormat === 'csv') {
+      const text = await file.text();
+      data = parseCSV(text);
+    } else if (useFormat === 'xlsx' || useFormat === 'xls') {
+      status.innerHTML = '<span style="color:#ff3b30;">XLSXは現在未対応です。CSVまたはJSONをご利用ください。</span>';
+      return;
+    } else {
+      status.innerHTML = '<span style="color:#ff3b30;">未対応の形式です</span>';
+      return;
+    }
+    
+    if (!data.length) {
+      status.innerHTML = '<span style="color:#ff3b30;">データが空です</span>';
+      return;
+    }
+    
+    let imported = 0;
+    for (const row of data) {
+      if (cmsType === 'vocab') {
+        safeDBRun("INSERT INTO vocab (level, word, reading, pos, meaning_tc, example, meaning_tc_example) VALUES (?,?,?,?,?,?,?)",
+          [row.level||'N5', row.word||'', row.reading||'', row.pos||'名詞', row.meaning_tc||'', row.example||'', row.meaning_tc_example||'']);
+        imported++;
+      } else if (cmsType === 'grammar') {
+        safeDBRun("INSERT INTO grammar (level, title, explanation_jp, explanation_tc, examples) VALUES (?,?,?,?,?)",
+          [row.level||'N5', row.title||'', row.explanation_jp||'', row.explanation_tc||'', row.examples||'']);
+        imported++;
+      }
+    }
+    
+    status.innerHTML = '<span style="color:#34c759;">' + imported + '件をインポートしました</span>';
+    setTimeout(() => showCMS(), 1500);
+  } catch(e) {
+    status.innerHTML = '<span style="color:#ff3b30;">エラー: ' + e.message + '</span>';
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  const data = [];
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+    const row = {};
+    headers.forEach((h, idx) => { row[h] = values[idx] || ''; });
+    data.push(row);
+  }
+  return data;
 }
 
 function saveCMSItem(id) {
