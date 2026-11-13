@@ -356,6 +356,12 @@ async function loadLevel(level) {
   // Show loading message
   document.getElementById('content').innerHTML = '<p style="text-align:center;padding:40px;color:#8e8e93;">読み込み中...</p>';
   
+  // Force clear old IndexedDB cache so latest data.db is always used
+  try {
+    indexedDB.deleteDatabase('jlpt-db-cache');
+    console.log('Cleared old DB cache');
+  } catch(e) { console.log('Cache clear skipped', e); }
+  
   // Check if SQL is ready
   if (!SQL) {
     console.error('SQL.js not initialized');
