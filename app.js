@@ -661,7 +661,22 @@ function showWords(container, append = false) {
           // Always show ます形 as main word for verbs
           if (conjMap['ます']) {
             displayWord = conjMap['ます'];
-            // Reading is already in ます形 from database
+            // Derive ます reading from dictionary reading
+            const dictReading = r[3] || '';
+            if (dictReading && !dictReading.endsWith('ます')) {
+              if (dictReading.endsWith('する')) displayReading = dictReading.replace(/する$/, 'します');
+              else if (dictReading.endsWith('くる')) displayReading = 'きます';
+              else if (dictReading.endsWith('る')) displayReading = dictReading.slice(0, -1) + 'ます';
+              else if (dictReading.endsWith('う')) displayReading = dictReading.slice(0, -1) + 'います';
+              else if (dictReading.endsWith('く')) displayReading = dictReading.slice(0, -1) + 'きます';
+              else if (dictReading.endsWith('ぐ')) displayReading = dictReading.slice(0, -1) + 'ぎます';
+              else if (dictReading.endsWith('す')) displayReading = dictReading.slice(0, -1) + 'します';
+              else if (dictReading.endsWith('つ')) displayReading = dictReading.slice(0, -1) + 'ちます';
+              else if (dictReading.endsWith('ぬ')) displayReading = dictReading.slice(0, -1) + 'にます';
+              else if (dictReading.endsWith('ぶ')) displayReading = dictReading.slice(0, -1) + 'びます';
+              else if (dictReading.endsWith('む')) displayReading = dictReading.slice(0, -1) + 'みます';
+              else displayReading = dictReading + 'ます';
+            }
           }
           // Order: 辞書形 first, then others (exclude ます形 from list)
           const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反','尊敬','謙譲'];
