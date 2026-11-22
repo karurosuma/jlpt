@@ -12,10 +12,10 @@ let levelFilterEnabled = localStorage.getItem('levelFilterEnabled') !== 'false';
 function toggleLevelFilter() {
   levelFilterEnabled = !levelFilterEnabled;
   localStorage.setItem('levelFilterEnabled', levelFilterEnabled);
-  document.querySelectorAll('#levelFilterToggle').forEach(toggle => {
+  document.querySelectorAll('#levelFilterToggle, #overlayLevelFilterToggle').forEach(toggle => {
     toggle.classList.toggle('active', levelFilterEnabled);
   });
-  document.querySelectorAll('#levelSection').forEach(levelSection => {
+  document.querySelectorAll('#levelSection, #overlayLevelSection').forEach(levelSection => {
     levelSection.style.display = levelFilterEnabled ? 'block' : 'none';
   });
   if (currentTab === 'words') {
@@ -28,10 +28,12 @@ function toggleLevelFilter() {
 }
 
 function initLevelFilter() {
-  const toggle = document.getElementById('levelFilterToggle');
-  const levelSection = document.getElementById('levelSection');
-  if (toggle) toggle.classList.toggle('active', levelFilterEnabled);
-  if (levelSection) levelSection.style.display = levelFilterEnabled ? 'block' : 'none';
+  document.querySelectorAll('#levelFilterToggle, #overlayLevelFilterToggle').forEach(toggle => {
+    toggle.classList.toggle('active', levelFilterEnabled);
+  });
+  document.querySelectorAll('#levelSection, #overlayLevelSection').forEach(levelSection => {
+    levelSection.style.display = levelFilterEnabled ? 'block' : 'none';
+  });
 }
 
 
@@ -379,7 +381,7 @@ function showLevelMenu() {
 }
 
 function renderLevelNav() {
-  const nav = document.getElementById('levelNav');
+  const nav = document.getElementById('overlayLevelNav');
   if (!nav) return;
   nav.innerHTML = '';
   const levelColors = { 'N5': 'green', 'N4': 'blue', 'N3': 'orange', 'N2': 'purple', 'N1': 'red' };
