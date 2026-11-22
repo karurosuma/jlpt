@@ -16,7 +16,7 @@
   --radius-card: 20px;
   --radius-control: 14px;
   --blur: 40px;
-  --nav-h: calc(60px + var(--safe-top));
+  --nav-h: calc(64px + var(--safe-top));
   --tab-float: 16px;
 }
 
@@ -91,7 +91,8 @@ body {
 .top-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  min-height: 44px;
+  height: var(--nav-h);
+  box-sizing: border-box;
   background: var(--glass-bg);
   backdrop-filter: blur(var(--blur)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--blur)) saturate(180%);
@@ -99,8 +100,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(8px + var(--safe-top)) 16px 8px 16px;
-  z-index: 100;
+  padding: var(--safe-top) 12px 0;
+  z-index: 400;
   box-shadow: 0 0.5px 0 rgba(0,0,0,0.04), inset 0 0.5px 0 rgba(255,255,255,0.6);
 }
 
@@ -711,14 +712,6 @@ button.action:active { transform: scale(0.97); opacity: 0.9; }
 .search-btn svg, .theme-btn svg { stroke: currentColor; }
 
 /* Specular highlight utility for glass elements */
-.glass-highlight {
-  position: relative;
-}
-.tab-bar.glass-highlight::before {
-  height: 1px;
-  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.8) 50%, transparent 90%);
-  top: 0;
-}
 .glass-highlight::before {
   content: '';
   position: absolute;
@@ -728,6 +721,15 @@ button.action:active { transform: scale(0.97); opacity: 0.9; }
   border-radius: inherit;
   pointer-events: none;
   z-index: 2;
+}
+
+/* Must stay fixed. .glass-highlight used to set position:relative and
+   overrode these bars, which dropped the tab bar to the end of the page. */
+.top-bar,
+.tab-bar,
+.top-bar.glass-highlight,
+.tab-bar.glass-highlight {
+  position: fixed;
 }
 
 @media (min-width: 760px) {
@@ -749,7 +751,10 @@ button.action:active { transform: scale(0.97); opacity: 0.9; }
     row-gap: 8px;
   }
   .top-bar,
-  .tab-bar {
+  .tab-bar,
+  .top-bar.glass-highlight,
+  .tab-bar.glass-highlight {
+    position: fixed;
     left: 0;
     right: 0;
     margin-left: auto;
