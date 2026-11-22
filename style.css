@@ -621,6 +621,15 @@ body.dark .ios-toggle { background: #39393d; }
   opacity: 0.75;
 }
 .chat-bubble.right .chat-speaker { opacity: 0.9; }
+.chat-jp { line-height: 1.9; }
+.chat-tc {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.chat-bubble.left .chat-tc { color: var(--muted); }
+.chat-bubble.right .chat-tc { color: rgba(255, 255, 255, 0.88); }
+.chat-avatar { font-size: 14px; font-weight: 600; color: var(--text); }
 
 /* Furigana: flex, not native ruby — Firefox spreads rt across the base */
 .furi {
