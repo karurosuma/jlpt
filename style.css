@@ -150,12 +150,12 @@ body {
   right: var(--tab-float);
   bottom: calc(10px + var(--safe-bottom));
   height: 64px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 0.5px solid rgba(255, 255, 255, 0.65);
   display: flex;
-  z-index: 100;
+  z-index: 300;
   padding: 4px;
   gap: 2px;
   border-radius: 32px;
@@ -292,7 +292,7 @@ body.dark .tab-bar button.active::before {
 .word {
   font-size: 22px;
   font-weight: 600;
-  line-height: 2;
+  line-height: 1.45;
   letter-spacing: -0.01em;
 }
 
@@ -327,7 +327,7 @@ body.dark .badge-nadj { background: rgba(255, 159, 10, 0.2); color: #ff9f0a; }
 body.dark .badge-adv { background: rgba(191, 90, 242, 0.2); color: #bf5af2; }
 
 .meaning { margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.5; }
-.example { margin-top: 10px; font-size: 15px; color: var(--text); line-height: 2.15; }
+.example { margin-top: 10px; font-size: 15px; color: var(--text); line-height: 1.85; }
 .example-tc { color: var(--muted); font-size: 14px; }
 .conj-block { margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--separator); }
 .conj-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; border-bottom: 1px dashed var(--separator); }
@@ -621,17 +621,33 @@ body.dark .ios-toggle { background: #39393d; }
 }
 .chat-bubble.right .chat-speaker { opacity: 0.9; }
 
-/* Ruby */
-ruby { ruby-position: over; }
-rt {
-  font-size: 0.55em;
+/* Furigana: flex, not native ruby — Firefox spreads rt across the base */
+.furi {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  vertical-align: bottom;
   line-height: 1;
-  color: var(--furi);
-  font-weight: 500;
-  user-select: none;
+  margin: 0 0.04em;
 }
-.chat-bubble.right rt { color: rgba(255, 255, 255, 0.92); }
-.chat-bubble.left rt { color: var(--furi); }
+.furi-rt {
+  display: block;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--furi);
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+.furi-rb {
+  display: block;
+  line-height: 1.25;
+}
+.meaning:empty { display: none; }
+.chat-bubble.right .furi-rt { color: rgba(255, 255, 255, 0.92); }
+ruby { ruby-align: center; ruby-position: over; }
+rt { font-size: 0.55em; line-height: 1; color: var(--furi); }
 
 .level-indicator {
   display: block;

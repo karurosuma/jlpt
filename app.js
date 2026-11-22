@@ -185,6 +185,33 @@ function closeSearch() {
   document.getElementById('searchResults').innerHTML = '';
 }
 
+function furi(base, read) {
+  if (!read) return base;
+  return `<span class="furi"><span class="furi-rt">${read}</span><span class="furi-rb">${base}</span></span>`;
+}
+function normalizeRuby(html) {
+  if (!html || html.indexOf('<ruby>') === -1) return html;
+  return html.replace(/<ruby>([^<]*)<rt>([^<]*)<\/rt><\/ruby>/g, (_, base, read) => furi(base, read));
+}
+function masuReading(dictReading) {
+  const dict = dictReading || '';
+  if (!dict || dict.endsWith('ます')) return dict;
+  if (dict.endsWith('する')) return dict.replace(/する$/, 'します');
+  if (dict.endsWith('くる')) return 'きます';
+  const tail = { 'う':'います','く':'きます','ぐ':'ぎます','す':'します','つ':'ちます','ぬ':'にます','ぶ':'びます','む':'みます','る':'ます' };
+  const last = dict.slice(-1);
+  if (tail[last]) return dict.slice(0, -1) + tail[last];
+  return dict;
+}
+function gloss(r) {
+  const word = String(r[2] || '').trim();
+  const jp = String(r[4] || '').trim();
+  const tc = String(r[5] || '').trim();
+  const lines = [];
+  if (jp && jp !== word) lines.push(jp);
+  if (tc && tc !== word && tc !== jp) lines.push(tc);
+  return lines.join('<br>');
+}
 function renderWordCard(r) {
   const pos = r[7] || '';
   let displayWord = r[2];
@@ -198,7 +225,10 @@ function renderWordCard(r) {
       const parts = c.split(':');
       if (parts.length === 2) conjMap[parts[0]] = parts[1];
     });
-    if (conjMap['ます']) displayWord = conjMap['ます'];
+    if (conjMap['ます']) {
+      displayWord = conjMap['ます'];
+      displayReading = masuReading(r[3]);
+    }
     const order = ['辞書','て','た','ない','可能','使役','受身','自然','相反','尊敬','謙譲'];
     const conjs = order.filter(k => conjMap[k]).map(k => {
       const label = {'辞書':'辞書形','て':'て形','た':'た形','ない':'ない形','可能':'可能形','使役':'使役形','受身':'受身形','自然':'自然形','相反':'相反','尊敬':'尊敬語','謙譲':'謙譲語'}[k] || k;
@@ -225,7 +255,7 @@ function renderWordCard(r) {
   const wordRuby = toRuby(displayWord, displayReading);
   return `<div class="card" style="margin:8px 0;">
     <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
-    <div class="meaning">${applyRubyToText(r[5] || r[4] || '')}</div>
+    <div class="meaning">${gloss(r)}</div>
     <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
     ${conjHtml}
   </div>`;
@@ -610,7 +640,7 @@ function toRuby(word, reading) {
   }
   // If whole word is kanji (including 々)
   if (/^[\u4e00-\u9faf\u3005]+$/.test(word)) {
-    return `<ruby>${word}<rt>${reading}</rt></ruby>`;
+    return furi(word, reading);
   }
   // Mixed kanji/hiragana - match reading to word structure
   let result = '';
@@ -645,7 +675,7 @@ function toRuby(word, reading) {
         kanjiReading = reading.slice(ri);
         ri = reading.length;
       }
-      result += `<ruby>${kanji}<rt>${kanjiReading}</rt></ruby>`;
+      result += furi(kanji, kanjiReading);
       i = kanjiEnd;
     } else {
       result += word[i];
@@ -735,18 +765,7 @@ function showWords(container, append = false) {
             // Derive ます reading from dictionary reading
             const dictReading = r[3] || '';
             if (dictReading && !dictReading.endsWith('ます')) {
-              if (dictReading.endsWith('する')) displayReading = dictReading.replace(/する$/, 'します');
-              else if (dictReading.endsWith('くる')) displayReading = 'きます';
-              else if (dictReading.endsWith('る')) displayReading = dictReading.slice(0, -1) + 'ます';
-              else if (dictReading.endsWith('う')) displayReading = dictReading.slice(0, -1) + 'います';
-              else if (dictReading.endsWith('く')) displayReading = dictReading.slice(0, -1) + 'きます';
-              else if (dictReading.endsWith('ぐ')) displayReading = dictReading.slice(0, -1) + 'ぎます';
-              else if (dictReading.endsWith('す')) displayReading = dictReading.slice(0, -1) + 'します';
-              else if (dictReading.endsWith('つ')) displayReading = dictReading.slice(0, -1) + 'ちます';
-              else if (dictReading.endsWith('ぬ')) displayReading = dictReading.slice(0, -1) + 'にます';
-              else if (dictReading.endsWith('ぶ')) displayReading = dictReading.slice(0, -1) + 'びます';
-              else if (dictReading.endsWith('む')) displayReading = dictReading.slice(0, -1) + 'みます';
-              else displayReading = dictReading + 'ます';
+              displayReading = masuReading(dictReading);
             }
           }
           // Order: 辞書形 first, then others (exclude ます形 from list)
@@ -785,7 +804,7 @@ function showWords(container, append = false) {
         const learntBtn = `<button class="learnt-btn ${learnt?'done':''}" onclick="toggleLearnt('vocab', ${r[0]}, this)">${learnt?'学習済み':'学習済みにする'}</button>`;
         html += `<div class="card">
           <div class="word">${wordRuby} <span class="${badgeClass}">${pos}</span></div>
-          <div class="meaning">${applyRubyToText(r[5] || r[4] || '')}</div>
+          <div class="meaning">${gloss(r)}</div>
           <div class="example">例：${applyRubyToText(r[6]||'')}<br><span class="example-tc">${r[8]||''}</span></div>
           ${conjHtml}
           <div style="margin-top:10px;">${learntBtn}</div>
@@ -829,7 +848,7 @@ function loadMoreWords() {
 
 function applyRubyToText(text) {
   if (!text) return '';
-  if (text.includes('<ruby>')) return text;
+  if (text.includes('<ruby>') || text.includes('class="furi"')) return normalizeRuby(text);
   const readings = {
     '私':'わたし','友達':'ともだち','先生':'せんせい','学生':'がくせい',
     '今日':'きょう','明日':'あした','昨日':'きのう','毎日':'まいにち',
@@ -901,7 +920,7 @@ function applyRubyToText(text) {
   for (const p of placeholders) {
     result = result.split(p.placeholder).join(p.ruby);
   }
-  return result;
+  return normalizeRuby(result);
 }
 
 function showGrammar(container) {
@@ -1484,7 +1503,7 @@ function showConversations() {
       const avatar = `<div class="chat-avatar">${getAvatar(line.speaker)}</div>`;
       const bubble = `<div class="chat-bubble ${side}">
           <div class="chat-speaker">${line.speaker}</div>
-          <div class="chat-jp">${line.jp.includes('<ruby>') ? line.jp : applyRubyToText(line.jp)}</div>
+          <div class="chat-jp">${normalizeRuby(line.jp.includes('<ruby>') ? line.jp : applyRubyToText(line.jp))}</div>
           <div class="chat-tc">${line.tc}</div>
         </div>`;
       html += `<div class="chat-row ${side}">
