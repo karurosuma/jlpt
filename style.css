@@ -159,7 +159,6 @@ body {
   padding: 4px;
   gap: 2px;
   border-radius: 32px;
-  clip-path: inset(0 round 32px);
   transition: height 0.32s cubic-bezier(0.32, 0.72, 0, 1);
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.12),
@@ -293,7 +292,7 @@ body.dark .tab-bar button.active::before {
 .word {
   font-size: 22px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 2;
   letter-spacing: -0.01em;
 }
 
@@ -328,7 +327,7 @@ body.dark .badge-nadj { background: rgba(255, 159, 10, 0.2); color: #ff9f0a; }
 body.dark .badge-adv { background: rgba(191, 90, 242, 0.2); color: #bf5af2; }
 
 .meaning { margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.5; }
-.example { margin-top: 10px; font-size: 15px; color: var(--text); line-height: 1.8; }
+.example { margin-top: 10px; font-size: 15px; color: var(--text); line-height: 2.15; }
 .example-tc { color: var(--muted); font-size: 14px; }
 .conj-block { margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--separator); }
 .conj-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; border-bottom: 1px dashed var(--separator); }
@@ -623,13 +622,13 @@ body.dark .ios-toggle { background: #39393d; }
 .chat-bubble.right .chat-speaker { opacity: 0.9; }
 
 /* Ruby */
-ruby { ruby-position: over; ruby-align: center; }
+ruby { ruby-position: over; }
 rt {
-  font-size: 0.62em;
+  font-size: 0.55em;
+  line-height: 1;
   color: var(--furi);
-  white-space: nowrap;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-weight: 500;
+  user-select: none;
 }
 .chat-bubble.right rt { color: rgba(255, 255, 255, 0.92); }
 .chat-bubble.left rt { color: var(--furi); }
@@ -722,32 +721,38 @@ button.action:active { transform: scale(0.97); opacity: 0.9; }
   body.dark {
     background: #1c1c1e;
   }
-  .top-bar,
-  #content,
-  .filter-bar {
-    max-width: 430px;
+  #content {
+    width: 430px;
+    max-width: calc(100% - 24px);
     margin-left: auto;
     margin-right: auto;
   }
+  .filter-bar {
+    flex-wrap: wrap;
+    overflow: visible;
+    row-gap: 8px;
+  }
+  .top-bar,
+  .tab-bar {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transform: none;
+  }
   .top-bar {
-    left: 50%;
-    right: auto;
     width: 430px;
-    transform: translateX(-50%);
+    max-width: calc(100% - 24px);
   }
   .tab-bar {
-    left: 50%;
-    right: auto;
     width: 398px;
-    transform: translateX(-50%);
-  }
-  .tab-bar.shrunk {
-    height: 64px;
-    transform: translateX(-50%);
+    max-width: calc(100% - 32px);
+    clip-path: none;
   }
   .search-panel,
   .settings-panel {
-    max-width: 430px;
+    width: 430px;
+    max-width: calc(100% - 24px);
   }
   .settings-overlay.show {
     justify-content: center;
