@@ -7,6 +7,7 @@
   --muted: #8e8e93;
   --furi: #555555;
   --separator: rgba(60, 60, 67, 0.12);
+  --border: rgba(60, 60, 67, 0.18);
   --glass-bg: rgba(255, 255, 255, 0.68);
   --glass-border: rgba(255, 255, 255, 0.5);
   --tab-bar-bg: rgba(249, 249, 249, 0.78);
@@ -26,6 +27,7 @@ body.dark {
   --muted: #a1a1a6;
   --furi: #c7c7cc;
   --separator: rgba(84, 84, 88, 0.65);
+  --border: rgba(84, 84, 88, 0.65);
   --glass-bg: rgba(28, 28, 30, 0.72);
   --glass-border: rgba(255, 255, 255, 0.12);
   --tab-bar-bg: rgba(28, 28, 30, 0.82);
@@ -40,6 +42,7 @@ body.light {
   --muted: #8e8e93;
   --furi: #555555;
   --separator: rgba(60, 60, 67, 0.12);
+  --border: rgba(60, 60, 67, 0.18);
   --glass-bg: rgba(255, 255, 255, 0.68);
   --glass-border: rgba(255, 255, 255, 0.5);
   --tab-bar-bg: rgba(249, 249, 249, 0.78);
@@ -55,6 +58,7 @@ body.light {
     --muted: #a1a1a6;
     --furi: #c7c7cc;
     --separator: rgba(84, 84, 88, 0.65);
+    --border: rgba(84, 84, 88, 0.65);
     --glass-bg: rgba(28, 28, 30, 0.72);
     --glass-border: rgba(255, 255, 255, 0.12);
     --tab-bar-bg: rgba(28, 28, 30, 0.82);
