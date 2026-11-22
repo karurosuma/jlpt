@@ -1720,24 +1720,18 @@ document.addEventListener("DOMContentLoaded", () => init());
 let lastScrollY = 0;
 let scrollTimeout;
 function handleScroll() {
-  const content = document.getElementById('content');
-  if (!content) return;
-  const currentScroll = window.scrollY || content.scrollTop || 0;
   const tabBar = document.querySelector('.tab-bar');
   if (!tabBar) return;
-  if (currentScroll > lastScrollY && currentScroll > 60) {
+  if (window.matchMedia('(min-width: 760px)').matches) {
+    tabBar.classList.remove('shrunk');
+    return;
+  }
+  const currentScroll = window.scrollY || 0;
+  if (currentScroll > lastScrollY + 12 && currentScroll > 80) {
     tabBar.classList.add('shrunk');
-  } else if (currentScroll < lastScrollY) {
+  } else if (lastScrollY - currentScroll > 12 || currentScroll < 24) {
     tabBar.classList.remove('shrunk');
   }
   lastScrollY = currentScroll;
-  clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(() => {
-    if (currentScroll < 30) tabBar.classList.remove('shrunk');
-  }, 150);
 }
 window.addEventListener('scroll', handleScroll, { passive: true });
-document.addEventListener('DOMContentLoaded', () => {
-  const content = document.getElementById('content');
-  if (content) content.addEventListener('scroll', handleScroll, { passive: true });
-});
