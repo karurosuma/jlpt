@@ -633,26 +633,31 @@ body.dark .ios-toggle { background: #39393d; }
 
 /* Furigana: flex, not native ruby — Firefox spreads rt across the base */
 .furi {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  vertical-align: bottom;
-  line-height: 1;
-  margin: 0 0.04em;
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  line-height: inherit;
+  margin: 0;
 }
 .furi-rt {
-  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 10px;
   line-height: 1;
   font-weight: 500;
   color: var(--furi);
   white-space: nowrap;
   letter-spacing: 0;
+  pointer-events: none;
 }
 .furi-rb {
-  display: block;
-  line-height: 1.25;
+  display: inline;
+  line-height: inherit;
+}
+.word, .example, .meaning, .chat-jp, .conj-row {
+  line-height: 2.15;
 }
 .meaning:empty { display: none; }
 .chat-bubble.right .furi-rt { color: rgba(255, 255, 255, 0.92); }
